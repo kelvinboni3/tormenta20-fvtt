@@ -1,14 +1,18 @@
 # Tormenta20 para Foundry VTT
 
-Sistema de jogo **não oficial** para rodar **Tormenta20** (Jambô Editora) na plataforma [Foundry Virtual Tabletop](https://foundryvtt.com/).
+Sistema de jogo **não oficial** para rodar **Tormenta20** (Jambô Editora) na plataforma [Foundry Virtual Tabletop](https://foundryvtt.com/), **atualizado e mantido por [Kelvin Bonifacio](https://github.com/kelvinboni3)** a partir da base criada originalmente por **Vizael (Victor Hugo Paiva)**.
 
 > ⚠️ **Aviso**: este é um projeto de fã, sem qualquer vínculo com a Jambô Editora. Todo o conteúdo de regras é baseado no RPG Tormenta20 e é fornecido aqui apenas como implementação de sistema para o Foundry VTT.
 
 ## Sobre este repositório
 
-Este repositório reúne o sistema **Tormenta20** já compilado, pronto para ser instalado em uma instância do Foundry VTT. O sistema foi originalmente desenvolvido por **Vizael (Victor Hugo Paiva)** e é distribuído sob licença BSD 3-Clause (veja [LICENSE](LICENSE)). O objetivo deste repositório é facilitar o acesso, a instalação e a colaboração da comunidade brasileira de Foundry VTT com o sistema.
+O sistema Tormenta20 foi criado originalmente por **Vizael (Victor Hugo Paiva)** em <https://gitlab.com/vizael/Tormenta20>, mas estava desatualizado e sem compatibilidade com as versões recentes do Foundry VTT. Este repositório é uma **atualização e continuação independente** desse trabalho, mantida por **Kelvin Bonifacio ([kelvinboni3](https://github.com/kelvinboni3))**, com:
 
-- Repositório original: <https://gitlab.com/vizael/Tormenta20>
+- Migração e compatibilidade com o **Foundry VTT v14+**;
+- Correções de bugs que impediam o funcionamento do sistema;
+- Atualização de traduções e conteúdo dos compêndios.
+
+O objetivo é manter o sistema funcionando e disponível para a comunidade brasileira de Foundry VTT, com atualizações contínuas daqui pra frente. O código continua distribuído sob a licença original BSD 3-Clause (veja [LICENSE](LICENSE) e a seção [Créditos](#créditos)).
 
 ## Compatibilidade
 
@@ -86,6 +90,7 @@ Contribuições da comunidade são bem-vindas!
 ## Créditos
 
 - **Autor original do sistema**: Vizael (Victor Hugo Paiva) — [gitlab.com/vizael/Tormenta20](https://gitlab.com/vizael/Tormenta20)
+- **Atualização e manutenção deste repositório** (compatibilidade com Foundry VTT v14+, correções de bugs, traduções e conteúdo): [Kelvin Bonifacio (kelvinboni3)](https://github.com/kelvinboni3)
 - **Ícones**: parte dos ícones em `icons/svg` vem de [Game-icons.net](https://game-icons.net), licenciados sob CC BY 3.0 (créditos individuais em [`icons/LICENSE`](icons/LICENSE)).
 - **Tormenta20** é um RPG de mesa criado por Marcelo Cassaro e publicado pela [Jambô Editora](https://www.jamboeditora.com.br/).
 
