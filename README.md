@@ -39,6 +39,8 @@ O objetivo é manter o sistema funcionando e disponível para a comunidade brasi
 
 ## Instalação
 
+> ⚠️ **Antes de instalar ou atualizar, especialmente se você já tem um mundo em uso, faça backup dos seus dados.** O guia completo — com o passo a passo de backup, instalação, atualização e como reverter caso algo dê errado — está em [`docs/GUIA-DE-INSTALACAO.md`](docs/GUIA-DE-INSTALACAO.md). Abaixo vai só o resumo rápido.
+
 ### Opção 1 — Pelo Foundry VTT (recomendado)
 
 1. Baixe este repositório como `.zip` (botão **Code → Download ZIP** no GitHub) ou clone-o.
