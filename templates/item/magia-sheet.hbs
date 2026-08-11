@@ -1,0 +1,80 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+	{{!-- Item Sheet Header --}}
+	{{> "tormenta20.item-header"}}
+	{{!-- Item Sheet Navigation --}}
+	<nav class="sheet-tabs tabs" data-group="primary">
+		<a class="item" data-tab="description">{{ localize "T20.Description" }}</a>
+		<a class="item" data-tab="details">{{ localize "T20.Details" }}</a>
+		<a class="item" data-tab="effects">{{ localize "T20.Effects" }}</a>
+	</nav>
+
+	{{!-- Sheet Body --}}
+	<section class="sheet-body">
+		{{!-- Description Tab --}}
+		{{> "tormenta20.item-description"}}
+
+		{{!-- Details Tab --}}
+		<div class="tab details" data-group="primary" data-tab="details">
+			<div class="form-group">
+				<label>{{ localize "T20.Type" }}</label>
+				<select name="system.tipo">
+					{{selectOptions config.spellType selected=item.system.tipo localize=true}}
+				</select>
+			</div>
+			{{#if (eq item.system.tipo 'eng') }}
+			<div class="form-group">
+				<label>{{ localize "T20.ItemEquippedType" }}</label>
+				<div class="form-fields">
+					<select name="system.equipado2.type">
+						{{selectOptions config.itemSlotTypes selected=item.system.equipado2.type localize=true blank=""}}
+					</select>
+				</div>
+			</div>
+			{{/if}}
+			<div class="form-group">
+				<label>{{ localize "T20.SpellCircle" }}</label>
+				<select name="system.circulo" data-type="Number">
+					{{selectOptions config.spellLevels selected=item.system.circulo localize=true}}
+				</select>
+			</div>
+			<div class="form-group">
+				<label>{{ localize "T20.SpellSchool" }}</label>
+				<select name="system.escola">
+					{{selectOptions config.spellSchools selected=item.system.escola localize=true}}
+				</select>
+			</div>
+
+			<hr>
+			{{!-- Rolls --}}
+			{{> "tormenta20.item-rolls"}}
+
+			<hr>
+			<h3>{{ localize "T20.Activation" }}</h3>
+			{{> "tormenta20.item-ativacao"}}
+			{{> "tormenta20.item-resistencia"}}
+
+			<hr>
+			<div class="form-group">
+				<label for="TAGS">TAGS</label>
+				<input type="text" name="rolltags" class="tag-input"><br>
+			</div>
+			{{#if item.system.rolltags }}
+			<div class="tag-list">
+				{{#each item.system.rolltags as |tag t| }}
+				<span class="tag">{{tag}} <a class="tag-delete" data-tag-id="{{t}}">x</a></span>
+				{{/each}}
+			</div>
+			{{/if}}
+			{{!-- Chat Message Flavor --}}
+			<div class="form-group stacked">
+				<label>{{ localize "T20.ChatFlavor" }}</label>
+				<textarea name="system.chatFlavor">{{item.system.chatFlavor}}</textarea>
+			</div>
+		</div>
+
+		{{!-- Effects Tab --}}
+		<div class="tab effects" data-group="primary" data-tab="effects">
+			{{> "tormenta20.active-effects"}}
+		</div>
+	</section>
+</form>

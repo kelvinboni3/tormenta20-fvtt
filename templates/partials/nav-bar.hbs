@@ -1,0 +1,36 @@
+{{! ACTOR SHEET }}
+{{#if (eq documentName "Actor")}}
+<nav class="sheet-tabs tabs primary flexrow" data-group="primary">
+	{{#if limited}}
+	<a class="item" data-tab="journal"><i class="fas fa-book"></i> {{localize "T20.Notes"}}</a>
+	{{else}}
+	{{#if (eq actor.type "npc")}}
+	<a class="item" data-tab="statblock"><i class="fas fa-clipboard-list"></i> {{localize "T20.Statblock"}}</a>
+	{{/if}}
+
+	{{#if (eq layout "character-tabbed")}}
+	<a class="item" data-tab="attributes"><i class="fa-solid fa-file-invoice"></i> {{localize "T20.Details"}}</a>
+	<a class="item" data-tab="inventory"><i class="fa-solid fa-suitcase-rolling"></i> {{localize "T20.Inventory"}}</a>
+	<a class="item" data-tab="powers"><i class="fa-solid fa-bolt"></i> {{localize "T20.Powers"}}</a>
+	{{#if actor.maiorCirculo}}<a class="item" data-tab="spells"><i class="fa-solid fa-hurricane"></i> {{localize "T20.Spells"}}</a>{{/if}}
+	{{else}}
+	<a class="item" data-tab="attributes"><i class="fa-solid fa-file-invoice"></i> {{localize "T20.Sheet"}}</a>
+	{{/if}}
+
+	{{#if (eq actor.type "hazard")}}
+	{{else}}
+	<a class="item" data-tab="journal"><i class="fas fa-book"></i> {{localize "T20.Journal"}}</a>
+	<a class="item" data-tab="effects"><i class="fas fa-wand-magic-sparkles"></i> {{localize "T20.Effects"}}</a>
+	{{/if}}
+
+	{{/if}}
+	{{#if (eq layout "vehicle")}}
+	<a class="item" data-tab="attributes"><i class="fa-solid fa-file-invoice"></i> {{localize "T20.Sheet"}}</a>
+	<a class="item" data-tab="description">{{localize "T20.Description"}}</a>
+	{{/if}}
+	{{#if (eq layout "simple")}}
+	<a class="item" data-tab="attributes"><i class="fa-solid fa-file-invoice"></i> {{localize "T20.Sheet"}}</a>
+	<a class="item" data-tab="description">{{localize "T20.Description"}}</a>
+	{{/if}}
+</nav>
+{{/if}}

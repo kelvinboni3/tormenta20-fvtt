@@ -1,0 +1,56 @@
+<form class="tormenta20 sheet actor" autocomplete="off">
+	{{> "tormenta20.sheet-header-bases"}}
+
+	<!-- Tabs Navigation -->
+	<nav class="sheet-tabs tabs" data-group="primary">
+		<a class="item" data-tab="description">{{ localize "T20.Description" }}</a>
+		<a class="item" data-tab="comodos">{{ localize "T20.Accomodations" }}</a>
+		<a class="item" data-tab="residentes">Residentes</a>
+		<a class="item" data-tab="effects">{{ localize "T20.Effects" }}</a>
+	</nav>
+
+	<section class="sheet-body">
+		<!-- Tab: Descrição -->
+		{{> "tormenta20.bases-characteristics"}}
+
+		<!-- Tab: Cômodos -->
+		{{> "tormenta20.bases-rooms"}}
+
+		<div class="tab residentes" data-group="primary" data-tab="residentes">
+			<div class="flexcol">
+				{{#if residentes.size}}
+				<ol style="columns: 2; margin: 0;">
+					{{#each residentes}}
+					<li class="form-group choiceset-item" data-id="{{this.id}}">
+						<div class="item flexrow" style="gap: 0.5rem;">
+							<img src="{{this.img}}" height="32" width="32" style="flex: 0;">
+							<div class="item-name">
+								<label>{{this.name}}</label>
+								<span class="item-controls">
+									<a data-action="delete-item">
+										<i class="fa fa-xmark"></i>
+									</a>
+								</span>
+							</div>
+						</div>
+					</li>
+					{{/each}}
+				</ol>
+				<hr>
+				{{/if}}
+				<div class="drop-zone" style="text-align: center; margin: 5px 0;">{{localize "T20.DropActorsHere"}}</div>
+				<footer>
+					<button type="button" data-action="transfer-effects" {{disabled (not residentes.size)}}>
+						<i class="fa fa-plus"></i>Adicionar Efeitos aos Residentes
+					</button>
+				</footer>
+			</div>
+		</div>
+
+		{{!-- Efeitos Tab --}}
+		<div class="tab effects" data-group="primary" data-tab="effects">
+			{{> "tormenta20.active-effects"}}
+		</div>
+
+	</section>
+</form>

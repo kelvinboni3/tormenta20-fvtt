@@ -1,0 +1,21 @@
+<ul class="ability-scores flexrow">
+	{{#each system.atributos as |atr key|}}
+	<li class="ability" data-item-id="{{key}}">
+		<h4 class="ability-name box-title rollable atributo-rollable">{{localize (lookup ../config.atributosAbr key)}}</h4>
+		<span class="rollable atributo-rollable">
+			{{#if wip}}data-tooltip="{{fieldBonuses (concat 'system.atributos.' key '.value')}}" data-tooltip-direction="LEFT"{{/if}}
+			<div class="atributo-value">{{numberFormat atr.value decimals=0 sign=true}}</div>
+		</span>
+		<footer class="attribute-footer flexrow">
+			<input type="number" name="system.atributos.{{key}}.base" value="{{atr.base}}"
+			title="{{ localize 'T20.AbilityBase'}}"/>
+			{{#if @root.mostrarAtributoRacial }}
+			<input type="number" name="system.atributos.{{key}}.racial" value="{{atr.racial}}" title="{{ localize 'T20.AbilityRacial'}}"/>
+			{{/if}}
+			{{#if @root.mostrarAtributoTemp }}
+			<input type="number" name="system.atributos.{{key}}.bonus" value="{{atr.bonus}}" title="{{ localize 'T20.AbilityBonus'}}" >
+			{{/if}}
+		</footer>
+	</li>
+	{{/each}}
+</ul>

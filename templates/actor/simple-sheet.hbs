@@ -1,0 +1,33 @@
+<form class="tormenta20 simple" autocomplete="off">
+	{{!-- Sheet Tab Navigation --}}
+	{{> "tormenta20.nav-bar"}}
+
+	{{!-- Sheet Body --}}
+	<section class="sheet-body">
+		{{!-- Attributes Tab --}}
+		<div class="tab attributes active" data-group="primary" data-tab="attributes">
+			{{!-- Sheet Header --}}
+			{{> "tormenta20.sheet-header-simple"}}
+
+
+			<div class="inventory-list">
+				{{> "tormenta20.list-powers"}}
+				{{#if actor.maiorCirculo }}
+				{{> "tormenta20.list-spells"}}
+				{{/if}}
+				{{> "tormenta20.list-general"}}
+				{{> "tormenta20.currency"}}
+				{{> "tormenta20.encumbrance"}}
+			</div>
+		</div>
+		{{!-- Biography Tab --}}
+		<div class="tab journal flexcol " data-group="primary" data-tab="journal">
+			{{editor htmlFields.biography target="system.detalhes.biography.value" button=true owner=owner editable=editable}}
+		</div>
+
+		{{!-- Effects Tab --}}
+		<div class="tab effects flexcol" data-group="primary" data-tab="effects">
+			{{> "tormenta20.active-effects"}}
+		</div>
+	</section>
+</form>

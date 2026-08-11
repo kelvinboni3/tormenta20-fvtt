@@ -1,0 +1,89 @@
+<form class="tormenta20 base" autocomplete="off">
+	{{!-- Sheet Tab Navigation --}}
+	{{> "tormenta20.nav-bar"}}
+
+	{{!-- Sheet Body --}}
+	<section class="sheet-body">
+		{{!-- Attributes Tab --}}
+		<div class="tab attributes flexrow" data-group="primary" data-tab="attributes">
+
+			{{!-- Sheet Header --}}
+			{{> "tormenta20.sheet-header-base"}}
+
+			<div class="attributes-left flexcol">
+				{{!-- Abilities --}}
+				{{> "tormenta20.abilities"}}
+
+				{{!-- HP/MP Resources --}}
+				<div class="resources-main">
+					<ul class="attributes flexrow">
+					{{> "tormenta20.resources"}}
+					{{> "tormenta20.defense"}}
+					</ul>
+				</div>
+
+				{{!-- Extra Resources --}}
+				{{#if (or system.resources.shadow system.resources.shadow ) }}
+				<div class="resource">
+					{{> "tormenta20.resources-extra"}}
+				</div>
+				{{/if}}
+
+				{{!-- Inventory Weapons --}}
+				<div class="inventory-weapons">
+					{{> "tormenta20.list-weapon"}}
+				</div>
+
+				{{!-- Defense Inventory Equipment --}}
+				<div class="inventory-equipment flexrow">
+					<!-- <ul class="attributes flexrow"></ul> -->
+					{{> "tormenta20.list-equipment"}}
+				</div>
+
+				{{!--Powers --}}
+				<div class="list-powers">
+					{{> "tormenta20.list-powers"}}
+				</div>
+
+				{{#if actor.maiorCirculo}}
+				{{!-- Spells --}}
+				<div class="list-spells">
+					{{> "tormenta20.list-spells"}}
+				</div>
+				{{/if}}
+
+				{{!-- Traits --}}
+				<div class="traits">
+					{{> "tormenta20.traits"}}
+					<textarea name="system.detalhes.info" rows="10">{{system.detalhes.info}}</textarea>
+				</div>
+			</div>
+			<div class="attributes-right flexcol">
+				{{!-- Skills --}}
+				{{> "tormenta20.list-skills"}}
+
+				{{!-- Inventory General --}}
+				<div class="inventory-list">
+					{{> "tormenta20.list-general"}}
+					{{> "tormenta20.currency"}}
+					{{> "tormenta20.encumbrance"}}
+				</div>
+			</div>
+		</div>
+
+		{{!-- Biography Tab --}}
+		<div class="tab journal flexrow flex-between" data-group="primary" data-tab="journal">
+			{{> "tormenta20.journal"}}
+		</div>
+
+		{{!-- Modifiers Tab --}}
+		<div class="tab modifiers" data-group="primary" data-tab="modifiers">
+			{{> "tormenta20.modifiers"}}
+		</div>
+
+		{{!-- Efeitos Tab --}}
+		<div class="tab effects" data-group="primary" data-tab="effects">
+			{{> "tormenta20.active-effects"}}
+		</div>
+	</section>
+</form>

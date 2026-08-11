@@ -1,0 +1,30 @@
+<ul class="item-list general">
+	{{#unless isSimple}}
+	<li class="item flexrow item-header flex-center">{{localize "T20.Inventory"}}</li>
+	{{/unless}}
+	<li class="item flexrow item-header">
+		<div class="item-name flex2">{{ localize 'T20.Name' }}</div>
+		<div class="item-qty">{{ localize 'T20.QuantityAbbr' }}</div>
+		<div class="item-weight">{{localize 'T20.SlotsAbbr'}}</div>
+	</li>
+	{{#each actor.inventario.itens.items as |item id|}}
+	<li class="item flexrow" data-item-id="{{item._id}}">
+		<div class="item-name flexrow rollable flex2 {{#unless item.system.carregado}}stored{{/unless}}">
+			<div class="item-image" style="background-image: url('{{item.img}}')"></div>
+			<label class="">{{item.name}} {{#unless item.system.carregado}}<i class="fal fa-treasure-chest"></i>{{/unless}}</label>
+		</h4>
+		</div>
+		<div class="item-qty">
+			<input type="text" data-dtype="Number" placeholder="0" classe="item-qtd" value="{{item.system.qtd}}">
+		</div>
+		<div class="item-weight">{{item.espacosTotal}}</div>
+	</li>
+	{{/each}}
+	<li>
+		{{#if owner}}
+		<div class="item-controls">
+			<a class="item-control item-dialog" data-type="gerais"><i class="fas fa-plus"></i> Criar Item</a>
+		</div>
+		{{/if}}
+	</li>
+</ul>

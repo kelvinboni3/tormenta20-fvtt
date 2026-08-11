@@ -1,0 +1,63 @@
+<ul class="item-list">
+	{{> poderesHeader header=(localize 'T20.PowerTypeClassAbility') tipo="ability"}}
+	{{> poderesPartial poderes=actor.poderesAbility}}
+</ul>
+<ul class="item-list">
+	{{> poderesHeader header=(localize 'T20.PowerTypeClass') tipo="classe"}}
+	{{> poderesPartial poderes=actor.poderesClasse}}
+</ul>
+<ul class="item-list">
+	{{> poderesHeader header=(localize 'T20.PowerTypeDivine') tipo="concedido"}}
+	{{> poderesPartial poderes=actor.poderesConcedido}}
+</ul>
+<ul class="item-list">
+	{{> poderesHeader header=(localize 'T20.PowerTypeGeneral') tipo="geral"}}
+	{{> poderesPartial poderes=actor.poderesGeral}}
+</ul>
+<ul class="item-list">
+	{{> poderesHeader header=(localize 'T20.PowerTypeBackground') tipo="origem"}}
+	{{> poderesPartial poderes=actor.poderesOrigem}}
+</ul>
+<ul class="item-list">
+	{{> poderesHeader header=(localize 'T20.PowerTypeRacial') tipo="racial"}}
+	{{> poderesPartial poderes=actor.poderesRacial}}
+</ul>
+<ul class="item-list">
+	{{> poderesHeader header=(localize 'T20.PowerTypeDistincao') tipo="distincao"}}
+	{{> poderesPartial poderes=actor.poderesDistincao}}
+</ul>
+<ul class="item-list">
+	{{> poderesHeader header=(localize 'T20.PowerTypeComplicacao') tipo="complicacao"}}
+	{{> poderesPartial poderes=actor.poderesComplicacao}}
+</ul>
+
+{{#*inline "poderesHeader"}}
+<li class="item flexrow item-header">
+	<div class="item-name flex2">{{header}}</div>
+	<div class="item-activation">{{localize 'T20.Activation'}}</div>
+	{{#if owner}}
+	<div class="item-controls">
+		<a class="item-control item-create" title="{{localize 'T20.Add'}} {{localize 'T20.Powers'}}" data-type="poder" data-tipo="{{tipo}}">
+			<i class="fas fa-plus"></i> {{localize 'T20.Add'}}
+		</a>
+	</div>
+	{{/if}}
+</li>
+{{/inline}}
+
+{{#*inline "poderesPartial"}}
+	{{#each poderes as |item id|}}
+	<li class="item flexrow" data-item-id="{{item._id}}">
+		<div class="item-name flexrow rollable flex2" data-label="{{item.name}}">
+			<div class="item-image" style="background-image: url('{{item.img}}')"></div>
+			<label>{{item.name}}</label>
+		</div>
+		<div class="item-activation">
+			{{t20-itemLabels item}}
+		</div>
+		{{#if ../owner}}
+		{{> "tormenta20.actor-item-controls" item=item }}
+		{{/if}}
+	</li>
+	{{/each}}
+{{/inline}}

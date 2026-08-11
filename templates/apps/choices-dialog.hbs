@@ -1,0 +1,23 @@
+<form>
+	{{#each choices as | choice c | }}
+	<div class="form-group">
+		<label>{{localize choice.label}}</label>
+		{{#if (eq choice.type 'select')}}
+		<select name="{{localize choice.name}}">
+			{{#each options as | opt o | }}
+			<option value="{{opt.value}}">{{localize opt.label}}</option>
+			{{/each}}
+		</select>
+		{{/if}}
+		{{#if (eq choice.type 'input')}}
+		TODO
+		{{/if}}
+		{{#if (eq choice.type 'checkbox')}}
+		TODO
+		{{/if}}
+		{{#if (eq choice.type 'radiobox')}}
+		TODO
+		{{/if}}
+	</div>
+	{{/each}}
+</form>

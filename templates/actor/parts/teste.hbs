@@ -1,0 +1,18 @@
+<div class="teste">
+	{{#each system.equipamentos.empunhado as |e|}}
+		{{e}}
+	{{/each}}
+	{{#each system.equipamentos.vestido as |v|}}
+		{{v}}
+	{{/each}}
+</div>
+<style>
+	div.teste {
+		position: absolute;
+		right: -105px; 
+		min-height: 100px;
+		min-width: 100px;
+		background-color: black;
+		color: white;
+	}
+</style>

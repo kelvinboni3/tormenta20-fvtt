@@ -1,0 +1,78 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+	{{!-- Item Sheet Header --}}
+	{{> "tormenta20.item-header"}}
+
+	{{!-- Item Sheet Navigation --}}
+	<nav class="sheet-tabs tabs" data-group="primary">
+		<a class="item" data-tab="description">{{ localize "T20.Description" }}</a>
+		{{#if (eq item.type "consumivel")}}
+		<a class="item" data-tab="details">{{ localize "T20.Details" }}</a>
+		{{/if}}
+		{{#if false }}
+		<a class="item" data-tab="progression">{{ localize "T20.Progression" }}</a>
+		{{/if}}
+		{{#if (and (eq item.type "consumivel" (eq item.system.tipo 'ammo')))}}
+		<a class="item" data-tab="enhancements">{{ localize "T20.Enhancements" }}</a>
+		{{/if}}
+		<a class="item" data-tab="effects">{{ localize "T20.Effects" }}</a>
+	</nav>
+
+	{{!-- Item Sheet Body --}}
+	<section class="sheet-body">
+		{{!-- Description Tab --}}
+		{{> "tormenta20.item-description"}}
+
+		{{!-- Details Tab --}}
+		{{#if (eq item.type "consumivel")}}
+		<div class="tab details" data-group="primary" data-tab="details">
+			<div class="form-group">
+				<label>{{ localize "T20.Type" }}</label>
+				<div class="form-fields">
+					<select name="system.tipo">
+						{{#select item.system.tipo}}
+							<option value="ammo">Munição</option>
+							<option value="scroll">Pergaminho</option>
+							<option value="alchemy">Alquímico</option>
+							<option value="potion">Poção</option>
+							<option value="material">Material</option>
+							<option value="food">Comida</option>
+						{{/select}}
+					</select>
+				</div>
+			</div>
+			<hr>
+			{{!-- Rolls --}}
+			{{> "tormenta20.item-rolls"}}
+
+			<hr>
+			<h3>Ativação</h3>
+			{{> "tormenta20.item-ativacao"}}
+			{{> "tormenta20.item-resistencia"}}
+
+			<hr>
+			{{{rolltags}}}
+
+			{{!-- Chat Message Flavor --}}
+			<div class="form-group stacked">
+				<label>{{ localize "T20.ChatFlavor" }}</label>
+				<textarea name="system.chatFlavor">{{data.chatFlavor}}</textarea>
+			</div>
+		</div>
+		{{/if}}
+
+		{{#if TODO }}
+		{{!-- Progression Tab --}}
+		{{> "tormenta20.item-progression"}}
+		{{/if}}
+
+		{{#if (eq item.system.tipo "ammo")}}
+		{{!-- Enhancements Tab --}}
+		{{> "tormenta20.item-enhancements"}}
+		{{/if}}
+
+		{{!-- Effects Tab --}}
+		<div class="tab effects" data-group="primary" data-tab="effects">
+			{{> "tormenta20.active-effects"}}
+		</div>
+	</section>
+</form>

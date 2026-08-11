@@ -1,0 +1,30 @@
+<div class="tab comodos flexcol" data-group="primary" data-tab="comodos">
+	<div class="flexrow" style="gap: 0.5rem;">
+		<ul class="item-list">
+			<li class="item item-header" draggable="false">
+				<div class="item-name">Cômodos</div>
+			</li>
+			{{#each comodos as |comodo|}}
+			<li class="item" data-item-id="{{comodo._id}}">
+				<div class="item-name flexrow rollable" data-label="{{comodo.name}}">
+					<div class="item-image" style="background-image: url('{{comodo.img}}')"></div>
+					<label>{{comodo.name}}</label>
+				</div>
+			</li>
+			{{/each}}
+		</ul>
+		<ul class="item-list">
+			<li class="item item-header" draggable="false">
+				<div class="item-name">Cômodos</div>
+			</li>
+			{{#each mobilias as |mobilia|}}
+			<li class="item flexrow" data-item-id="{{mobilia._id}}">
+				<div class="item-name flexrow rollable" data-label="{{mobilia.name}}">
+					<div class="item-image" style="background-image: url('{{mobilia.img}}')"></div>
+					<label>{{mobilia.name}}</label>
+				</div>
+			</li>
+			{{/each}}
+		</ul>
+	</div>
+</div>

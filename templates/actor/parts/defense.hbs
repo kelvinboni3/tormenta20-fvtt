@@ -1,0 +1,24 @@
+<li class="attribute defense">
+	<h4 class="attribute-name box-title">{{ localize "T20.Defense"}}</h4>
+	<div class="attribute-value" {{#unless isSimple}}data-tooltip="{{fieldBonuses 'system.attributes.defesa.bonus'}}"{{/unless}}>
+		{{#if (or isSimple isVehicle)}}
+		<input type="number" data-dtype="Number" name="system.attributes.defesa.base" value="{{system.attributes.defesa.base}}">
+		{{else}}
+		{{system.attributes.defesa.value}}
+		{{/if}}
+	</div>
+	{{#if (or isNPC isCharacter)}}
+	<footer class="attribute-footer">
+		<div class="flexrow">
+			{{#if isNPC}}
+			<input type="number" data-dtype="Number" placeholder="0" name="system.attributes.defesa.base" value="{{system.attributes.defesa.base}}" title="{{localize 'T20.DefenseBaseValue'}}">
+			{{else if isCharacter}}
+			<select name="system.attributes.defesa.atributo" value="{{system.attributes.defesa.atributo}}" title="{{ localize 'T20.AbilityBonus'}}">
+				{{selectOptions config.atributosAbr selected=system.attributes.defesa.atributo blank=''}}
+			</select>
+			<input type="number" data-dtype="Number" placeholder="0" name="system.attributes.defesa.outros" value="{{system.attributes.defesa.outros}}" title="{{localize 'T20.Other'}}">
+			{{/if}}
+		</div>
+	</footer>
+	{{/if}}
+</li>

@@ -1,0 +1,30 @@
+<header class="sheet-header flexcol">
+	<div class="attributes flexrow">
+		<img class="profile" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" />
+		<div class="flexcol">
+			<input name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'T20.Name' }}" />
+			<div class="form-group">
+				<label>{{localize 'T20.AbbreviationCR'}}</label>
+				<input type="text" name="system.attributes.nd" value="{{system.attributes.nd}}" placeholder="0">
+				<label>{{localize 'T20.ExperienceValue'}}</label>
+				<input disabled type="text" value="{{system.attributes.nivel.xp.value}}">
+			</div>
+			<div class="form-group">
+				<label>{{localize 'T20.CreatureType'}}: </label>
+				<select class="selectAtr" name="system.detalhes.tipo">
+					{{selectOptions config.creatureTypes selected=system.detalhes.tipo}}
+				</select>
+			</div>
+			<div class="form-group">
+				<label>{{ localize 'T20.Race'}}</label>
+				<input type="text" placeholder="{{ localize 'T20.Race'}}" name="system.detalhes.raca" value="{{system.detalhes.raca}}" />
+			</div>
+			<div class="form-group">
+				<label>{{ localize 'T20.Role'}}</label>
+				<select class="selectAtr" name="system.detalhes.role">
+					{{selectOptions config.creatureRoles selected=system.detalhes.role}}
+				</select>
+			</div>
+		</div>
+	</div>
+</header>

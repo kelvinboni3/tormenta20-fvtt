@@ -1,0 +1,23 @@
+<ol class="item-list">
+	<li class="item flexrow item-header">
+		<div class="item-name">{{localize 'T20.LootAndTreasures'}}</div>
+		<div class="item-qty">{{localize 'T20.QuantityAbbr'}}</div>
+		<div class="item-weight">{{localize 'T20.SlotsAbbr'}}</div>
+	</li>
+	{{#each actor.inventario.tesouro.items as |item id|}}
+	<li class="item flexrow" data-item-id="{{item._id}}">
+		<div class="item-name flexrow">
+			<div class="item-image" style="background-image: url('{{item.img}}')"></div>
+			<label>{{item.name}}</label>
+		</div>
+		<div class="item-qty">
+			{{#if ../owner}}
+			<input type="text" data-dtype="Number" placeholder="0" classe="item-qtd" value="{{item.system.qtd}}">
+			{{else}}
+				{{item.system.qtd}}
+			{{/if}}
+		</div>
+		<div class="item-weight">{{item.espacosTotal}}</div>
+	</li>
+	{{/each}}
+</ol>

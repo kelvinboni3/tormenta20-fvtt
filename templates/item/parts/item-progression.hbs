@@ -1,0 +1,64 @@
+<div class="tab progression" data-group="primary" data-tab="progression">
+	<ol class="effects-list flexcol">
+		<li class="items-header flexrow">
+			<h3 class="item-name effect-name flexrow">Progressão</h3>
+			<div class="item-controls effect-controls flexrow">
+				<a class="progression-control" data-action="create" title="{{localize 'T20.Add'}} Progressão">
+					<i class="fa-solid fa-plus"></i> {{localize 'T20.Add'}}
+				</a>
+			</div>
+		</li>
+		{{#each system.progression as |item i|}}
+		<li class="effect flexcol" data-index="{{i}}">
+			
+			<li class="items-header flexrow">
+				<div class="item effect flexrow">
+					<div class="item-name effect-name flexrow">
+						<input type="checkbox" name="system.progression.{{i}}.isChoices" value="1" {{checked item.isChoices}} />
+						<label for="">Escolher?</label>
+					</div>
+					<div class="item-name effect-name flexrow">
+						<label for="">QTY</label>
+						<input type="number" name="system.progression.{{i}}.numChoices" value="{{item.numChoices}}" placeholder="QTY">
+					</div>
+					<!-- <h3 class="item-name effect-name flexrow">Opções</h3> -->
+					<div class="item-controls effect-controls flexrow">
+						<a class="progression-control" data-action="delete" title="{{localize 'T20.Delete'}} Progressão">
+							<i class="fa-solid fa-trash"></i>
+						</a>
+						<a class="progression-option-control" data-action="create" data-p-index="{{i}}" title="{{localize 'T20.Add'}} Opção">
+							<i class="fa-solid fa-plus"></i>
+						</a>
+					</div>
+				</div>
+			</li>
+			
+			<ol class="effects-list flexcol">
+				{{#each item.list as |option o|}}
+				<li class="effect flexcol {{#if (eq option.type 'item') }}opt-drop{{/if}} " data-index="{{o}}">
+					<div class="item effect flexrow">
+						<input type="text" name="system.progression.{{i}}.list.{{o}}.type" list="prog-opt-type" value="{{option.type}}" placeholder="TYPE">
+						<datalist id="prog-opt-type">
+							<option value="attribute">Definir Caracteristica</option>
+							<option value="item">Adicionar Item</option>
+						</datalist>
+						{{#if (eq option.type 'attribute') }}
+						<input type="text" name="system.progression.{{i}}.list.{{o}}.path" value="{{option.path}}" placeholder="PATH">
+						<input type="text" name="system.progression.{{i}}.list.{{o}}.value" value="{{option.value}}" placeholder="UUID || VALUE">
+						{{else}}
+						<input type="text" class="opt-uuid" name="system.progression.{{i}}.list.{{o}}.value" data-p-index="{{i}}" data-o-index="{{o}}" value="{{option.value}}" placeholder="UUID">
+						{{/if}}
+						<input type="checkbox" name="system.progression.{{i}}.list.{{o}}.selected" value="1" {{checked option.selected}} />
+						<div class="item-controls effect-controls flexrow">
+							<a class="progression-option-control" data-p-index="{{i}}" data-o-index="{{o}}" data-action="delete" title="{{localize 'T20.Add'}} Opção">
+								<i class="fa-solid fa-trash"></i>
+							</a>
+						</div>
+					</div>
+				</li>
+				{{/each}}
+			</ol>
+		</li>
+		{{/each}}
+	</ol>
+</div>

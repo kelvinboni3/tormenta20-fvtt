@@ -1,0 +1,80 @@
+{{#*inline "pericia"}}
+	<li class="skill flexrow {{#if skill.custom }}custom{{/if}}" data-item-id="{{skill.key}}">
+		<div class="item-image">
+			{{#if @root.editMode}}
+				<a class="training-toggle skill-training"><i class="{{skill.symbol}}"></i></a>
+			{{else if skill.treinado}}
+				<div title="{{ localize 'T20.Trained'}}"><i class="{{skill.symbol}}"></i></div>
+			{{/if}}
+			<input type="hidden" name="system.pericias.{{skill.key}}.treinado" value="{{skill.treinado}}" />
+		</div>
+		<div class="item-name" data-item-id="{{skill.key}}">
+			<span class="rollable pericia-rollable">
+				{{{skill.label}}}
+				{{ifThen skill.st '*' ''}}
+				{{ifThen skill.pda '+' ''}}
+			</span>
+			{{#if (and skill.custom @root.editMode)}}
+				<a class="item-control skill-delete" data-item-id="{{skill.key}}" title="{{localize 'T20.Delete'}}"><i class="fas fa-trash"></i></a>
+			{{/if}}
+		</div>
+		<div class="item-abl">
+			{{#if @root.editMode}}
+				<select class="selectatr" name="system.pericias.{{skill.key}}.atributo" value={{skill.atributo}}>
+					{{selectOptions @root.config.atributosAbr selected=skill.atributo}}
+				</select>
+			{{else}}
+				<span>{{skill.atributo}}</span>
+			{{/if}}
+		</div>
+		{{#if @root.editMode}}
+			<div class="item-outros">
+				<input type="text" class="skill-outros" data-dtype="Number" name="system.pericias.{{skill.key}}.outros" value="{{skill.outros}}" />
+			</div>
+			{{#if @root.isNPC}}
+				<div class="item-total" data-tooltip="{{fieldBonuses (concat 'system.pericias.' skill.key '.bonus')}}" data-tooltip-direction="RIGHT">
+					<span>{{numberFormat skill.value sign=true}}</span>
+				</div>
+			{{/if}}
+		{{else}}
+			<div class="item-total" data-tooltip="{{fieldBonuses (concat 'system.pericias.' skill.key '.bonus')}}" data-tooltip-direction="RIGHT">
+				<span>{{numberFormat skill.value sign=true}}</span>
+			</div>
+		{{/if}}
+		<input type="hidden" data-dtype="Number" name="system.pericias.{{skill.key}}.condi" value="0" />
+	</li>
+{{/inline}}
+
+<ul class="skills-list editing">
+	<li class="skill item-header">
+		<div class="item-name">
+			<span>
+				{{ localize 'T20.Skills'}}
+			</span>
+			<a id="configure-skills" title="{{localize 'T20.Edit'}}">
+				<i class="fas fa-cogs"></i>
+			</a>
+		</div>
+	</li>
+	{{#each skills as |skill|}}
+		{{#if skill.exibir}}
+			{{> pericia skill=skill}}
+		{{/if}}
+	{{/each}}
+
+	{{#if editMode}}
+		<li class="skill create-skill flexrow">
+			<div class="item-image"></div>
+			<div class="item-name">
+				<input type="text" placeholder="{{ localize 'T20.SkillOfic'}}">
+			</div>
+			<div class="item-skill-create">
+				<a class="item-control skill-create" data-tipo="oficio"><i class="fa-solid fa-plus"></i> {{ localize 'T20.Add'}}</a>
+			</div>
+		</li>
+	{{/if}}
+
+	<!-- <li class="skill-footer">
+		<label><i>* {{localize 'T20.SkillTrainedOnly'}}</i></label>
+	</li> -->
+</ul>

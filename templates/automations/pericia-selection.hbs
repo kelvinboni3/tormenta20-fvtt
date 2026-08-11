@@ -1,0 +1,13 @@
+<form class="flexcol">
+	<h2>{{localize "T20.SelectPericia"}}</h2>
+	<div class="form-group flexrow" style="flex-wrap: wrap; gap: 0.5em;">
+		{{#each pericias}}
+			<button type="button" class="pericia-btn" value="{{this.key}}">
+				{{this.label}}
+			</button>
+		{{/each}}
+	</div>
+	<div class="form-group flexrow" style="margin-top: 1em;">
+		<button type="submit" class="concluir-btn" disabled>Concluir</button>
+	</div>
+</form>

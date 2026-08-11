@@ -1,0 +1,14 @@
+<div class="item-image" style="background-image: url('{{item.img}}')"></div>
+<div class="item-description flexcol">
+	<div>
+		<label>{{item.name}}</label>
+		<span class="fa-stack">
+			{{{item.equipado.icon1}}}
+			{{{item.equipado.icon2}}}
+			{{#if (and @root.isPreparationCaster item.system.preparada)}}
+			<i class="fas fa-sun" data-tooltip="{{localize 'T20.SpellPrepPrepared'}}"></i>
+			{{/if}}
+		</span>
+	</div>
+	<div class="item-tipo">{{"t20-itemDesc" item}}</div>
+</div>

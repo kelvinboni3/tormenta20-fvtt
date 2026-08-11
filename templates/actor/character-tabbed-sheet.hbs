@@ -1,0 +1,67 @@
+<form class="tormenta20 tabbed" autocomplete="off">
+	{{!-- Sheet Header --}}
+	{{> "tormenta20.sheet-header-tabbed"}}
+	{{!-- Sheet Tab Navigation --}}
+	{{> "tormenta20.nav-bar"}}
+
+	{{!-- Sheet Body --}}
+	<section class="sheet-body">
+		{{!-- Attributes Tab --}}
+		<div class="tab attributes flexrow" data-group="primary" data-tab="attributes">
+			<div class="attributes-mid">
+				{{!-- Abilities --}}
+				{{> "tormenta20.abilities"}}
+				{{!-- Skills --}}
+				{{> "tormenta20.list-skills"}}
+			</div>
+			<div class="attributes-right flexcol">
+				{{!-- Extra Resources --}}
+				{{#if (or system.resources.shadow) }}
+				<div class="resource">
+					{{> "tormenta20.resources-extra"}}
+				</div>
+				{{/if}}
+
+				{{!-- Favorites --}}
+				{{> "tormenta20.list-favorites"}}
+
+				{{!-- Traits --}}
+				<div class="traits">
+					{{> "tormenta20.traits"}}
+					<textarea name="system.detalhes.info" rows="10">{{system.detalhes.info}}</textarea>
+				</div>
+			</div>
+		</div>
+
+		{{!-- Inventory Tab --}}
+		<div class="tab inventory" data-group="primary" data-tab="inventory">
+			{{> "tormenta20.list-inventory"}}
+		</div>
+
+		{{!-- Powers Tab --}}
+		<div class="tab powers" data-group="primary" data-tab="powers">
+			{{> "tormenta20.list-powers-tabbed"}}
+		</div>
+
+		{{!-- Spells Tab --}}
+		<div class="tab spells" data-group="primary" data-tab="spells">
+			{{> "tormenta20.list-spells"}}
+		</div>
+
+
+		{{!-- Biography Tab --}}
+		<div class="tab journal flexrow flex-between" data-group="primary" data-tab="journal">
+			{{> "tormenta20.journal"}}
+		</div>
+
+		{{!-- Modifiers Tab --}}
+		<div class="tab modifiers" data-group="primary" data-tab="modifiers">
+			{{> "tormenta20.modifiers"}}
+		</div>
+
+		{{!-- Efeitos Tab --}}
+		<div class="tab effects" data-group="primary" data-tab="effects">
+			{{> "tormenta20.active-effects"}}
+		</div>
+	</section>
+</form>

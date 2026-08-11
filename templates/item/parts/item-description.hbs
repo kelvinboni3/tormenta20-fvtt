@@ -1,0 +1,75 @@
+<div class="tab item-description flexrow active" data-group="primary" data-tab="description">
+	<div class="item-properties">
+		{{#if isPhysical}}
+		<div class="form-group">
+			<label>{{ localize "T20.HP" }}</label>
+			<input type="text" name="system.pv.value" value="{{item.system.pv.value}}" data-dtype="Number"/>
+			/
+			<input type="text" name="system.pv.max" value="{{item.system.pv.max}}" data-dtype="Number"/>
+		</div>
+		<div class="form-group">
+			<label>{{ localize "T20.DR" }}</label>
+			<input type="text" name="system.rd" value="{{item.system.rd}}" data-dtype="Number"/>
+		</div>
+		<div class="form-group">
+			<label>{{ localize "T20.Quantity" }}</label>
+			<input type="text" name="system.qtd" value="{{item.system.qtd}}" data-dtype="Number"/>
+		</div>
+		<div class="form-group">
+			<label>{{ localize "T20.Slots" }}</label>
+			<input type="text" name="system.espacos" value="{{item.system.espacos}}" data-dtype="Number"/>
+		</div>
+		{{#if isNPCOwned }}
+		<div class="form-group">
+			<label>{{ localize "T20.Attacks" }}</label>
+			<input type="text" name="system.ataques" value="{{item.system.ataques}}" data-dtype="Number"/>
+		</div>
+		{{/if}}
+		<div class="form-group">
+			<label>{{ localize "T20.Price" }}</label>
+			<input type="text" name="system.preco" value="{{item.system.preco}}" data-dtype="Number" placeholder="0" data-dtype="Number"/>
+		</div>
+		{{#if isOwned}}
+		<div class="form-group">
+			<label>{{ localize "T20.Carrying" }}?</label>
+			<input type="checkbox" name="system.carregado" value="{{item.system.carregado}}" {{checked item.system.carregado}} data-dtype="Boolean"/>
+		</div>
+		{{/if}}
+		{{#if (and (eq item.type "tesouro") )}}
+		<div class="form-group">
+			<label>{{ localize "T20.Container" }}?<label>
+			<input type="checkbox" name="system.container" value="{{item.system.container}}" {{checked item.system.container}} data-dtype="Boolean"/></label>
+		</div>
+		{{/if}}
+		{{/if}}
+		<ul class="properties-list">
+			{{#if (eq item.type "arma")}}
+			{{#each config.weaponProperties as |name prop|}}
+			{{#if (lookup ../item.system.propriedades prop)}}<li>{{ localize name}}{{#if (eq prop "arremesso")}} ({{../item.system.alcance}}){{/if}}</li>{{/if}}
+			{{/each}}
+			{{/if}}
+			{{#if (or (eq item.type "equipamento") (eq item.type "equip"))}}
+			{{#if item.system.armadura.value}}<li>Defesa: {{item.system.armadura.value}}</li>{{/if}}
+			{{#if item.system.armadura.penalidade}}<li>Penalidade: {{item.system.armadura.penalidade}}</li>{{/if}}
+			{{/if}}
+			{{#if (eq item.type "poder")}}
+			<li style="text-transform: capitalize;"><strong>{{item.system.tipo}}</strong>{{#if item.system.subtipo}}: {{item.system.subtipo}}{{/if}}</li>
+			{{/if}}
+			{{#if (or (eq item.type "poder") (eq item.type "magia"))}}
+			{{#each itemProperties}}
+				<li>{{{this}}}</li>
+			{{/each}}
+			{{/if}}
+		</ul>
+	</div>
+
+	<div class="item-description">
+		<div class="form-group">
+			<label>{{ localize "T20.SourceBook" }}</label>
+			<input type="text" name="system.source" value="{{item.system.source}}"/>
+		</div>
+		{{#if (or (eq item.system.description.value "") item.system.description.value ) }}
+		{{editor htmlFields.description target="system.description.value" button=true owner=owner editable=editable engine="prosemirror"}}
+		{{/if}}
+	</div>
+</div>

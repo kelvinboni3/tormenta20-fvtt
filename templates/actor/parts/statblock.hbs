@@ -1,0 +1,228 @@
+<div class="flexrow title-row">
+	<h2 class="flex3">{{actor.name}}</h2>
+	<aside class="flexrow">
+		<h2>
+			<span>{{localize 'T20.AbbreviationCR'}} {{system.attributes.nd}}</span>
+		</h2>
+	</aside>
+</div>
+<i>
+	{{ localize (lookup config.creatureTypes system.detalhes.tipo) }}
+	{{#if system.detalhes.raca }} ({{system.detalhes.raca}}) {{/if}}
+	{{ localize (lookup config.actorSizes system.tracos.tamanho) }}
+
+	{{#if system.detalhes.role}}({{ localize (lookup config.creatureRoles system.detalhes.role) }}){{/if}}
+</i>
+
+<hr>
+<div class="npc-line">
+	<span class="rollable pericia-rollable skill" data-item-id="inic" data-type="padrao">
+		<label>{{ localize 'T20.SkillInic'}}: </label>
+		{{numberFormat system.pericias.inic.value sign=true}},
+	</span>
+
+	<span class="rollable pericia-rollable skill" data-item-id="perc" data-type="padrao">
+		<label>{{ localize 'T20.SkillPerc'}}: </label>
+		{{numberFormat system.pericias.perc.value sign=true}}{{#if senses.value.length}},{{/if}}
+	</span>
+	{{#each senses.value as |v k|}}
+		{{localize v}}{{#if (lt (add k 1) ../senses.value.length) }},{{/if}}
+	{{/each}}
+</div>
+<div class="npc-line">
+	<span>
+		<label>{{ localize 'T20.Defense'}}: </label>
+		{{system.attributes.defesa.value}},
+	</span>
+
+	<span class="rollable pericia-rollable skill" data-item-id="fort" data-type="padrao">
+		<label>{{ localize 'T20.SkillFortAbbr'}}: </label>
+		{{numberFormat system.pericias.fort.value sign=true}},
+	</span>
+
+	<span class="rollable pericia-rollable skill" data-item-id="refl" data-type="padrao">
+		<label>{{ localize 'T20.SkillReflAbbr'}}: </label>
+		{{numberFormat system.pericias.refl.value sign=true}},
+	</span>
+
+	<span class="rollable pericia-rollable skill" data-item-id="vont" data-type="padrao">
+		<label>{{ localize 'T20.SkillVontAbbr'}}: </label>
+		{{numberFormat system.pericias.vont.value sign=true}}
+	</span>
+	{{#if (or resistencias system.detalhes.resistencias)}}
+		<span>
+			, {{#if resistencias}}{{resistencias}}{{#if system.detalhes.resistencias}}, {{/if}}{{/if}}{{#if system.detalhes.resistencias}}{{system.detalhes.resistencias}}{{/if}}
+		</span>
+	{{/if}}
+</div>
+<div class="npc-line">
+	<label>{{ localize 'T20.HitPoints'}}: </label>
+	{{system.attributes.pv.value}} / {{system.attributes.pv.max}} {{#if system.attributes.pv.temp}}/ {{system.attributes.pv.temp}} {{/if}}
+
+</div>
+<div>
+	<a class="config-button" data-action="movement" data-target="system.attributes.movement">
+		<label>{{localize 'T20.Movement'}}: </label>
+		{{#each movement as | move key | }}
+		{{move}}{{#unless @last}},{{/unless}}
+		{{/each}}
+		{{#if system.detalhes.movimento }}
+		, {{system.detalhes.movimento}}
+		{{/if}}
+	</a>
+</div>
+<hr>
+{{#if system.attributes.pm.max}}
+<div class="npc-line">
+	<label>{{localize 'T20.ManaPoints'}}: </label>
+	{{system.attributes.pm.value}} / {{system.attributes.pm.max}} {{#if system.attributes.pm.temp}}/ {{system.attributes.pm.temp}} {{/if}}
+</div>
+{{/if}}
+{{!-- eq, gt, gte, lt, lte, or, and --}}
+<div class="npc-line">
+	<ul class="item-list listcol" style="margin: 0;">
+		{{#if (gt actor.inventario.arma.melee 0) }}
+		<label>{{localize 'T20.Melee'}}: </label>
+		{{#if system.detalhes.ataquescac }}{{system.detalhes.ataquescac}}{{/if}}
+		{{#each actor.inventario.arma.items as |item id|}}
+		{{#if item.melee }}
+		<li class="item flexrow" data-item-id="{{item._id}}">
+			<div style="flex:0 0 10px"></div>
+			<div class="item-name">
+				<span class="rollable arma-rollable" data-item-id="{{item._id}}">
+				<h4 class="item-name" style="flex: 5;">
+					{{item.name}}
+					{{#if (gt item.system.ataques 1)}}{{item.system.ataques}}x{{/if}}
+					{{t20-itemLabels item}}
+				</h4>
+				</span>
+			</div>
+		</li>
+		{{/if}}
+		{{/each}}
+		{{/if}}
+		{{#if (gt actor.inventario.arma.ranged 0) }}
+		<label>{{localize 'T20.Ranged'}}: </label>
+		{{#if system.detalhes.ataquesad }}{{system.detalhes.ataquesad}}{{/if}}
+		{{#each actor.inventario.arma.items as |item id|}}
+		{{#if item.ranged }}
+		<li class="item flexrow" data-item-id="{{item._id}}">
+			<div style="flex:0 0 10px"></div>
+			<div class="item-name">
+				<span class="rollable arma-rollable" data-item-id="{{item._id}}">
+				<h4 class="item-name" style="flex: 5;">{{item.name}}
+					{{t20-itemLabels item}}
+				</h4>
+				</span>
+			</div>
+		</li>
+		{{/if}}
+		{{/each}}
+		{{/if}}
+
+
+		{{#if actor.poderes}}
+		{{#each actor.poderes as |item id|}}
+		<li class="item flexrow" data-item-id="{{item._id}}">
+			<div class="item-name">
+				<span class="rollable poder-rollable" data-item-id="{{item._id}}">
+					<label>{{item.name}} {{t20-itemLabels item start="(" end=")"}}</label>
+				</span>
+				{{#if (or (eq item.system.description.value "") item.system.description.value ) }}
+					{{{stripTagsInline item.system.description.value}}}
+				{{else}}
+					{{{stripTagsInline item.system.description}}}
+				{{/if}}
+			</div>
+		</li>
+		{{/each}}
+		{{/if}}
+		{{#if actor.maiorCirculo}}
+		{{#if compactSpells}}
+		<ul class="item-list" style="margin: 0;">
+			<li class="item flexrow">
+				<div class="item-name magias"><label>{{localize 'T20.Spells'}}: </label>
+					<ol class="item-list">
+					{{#each actor.magias as |circulo i|}}
+						{{#if circulo.spells}}
+						<li class="item">
+							{{i}}º —
+							<ol class="item-list">
+							{{#each circulo.spells as |m index|}}
+								<span class="item rollable magia-rollable" data-item-id="{{m._id}}"><i>{{m.name}}</i></span>{{#unless @last}},{{else}}<i>;</i>{{/unless}}
+							{{/each}}
+							</ol>
+						</li>
+						{{/if}}
+					{{/each}}
+					</ol>
+					<span>{{localize 'T20.AbbreviationDC'}} {{system.attributes.cd}}</span>
+				</div>
+			</li>
+		</ul>
+		{{else}}
+		<li class="item flexrow">
+			<div class="item-name magias"><label>{{localize 'T20.Spells'}} ({{localize 'T20.AbbreviationDC'}} {{system.attributes.cd}})</label></div>
+		</li>
+		{{#each actor.magias as |circulo i|}}
+		{{#each circulo.spells as |m index|}}
+		<li class="item flexrow spell-desc" data-item-id="{{m._id}}">
+			<div class="item-name">
+				{{!-- <span class="list-symbol">•</span> --}}
+				<span class="rollable magia-rollable" data-item-id="{{m._id}}">
+					<i>{{m.name}}.</i>
+					{{{stripTagsInline m.system.description.value}}}
+				</span>
+			</div>
+		</li>
+		{{/each}}
+		{{/each}}
+		{{/if}}
+		{{/if}}
+	</ul>
+	<hr>
+</div>
+<div class="flexrow text-center abl-line">
+	{{#each system.atributos as |atr key|}}
+		<span class="rollable atributo-rollable" data-item-id="{{key}}">
+			<label title="{{atr.label}} {{atr.value}}"> {{localize (lookup ../config.atributosAbr key)}}: </label> {{atr.value}}
+		</span>
+	{{/each}}
+</div>
+<hr>
+
+{{#if listedSkills.length}}
+<div>
+	<label>{{localize 'T20.Skills'}}: </label>
+	{{#each listedSkills as |skill key|}}
+		<span class="skill rollable pericia-rollable" data-item-id="{{skill.key}}">{{skill.label}} {{numberFormat skill.value sign=true}}</span>{{#unless @last}},{{/unless}}
+	{{/each}}
+</div>
+{{/if}}
+{{#if (or actor.inventario.arma.items.length actor.inventario.equipamento.items.length actor.inventario.consumivel.items.length actor.inventario.tesouro.items.length)}}
+<div>
+	<label>{{localize 'T20.Equipments'}}: </label>
+	{{system.detalhes.equipamento}}
+	{{#each actor.inventario as |list s| }}
+		{{#each list.items as |item i| }}
+			{{item.name}}{{ift (gt item.system.qtd 1) (concat " x" item.system.qtd) "" }}{{ift @../last "" ","}}
+		{{/each}}
+	{{/each}}
+</div>
+{{/if}}
+<div class="npc-line">
+	<label>{{localize 'T20.Treasure'}}: </label>
+	{{~#if system.detalhes.tesouro}}{{system.detalhes.tesouro}}{{else}}Nenhum{{/if~}}
+</div>
+{{#if (and enableLanguages system.detalhes.idiomas)}}
+<div class="traits" style="margin:0;">
+	<a class="trait-selector" style="display:inline-block;" data-options="idiomas" data-target="system.detalhes.idiomas">
+		<label>{{localize 'T20.Languages'}}:</label>
+	</a>
+	<ul class="traits-list" style="display:inline-block;">
+	{{#each system.detalhes.idiomas.selected as |v k|}}
+		{{v}}{{#unless @last}},{{/unless}}
+	{{/each}}
+	</ul>
+</div>
+{{/if}}

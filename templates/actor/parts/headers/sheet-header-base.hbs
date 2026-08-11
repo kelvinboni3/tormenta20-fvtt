@@ -1,0 +1,33 @@
+<header class="sheet-header flexrow">
+	<img class="profile" src="{{actor.img}}" title="{{actor.name}}" data-edit="img" />
+	<section class="header-details flexcol">
+		<div class="general-information flexrow">
+			<h1 class="charname">
+				<input name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'T20.Name' }}" />
+			</h1>
+			<aside class="header-exp flexcol">
+				<div class="charlevel flexrow">
+					<a class="config-button" data-action="resources" title="{{localize 'T20.Edit'}}">
+						<i class="fa-solid fa-heart-pulse"></i>
+					</a>
+					<a class="config-button" data-action="rest" title="{{localize 'T20.Rest'}}">
+						<i class="fa-solid fa-bed"></i>
+					</a>
+					<div class="level config-button">{{ localize 'T20.Level' }} {{system.attributes.nivel.value}}</div>
+				</div>
+				{{#unless disableExperience}}
+					<div class="experience flexrow">
+						<input type="text" placeholder="0" data-dtype="Number" name="system.attributes.nivel.xp.value" value="{{system.attributes.nivel.xp.value}}" />
+						<span class="sep">/</span>
+						<span class="max-xp">{{system.attributes.nivel.xp.proximo}}</span>
+					</div>
+					<div class="xpbar">
+						<span class="bar" style="width: {{system.attributes.nivel.xp.pct}}%"></span>
+					</div>
+				{{/unless}}
+			</aside>
+		</div>
+		{{!-- Character Summary --}}
+		{{> "tormenta20.sheet-header-summary" }}
+	</section>
+</header>

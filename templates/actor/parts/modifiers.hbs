@@ -1,0 +1,11 @@
+<div>
+	<h2>{{localize 'T20.Bonuses'}}</h2>
+	{{#each modificadores as | mod | }}
+	<div class="form-group">
+		<label>{{mod.label}}</label>
+		<div class="form-fields">
+			<input type="text" value="{{mod.value}}"/>
+		</div>
+	</div>
+	{{/each}}
+</div>

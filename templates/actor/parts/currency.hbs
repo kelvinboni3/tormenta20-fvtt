@@ -1,0 +1,25 @@
+<div class="inventory-currency">
+	<ul class="currency flexrow">
+		<li class="currency-header" title="{{localize T20.Currency}}">
+			<i class="fas fa-coins"></i>
+		</li>
+		{{#if mostrarPlatina}}
+		<li class="currency-item" title="{{ localize 'T20.CurrencyPlat' }}">
+			<label for="system.dinheiro.tl" class="denomination gp">{{ localize 'T20.CurrencyPlatAbbr' }}</label>
+			<input type="number" data-dtype="Number" placeholder="0" name="system.dinheiro.tl" value="{{system.dinheiro.tl}}">
+		</li>
+		{{/if}}
+		<li class="currency-item" title="{{ localize 'T20.CurrencyGold' }}">
+			<label for="system.dinheiro.to" class="denomination gp">{{ localize 'T20.CurrencyGoldAbbr' }}</label>
+			<input type="number" data-dtype="Number" placeholder="0" name="system.dinheiro.to" value="{{system.dinheiro.to}}">
+		</li>
+		<li class="currency-item" title="{{ localize 'T20.CurrencySilver' }}">
+			<label for="system.dinheiro.tp" class="denomination sp">{{ localize 'T20.CurrencySilverAbbr' }}</label>
+			<input type="number" data-dtype="Number" placeholder="0" name="system.dinheiro.tp" value="{{system.dinheiro.tp}}">
+		</li>
+		<li class="currency-item" title="{{ localize 'T20.CurrencyCopper' }}">
+			<label for="system.dinheiro.tc" class="denomination cp">{{ localize 'T20.CurrencyCopperAbbr' }}</label>
+			<input type="number" data-dtype="Number" placeholder="0" name="system.dinheiro.tc" value="{{system.dinheiro.tc}}">
+		</li>
+	</ul>
+</div>

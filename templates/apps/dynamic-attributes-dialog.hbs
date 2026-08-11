@@ -1,0 +1,9 @@
+<h4>{{description}}</h4>
+<div class="form-group flexrow">
+  {{#each atributosList as |attr|}}
+    <div class="flexcol">
+      <label class="ability-name" for="attr-{{attr}}">{{lookup ../config.atributosAbr attr}}</label>
+      <input type="number" name="{{attr}}" id="attr-{{attr}}" value="0" />
+    </div>
+  {{/each}}
+</div>

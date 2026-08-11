@@ -1,0 +1,48 @@
+{{#if isCharacter}}
+{{#unless disableJournal}}
+<div class="left-notes note-entries">
+	<article>
+		<div class="section-titles">
+			<input type="text" name="system.detalhes.diario1.name" value="{{system.detalhes.diario1.name}}" placeholder="{{ localize 'T20.Journal1' }}"/>
+		</div>
+		{{editor htmlFields.diario1 target="system.detalhes.diario1.value" button=true owner=owner editable=editable}}
+	</article>
+	<article>
+		<div class="section-titles">
+			<input type="text" name="system.detalhes.diario2.name" value="{{system.detalhes.diario2.name}}" placeholder="{{ localize 'T20.Journal2' }}"/>
+		</div>
+		{{editor htmlFields.diario2 target="system.detalhes.diario2.value" button=true owner=owner editable=editable}}
+	</article>
+	<article>
+		<div class="section-titles">
+			<input type="text" name="system.detalhes.diario3.name" value="{{system.detalhes.diario3.name}}" placeholder="{{ localize 'T20.Journal3' }}"/>
+		</div>
+		{{editor htmlFields.diario3 target="system.detalhes.diario3.value" button=true owner=owner editable=editable}}
+	</article>
+	<article>
+		<div class="section-titles">
+			<input type="text" name="system.detalhes.diario4.name" value="{{system.detalhes.diario4.name}}" placeholder="{{ localize 'T20.Journal4' }}"/>
+		</div>
+		{{editor htmlFields.diario4 target="system.detalhes.diario4.value" button=true owner=owner editable=editable}}
+	</article>
+</div>
+{{/unless}}
+<div class="right-notes note-entries">
+	<article class="journal-notes">
+		<div class="section-titles">{{ localize 'T20.Biography' }}</div>
+		{{editor htmlFields.biography target="system.detalhes.biography.value" button=true owner=owner editable=editable}}
+	</article>
+	{{#unless disableJournal}}
+	<article class="journal-notes">
+		<div class="section-titles">{{ localize 'T20.JournalEntry' }}</div>
+		{{editor htmlFields.diario target="system.detalhes.diario.value" button=true owner=owner editable=editable}}
+	</article>
+	{{/unless}}
+</div>
+{{/if}}
+{{#if isNPC}}
+<div style="max-width: 220px;">
+	<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="200" width="200" />
+</div>
+{{editor htmlFields.biography target="system.detalhes.biography.value" button=true owner=owner editable=editable}}
+{{/if}}

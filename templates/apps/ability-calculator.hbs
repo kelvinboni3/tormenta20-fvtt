@@ -1,0 +1,24 @@
+<form id="ability-calculator">
+	<ul>
+		<li class="ability flexrow">
+			<label id="points">{{AbilityPoints}}</label>
+			<label id="points-max">{{AbilityPoints}}</label>
+		</li>
+		<li class="ability flexrow">
+			<label item>{{localize 'T20.Ability'}}</label>
+			<label item>{{localize 'T20.AbilityValue'}}</label>
+			<label item>{{localize 'T20.AbilityBase'}}</label>
+			<label item>{{localize 'T20.AbilityRace'}}</label>
+		</li>
+		{{#each system.atributos as |abl id|}}
+		<li class="ability flexrow">
+			<label>{{abl.label}}</label>
+			<input disabled type="number" name="system.{{id}}.value" value="{{abl.value}}"/>
+			<input type="number" name="system.{{id}}.base" value="{{abl.base}}"/>
+			{{!-- TODO FLEX --}}
+			<input disabled type="number" name="system.{{id}}.racial" value="{{abl.racial}}"/>
+		</li>
+		{{/each}}
+	</ul>
+	<button type="submit" name="submit" value="1"><i class="far fa-save"></i> {{ localize 'T20.Submit'}}</button>
+</form>

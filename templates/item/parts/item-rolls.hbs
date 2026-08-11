@@ -1,0 +1,102 @@
+<div class="rolls flexrow">
+	<h3>{{ localize "T20.Rolls" }}</h3>
+	<span class="rolls-controls">
+		<a class="rolls-control add-roll" data-roll-type="ataque"><i class="fas fa-plus"></i> {{ localize "T20.Attack" }}</a>
+		<a class="rolls-control add-roll" data-roll-type="dano"><i class="fas fa-plus"></i> {{ localize "T20.Damage" }}</a>
+		<a class="rolls-control add-roll" data-roll-type="formula"><i class="fas fa-plus"></i> {{ localize "T20.Formula" }}</a>
+	</span>
+</div>
+{{#each item.system.rolls as |roll key| }}
+
+	{{!-- roll.key --}}
+	{{!-- roll.name --}}
+	{{!-- roll.type --}}
+	{{!-- roll.adaptavel --}}
+	<div class="form-group">
+		<h4 class="roll-header flexrow">
+			<input type="text" class="flex-2" name="system.rolls.{{key}}.name" value="{{roll.name}}" title="Referência: {{roll.key}}" />
+			<input type="hidden" name="system.rolls.{{key}}.key" value="{{roll.key}}" />
+			<input type="hidden" name="system.rolls.{{key}}.type" value="{{roll.type}}" />
+			<div class="item-controls">
+				{{#if (eq roll.type "dano")}}
+					<a class="parts-control add-part" data-roll-id="{{key}}" data-roll-type="{{roll.type}}"><i class="fas fa-plus"></i></a>
+				{{/if}}
+				<a class="rolls-control delete-roll" data-roll-id="{{key}}" data-roll-type="{{roll.type}}"><i class="fas fa-trash"></i></a>
+			</div>
+		</h4>
+	</div>
+	{{!-- Attack --}}
+	{{!-- [ pericia , atributo, bonus, ...parts] --}}
+	{{#if (eq roll.type "ataque" ) }}
+		<div class="form-group">
+			<ol class="roll-parts form-group">
+				<li class="roll-part flexrow">
+					<input type="hidden" name="system.rolls.{{key}}.parts.0.0" value="1d20" />
+					<select name="system.rolls.{{key}}.parts.1.0">
+						{{selectOptions @root.rollOptions.pericias selected=(lookup (lookup roll.parts 1) 0) localize=true}}
+					</select>
+					<select name="system.rolls.{{key}}.parts.1.1" data-tooltip="Substituir Atributo da Perícia">
+						{{selectOptions @root.rollOptions.atributos selected=(lookup (lookup roll.parts 1) 1) blank="T20.Default" localize=true}}
+					</select>
+					<input type="text" name="system.rolls.{{key}}.parts.2.0" value="{{lookup (lookup roll.parts 2) 0}}" placeholder="Bônus" />
+				</li>
+			</ol>
+		</div>
+	{{/if}}
+
+	{{!-- Dano --}}
+	{{!-- [ dado, adaptavel, atributo, ...parts, tipo ] --}}
+	{{#if (eq roll.type "dano" ) }}
+		<div class="form-group">
+			<ol class="roll-parts form-group flexcol">
+				{{#if (eq ../item.type "arma") }}
+					<li class="roll-part flexrow" data-roll-part="{{i}}">
+						<input type="text" name="system.rolls.{{key}}.parts.0.0" value="{{lookup (lookup roll.parts 0) 0}}"
+							title="Dano" />
+						{{#if ../system.propriedades.ada }}
+							<input type="text" name="system.rolls.{{key}}.adaptavel" value="{{roll.adaptavel}}" placeholder="Adaptável" />
+						{{else}}
+							<input type="hidden" name="system.rolls.{{key}}.adaptavel" value="" />
+						{{/if}}
+						{{#if (or (not @root.item.isOwned ) @root.isCharacterOwned) }}
+							<select name="system.rolls.{{key}}.parts.1.0" title="Atributo">
+								{{selectOptions @root.rollOptions.atributosDano selected=(lookup (lookup roll.parts 1) 0) blank=true localize=true}}
+							</select>
+						{{else}}
+							<input type="hidden" name="system.rolls.{{key}}.parts.1.0" value="" />
+						{{/if}}
+
+						<select name="system.rolls.{{key}}.parts.0.1" title="Tipo de Dano">
+							{{selectOptions @root.rollOptions.damageTypes selected=(lookup (lookup roll.parts 0) 1) blank="T20.None" localize=true}}
+						</select>
+					</li>
+				{{/if}}
+				{{#each roll.parts as |part i| }}
+					{{#unless (and (eq @root.item.type "arma") (lt i 2) )}}
+						<li class="roll-part flexrow" data-roll-part="{{i}}">
+							<input type="text" name="system.rolls.{{key}}.parts.{{i}}.0" value="{{lookup this '0'}}" / title="Dano">
+							<select name="system.rolls.{{key}}.parts.{{i}}.1">
+								{{selectOptions @root.rollOptions.damageTypes selected=(lookup this "1") blank="T20.None" localize=true}}
+							</select>
+							<a class="parts-control delete-part" data-roll-id="{{key}}" title="{{key}}">
+								<i class="fas fa-xmark"></i></a>
+						</li>
+					{{/unless}}
+				{{/each}}
+			</ol>
+		</div>
+	{{/if}}
+
+
+	{{#if (eq roll.type "formula" ) }}
+		<div class="form-group">
+			<ol class="roll-parts form-group">
+				<li class="roll-part flexrow" data-roll-part="{{i}}">
+					<input type="text" name="system.rolls.{{key}}.parts.0.0" value="{{lookup (lookup roll.parts 0) 0}}" />
+					<input type="hidden" name="system.rolls.{{key}}.parts.0.1" value="{{lookup (lookup roll.parts 0) 1}}" />
+				</li>
+			</ol>
+		</div>
+	{{/if}}
+	<hr>
+{{/each}}

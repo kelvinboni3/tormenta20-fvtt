@@ -1,0 +1,65 @@
+<section class="tab scrollable{{#if tab.active}} active{{/if}}" data-group="{{tab.group}}" data-tab="{{tab.id}}">
+	{{formGroup fields.tint value=source.tint rootId=rootId placeholder="#ffffff"}}
+	{{formGroup fields.description value=source.description rootId=rootId}}
+
+	<fieldset>
+		<legend>
+			<label for="{{rootId}}-flags.tormenta20.onuse">{{ localize 'T20.OnUseEffect' }}</label>
+			<input id="{{rootId}}-flags.tormenta20.onuse" type="checkbox" name="flags.tormenta20.onuse" {{ checked document.flags.tormenta20.onuse }} />
+		</legend>
+
+		<div class="form-group">
+			<div class="form-fields form-checks">
+				<label><input type="checkbox" name="flags.tormenta20.self" {{ checked document.flags.tormenta20.self }} /> {{ localize 'T20.ApplyToSelf' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.attack" {{ checked document.flags.tormenta20.attack }} /> {{ localize 'T20.Attack' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.skill" {{ checked document.flags.tormenta20.skill }} /> {{ localize 'T20.Skill' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.ability" {{ checked document.flags.tormenta20.ability }} /> {{ localize 'T20.Ability' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.power" {{ checked document.flags.tormenta20.power }} /> {{ localize 'T20.Power' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.equipment" {{ checked document.flags.tormenta20.equipment }} /> {{ localize 'T20.Equipment' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.spell" {{ checked document.flags.tormenta20.spell }} /> {{ localize 'T20.Spell' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.consumable" {{ checked document.flags.tormenta20.consumable }} /> {{ localize 'T20.Consumable' }}</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>{{ localize 'T20.SpecificItems'}}:</label>
+			<div class="form-fields">
+				<input type="text" name="flags.tormenta20.items" value="{{document.flags.tormenta20.items}}" data-dtype="String" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="{{rootId}}-flags.tormenta20.aumenta">{{ localize 'T20.AllowMultApply'}}</label>
+			<div class="form-fields">
+				<input type="checkbox" id="{{rootId}}-flags.tormenta20.aumenta" name="flags.tormenta20.aumenta" {{ checked document.flags.tormenta20.aumenta }} />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>{{ localize  'T20.PMCost'}}</label>
+			<div class="form-fields">
+				<input type="text" name="flags.tormenta20.custo" value="{{ document.flags.tormenta20.custo }}" />
+			</div>
+		</div>
+	</fieldset>
+
+	{{formGroup fields.disabled value=source.disabled rootId=rootId}}
+
+	{{#if isActorEffect}}
+		{{formGroup fields.origin value=source.origin rootId=rootId disabled=true}}
+	{{/if}}
+	{{#if isItemEffect}}
+		{{formGroup fields.transfer value=source.transfer rootId=rootId label=legacyTransfer.label hint=legacyTransfer.hint}}
+	{{/if}}
+
+	{{formGroup fields.statuses value=source.statuses options=statuses rootId=rootId classes="statuses"}}
+
+	{{#if document.flags.tormenta20.condition}}
+		<div class="form-group">
+			<label for="">{{localize "T20.IgnoreEffectImunity"}}</label>
+			<div class="form-fields">
+				<input type="checkbox" name="flags.tormenta20.ignoreImunity" {{ checked document.flags.tormenta20.ignoreImunity }} />
+			</div>
+		</div>
+	{{/if}}
+</section>

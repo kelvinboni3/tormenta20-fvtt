@@ -1,0 +1,34 @@
+{{#if (eq gameSystem 'Skyfall')}}
+<ul class="attributes flexrow">
+	{{#each system.resources as | resource id | }}
+	{{#if (or (eq id 'deathsave') (eq id 'shadow') (eq id 'catarse'))  }}
+	<li class="attribute health">
+		<h4 class="attribute-name box-title">{{localize resource.label}}</h4>
+		<div class="attribute-value multiple">
+			<input type="number" data-dtype="Number" placeholder="0" name="system.resources.{{id}}.value" value="{{resource.value}}" max="{{resource.max}}">
+			<span class="sep">/</span>
+			<input disabled type="number" data-dtype="Number" placeholder="0" name="system.resources.{{id}}.max" value="{{resource.max}}">
+		</div>
+	</li>
+	{{/if}}
+	{{/each}}
+</ul>
+{{/if}}
+{{#if showResources}}
+<ul class="attributes flexrow">
+	{{#each system.resources as | resource id | }}
+	{{#unless (or (eq id 'deathsave') (eq id 'shadow') (eq id 'catarse'))  }}
+	<li class="attribute health">
+		<div class="attribute-name box-title">
+			<input type="text" placeholder="{{localize resource.label}}" name="system.resources.{{id}}.label" value="{{resource.label}}">
+		</div>
+		<div class="attribute-value multiple">
+			<input type="number" data-dtype="Number" placeholder="0" name="system.resources.{{id}}.value" value="{{resource.value}}" max="{{resource.max}}">
+			<span class="sep">/</span>
+			<input type="number" data-dtype="Number" placeholder="0" name="system.resources.{{id}}.max" value="{{resource.max}}">
+		</div>
+	</li>
+	{{/unless}}
+	{{/each}}
+</ul>
+{{/if}}

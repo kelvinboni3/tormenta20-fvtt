@@ -1,0 +1,17 @@
+<div class="tab description flexrow" data-group="primary" data-tab="description">
+	<div class="properties flexcol">
+		<div class="traits">
+			<a class="config-button" data-action="movement" data-target="system.attributes.movement">
+				<label>{{ localize 'T20.Movement'}}</label>
+			</a>
+			<ul class="trait-list">
+				{{#each movement as | move key | }}
+				<li class="speedtag {{key}}">{{localize move}}</li>
+				{{/each}}
+			</ul>
+		</div>
+	</div>
+	<div class="item-description">
+		{{editor system.detalhes.biography.value target="system.detalhes.biography.value" button=true owner=owner editable=editable}}
+	</div>
+</div>

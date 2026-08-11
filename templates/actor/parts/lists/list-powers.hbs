@@ -1,0 +1,29 @@
+<ul class="item-list">
+	<li class="item flexrow item-header">
+		<div class="item-name flex2">{{localize 'T20.Powers'}}</div>
+		<div class="item-type">{{localize 'T20.Type'}}</div>
+		<div class="item-activation">{{localize 'T20.Activation'}}</div>
+		{{#if owner}}
+		<div class="item-controls">
+			<a class="item-control item-create" title="{{localize 'T20.Add'}} {{localize 'T20.Powers'}}" data-type="poder"><i class="fas fa-plus"></i> {{localize 'T20.Add'}}</a>
+		</div>
+		{{/if}}
+	</li>
+	{{#each actor.poderes as |item id|}}
+	<li class="item flexrow" data-item-id="{{item._id}}">
+		<div class="item-name flexrow rollable flex2" data-label="{{item.name}}">
+			<div class="item-image" style="background-image: url('{{item.img}}')"></div>
+			<label>{{item.name}}</label>
+		</div>
+		<div class="item-type">
+			{{item.labels.tipo}}{{#if item.labels.subtipo}}: {{item.labels.subtipo}}{{/if}}
+		</div>
+		<div class="item-activation">
+			{{"t20-itemLabels" item}}
+		</div>
+		{{#if ../owner}}
+		{{> "tormenta20.actor-item-controls" item=item }}
+		{{/if}}
+	</li>
+	{{/each}}
+</ul>

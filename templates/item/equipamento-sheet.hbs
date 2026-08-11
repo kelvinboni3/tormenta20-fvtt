@@ -1,0 +1,83 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+	{{!-- Item Sheet Header --}}
+	{{> "tormenta20.item-header"}}
+	{{!-- Item Sheet Navigation --}}
+	<nav class="sheet-tabs tabs" data-group="primary">
+		<a class="item" data-tab="description">{{ localize "T20.Description" }}</a>
+		<a class="item" data-tab="details">{{ localize "T20.Details" }}</a>
+		{{#if (or (eq item.system.tipo 'leve' ) (eq item.system.tipo 'pesada' ) (eq item.system.tipo 'escudo' ) (eq item.system.tipo 'esoterico' ) (eq item.system.tipo 'traje' ) (eq item.system.tipo 'ferramenta'))}}
+		<a class="item" data-tab="enhancements">{{ localize "T20.Enhancements" }}</a>
+		{{/if}}
+
+		<a class="item" data-tab="effects">{{ localize "T20.Effects" }}</a>
+	</nav>
+
+	{{!-- Item Sheet Body --}}
+	<section class="sheet-body">
+		{{!-- Description Tab --}}
+		{{> "tormenta20.item-description"}}
+
+		{{!-- Details Tab --}}
+		<div class="tab details" data-group="primary" data-tab="details">
+			{{!-- Equipment Type --}}
+			<div class="form-group">
+				<label>{{ localize "T20.Type" }}</label>
+				<div class="form-fields">
+					<select name="system.tipo">
+						{{selectOptions config.armorTypes selected=item.system.tipo localize=true}}
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>{{ localize "T20.ItemEquippedType" }}</label>
+				<div class="form-fields">
+					<select name="system.equipado2.type">
+						{{selectOptions config.itemSlotTypes selected=item.system.equipado2.type localize=true }}
+					</select>
+				</div>
+			</div>
+			{{!-- Equipment Status --}}
+
+			<div class="form-group">
+				<label>{{ localize "T20.Defense" }}</label>
+				<div class="form-fields">
+					<input type="number" name="system.armadura.value" value="{{item.system.armadura.value}}" data-dtype="Number" />
+				</div>
+			</div>
+			{{#if (eq item.system.tipo "pesada")}}
+			<div class="form-group">
+				<label>{{ localize "T20.ArmorMaxAblBonus" }}</label>
+				<div class="form-fields">
+					<input type="number" name="system.armadura.maxAtr" value="{{item.system.armadura.maxAtr}}" data-dtype="Number" />
+				</div>
+			</div>
+			{{/if}}
+			<div class="form-group">
+				<label>{{ localize "T20.ArmorPenalty" }}</label>
+				<div class="form-fields">
+					<input type="number" name="system.armadura.penalidade" value="{{item.system.armadura.penalidade}}" data-dtype="Number" max="0" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label>{{ localize "T20.PMCost" }}</label>
+				<div class="form-fields">
+					<input type="number" data-dtype="Number" placeholder="0" name="system.ativacao.custo" value="{{item.system.ativacao.custo}}"/>
+				</div>
+			</div>
+			{{!-- Rolls --}}
+			<hr>
+			{{> "tormenta20.item-rolls"}}
+			<hr>
+			{{{rolltags}}}
+		</div>
+
+		{{#if (or (eq item.system.tipo "leve") (eq item.system.tipo "pesada") (eq item.system.tipo "escudo") (eq item.system.tipo "esoterico") (eq item.system.tipo "traje") (eq item.system.tipo "ferramenta")) }}
+		{{!-- Enhancements Tab --}}
+		{{> "tormenta20.item-enhancements"}}
+		{{/if}}
+
+		<div class="tab effects" data-group="primary" data-tab="effects">
+			{{> "tormenta20.active-effects"}}
+		</div>
+	</section>
+</form>

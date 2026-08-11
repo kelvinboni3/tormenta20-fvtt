@@ -1,0 +1,26 @@
+<header class="sheet-header flexrow">
+	<section class="header-details flexcol">
+		<div class="general-information flexrow">
+			<img class="profile" src="{{actor.img}}" title="{{actor.name}}" data-edit="img" style="height:60px; width:60px; flex: 0 0 60px;" />
+			<h1 class="charname">
+				<input name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'T20.Name' }}" />
+			</h1>
+		</div>
+		<div class="flexrow">
+			<div class="flexcol">
+				{{> "tormenta20.abilities"}}
+
+				{{!-- Header Attributes --}}
+				<ul class="attributes summary flexrow">
+					{{!-- HP/MP Resources --}}
+					{{> "tormenta20.resources"}}
+					{{!-- Defense --}}
+					{{> "tormenta20.defense"}}
+				</ul>
+			</div>
+			<div class="traits">
+				{{> "tormenta20.traits"}}
+			</div>
+		</div>
+	</section>
+</header>

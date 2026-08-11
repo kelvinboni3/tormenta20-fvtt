@@ -1,0 +1,46 @@
+<header class="sheet-header flexrow">
+	<img class="profile" src="{{actor.img}}" title="{{actor.name}}" data-edit="img" />
+	<section class="header-details flexcol">
+		<div class="general-information flexrow">
+			<h1 class="charname">
+				<input name="name" type="text" value="{{actor.name}}" placeholder="Nome da Base" />
+			</h1>
+		</div>
+
+		<ul class="attributes summary flexrow">
+			<li>
+				<input name="system.tipo" type="text" value="{{system.tipo}}" placeholder="{{ localize "T20.BasesType"}}" />
+			</li>
+		</ul>
+
+		<ul class="attributes flexrow">
+			<li class="attribute seguranca flexcol">
+				<h4 class="attribute-name box-title">{{ localize "T20.BasesSecurity"}}</h4>
+				<div class="attribute-value" data-tooltip="{{fieldBonuses 'system.seguranca'}}">
+					{{system.seguranca.total}}
+				</div>
+				<footer class="attribute-footer">
+					<input type="number" data-dtype="Number" placeholder="0" name="system.seguranca.base" value="{{system.seguranca.base}}" title="{{localize 'T20.BasesSecurityBaseValue'}}">
+				</footer>
+			</li>
+			<li class="attribute flexcol">
+				<h4 class="attribute-name box-title">{{ localize "T20.BasesSize"}}</h4>
+				<div class="attribute-value">
+					<select name="system.porte">
+						{{selectOptions config.porteType selected=system.porte localize=true}}
+					</select>
+				</div>
+			</li>
+			<li class="attribute flexcol">
+				<h4 class="attribute-name box-title">{{ localize "T20.BasesMaintenance"}}</h4>
+				<div class="attribute-value">
+					{{lookup config.maintenanceCost system.porte}} {{localize "T20.CurrencySilverAbbr"}}
+				</div>
+			</li>
+			<li class="attribute flexcol">
+				<h4 class="attribute-name box-title">{{ localize "T20.Accomodations"}}</h4>
+				<div class="attribute-value">{{system.rooms}}</div>
+			</li>
+		</ul>
+	</section>
+</header>

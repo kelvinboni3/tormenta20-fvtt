@@ -1,0 +1,44 @@
+<div class="tormenta20 chat-card damage-card">
+	<div class="card-damage">
+		<ul class="flexcol">
+			<li class="flexrow">
+				<div class="flex2">{{actor.name}}</div>
+			</li>
+			<li class="flexrow">
+				<div class="flex2">{{localize chatDMG.label}}</div>
+				<div>{{chatDMG.value}}</div>
+				{{#if (eq chatDMG.type 'damage') }}
+				<div>{{actor.system.attributes.pv.value}} / {{actor.system.attributes.pv.max}}</div>
+				{{else if (eq chatDMG.type 'mana') }}
+				<div>{{actor.system.attributes.pm.value}} / {{actor.system.attributes.pm.max}}</div>
+				{{/if}}
+			</li>
+		</ul>
+	</div>
+	{{#if (and (eq chatDMG.type 'damage') (lte chatDMG.value 0)) }}
+	<div class="card-damage-details">
+		<ul class="flexcol">
+			<li class="flexrow">
+				<div style="flex:0 0 35%;">Tipo</div>
+				<div style="flex:0 0 35%;">Dano (+Vuln)</div>
+				<div>RD</div>
+				<div>Final</div>
+			</li>
+		{{#each damage as | dmg d |}}
+			<li class="flexrow">
+				<div style="flex:0 0 35%;">{{d}}</div>
+				<div style="flex:0 0 35%;">{{dmg.value}} (+{{dmg.vuln}} )</div>
+				<div>{{dmg.rd}}</div>
+				<div>{{dmg.final}}</div>
+			</li>
+		{{/each}}
+		<li class="flexrow">
+			<div style="flex:0 0 35%;"></div>
+			<div style="flex:0 0 35%;">{{chatDMG.total}}</div>
+			<div></div>
+			<div>{{chatDMG.value}}</div>
+		</li>
+		</ul>
+	</div>
+	{{/if}}
+</div>

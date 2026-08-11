@@ -1,0 +1,76 @@
+<form class="" autocomplete="off" onsubmit="event.preventDefault();">
+	<!-- <h3>{{localize 'T20.Classes'}}</h3> -->
+	<table class="trait-list" style="text-align:center;">
+		<tr>
+			<td>{{localize 'T20.Class'}}</td>
+			<td>{{localize 'T20.HPTotal'}}</td>
+			<td>{{localize 'T20.HPPerLevel'}}</td>
+			<td>{{localize 'T20.MPTotal'}}</td>
+			<td>{{localize 'T20.MPPerLevel'}}</td>
+		</tr>
+		{{#each classes as |data key|}}
+			<tr>
+				<td>{{data.label}} {{data.niveis}}</td>
+				<td>{{data.pvTotal}}</td>
+				<td>{{data.pvPorNivel}} + {{../con}}</td>
+				<td>{{data.pmTotal}}</td>
+				<td>{{data.pmPorNivel}}</td>
+				<td>
+					<input hidden type="text" value="{{data.pvTotal}}" data-dtype="Number" />
+					<input hidden type="text" value="{{data.pmTotal}}" data-dtype="Number" />
+				</td>
+			</tr>
+		{{/each}}
+		<tr>
+			<td colspan="5">{{localize "T20.Custom"}}</td>
+		</tr>
+		<tr>
+			<td>{{localize "T20.Bonus"}}</td>
+			<td class="bonus-total">
+				<input type="number" step="0.5" name="system.attributes.pv.bonus.total" value="{{resources.pv.bonus.total}}" data-dtype="String" data-tooltip="{{localize 'T20.HP'}} {{localize 'T20.BonusTotal' }}" />
+			</td>
+			<td class="bonus-por-nivel">
+				<input type="number" step="0.5" name="system.attributes.pv.bonus.nivel" value="{{resources.pv.bonus.nivel}}" data-dtype="String" data-tooltip="{{localize 'T20.HP'}} {{localize 'T20.BonusPerLevel' }}" />
+
+				<input type="number" step="0.5" name="system.attributes.pv.bonus.nivelPar" value="{{resources.pv.bonus.nivelPar}}" data-dtype="String" data-tooltip="{{localize 'T20.HP'}} {{localize 'T20.BonusPerLevelEven' }}" />
+
+				<input type="number" step="0.5" name="system.attributes.pv.bonus.nivelImpar" value="{{resources.pv.bonus.nivelImpar}}" data-dtype="String" data-tooltip="{{localize 'T20.HP'}} {{localize 'T20.BonusPerLevelOdd' }}" />
+			</td>
+			<td class="bonus-total">
+				<input type="number" step="0.5" name="system.attributes.pm.bonus.total" value="{{resources.pm.bonus.total}}" data-dtype="String" data-tooltip="{{localize 'T20.MP'}} {{localize 'T20.BonusTotal' }}" />
+			</td>
+			<td class="bonus-por-nivel">
+				<input type="number" step="0.5" name="system.attributes.pm.bonus.nivel" value="{{resources.pm.bonus.nivel}}" data-dtype="String" data-tooltip="{{localize 'T20.MP'}} {{localize 'T20.BonusPerLevel' }}" />
+
+				<input type="number" step="0.5" name="system.attributes.pm.bonus.nivelPar" value="{{resources.pm.bonus.nivelPar}}" data-dtype="String" data-tooltip="{{localize 'T20.MP'}} {{localize 'T20.BonusPerLevelEven' }}" />
+
+				<input type="number" step="0.5" name="system.attributes.pm.bonus.nivelImpar" value="{{resources.pm.bonus.nivelImpar}}" data-dtype="String" data-tooltip="{{localize 'T20.MP'}} {{localize 'T20.BonusPerLevelOdd' }}" />
+			</td>
+		</tr>
+		<tr>
+			<td>{{localize "T20.Ability"}} {{localize "T20.HP"}}</td>
+			<td colspan="4">
+				{{#each resources.pv.atributos as |value key|}}
+					<label class="checkbox">
+						<input type="checkbox" name="system.attributes.pv.atributos.{{key}}" value="{{value}}" {{checked value}} data-dtype="Boolean" /> {{localize (lookup @root.config.atributosAbr key) }}
+					</label>
+				{{/each}}
+			</td>
+		</tr>
+		<tr>
+			<td>{{localize "T20.Ability"}} {{localize "T20.MP"}}</td>
+			<td colspan="4">
+				{{#each resources.pm.atributos as |value key|}}
+					<label class="checkbox">
+						<input type="checkbox" name="system.attributes.pm.atributos.{{key}}" value="{{value}}" {{checked value}} data-dtype="Boolean" /> {{localize (lookup @root.config.atributosAbr key) }}
+					</label>
+				{{/each}}
+			</td>
+		</tr>
+	</table>
+	<label class="checkbox">{{localize "T20.ManualOverride"}}
+		<input type="checkbox" name="flags.tormenta20.lvlconfig.manual" {{checked flags.lvlconfig.manual}} data-dtype="Boolean">
+	</label>
+	<p class="notes">{{localize "T20.ManualOverrideHint"}}</p>
+	<button type="submit" name="submit" value="1"><i class="far fa-save"></i> {{localize 'T20.Submit'}}</button>
+</form>

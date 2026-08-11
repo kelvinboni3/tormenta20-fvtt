@@ -1,0 +1,92 @@
+<form class="tormenta20 npc" autocomplete="off">
+	{{#if (eq documentName 'Actor' ) }}
+	{{else if (eq documentName 'Item' ) }}
+	{{else if (eq documentName 'ActiveEffect' ) }}
+	{{/if}}
+
+	{{!-- Sheet Tab Navigation --}}
+	{{> "tormenta20.nav-bar"}}
+
+	{{!-- Sheet Body --}}
+	<section class="sheet-body primary">
+
+		{{!-- Statblock Tab --}}
+		<div class="tab statblock flexcol " data-group="primary" data-tab="statblock">
+			{{> "tormenta20.statblock"}}
+		</div>
+
+		{{!-- Attributes Tab --}}
+		<div class="tab attributes flexcol " data-group="primary" data-tab="attributes">
+			{{!-- Sheet Header --}}
+			{{> "tormenta20.sheet-header-npc"}}
+			<nav class="sheet-tabs tabs secondary" data-group="secondary">
+				<a class="item" data-tab="sheet"><i class="fa-solid fa-diagram-project"></i> {{localize "T20.Details"}}</a>
+				<a class="item" data-tab="skills"><i class="fa-solid fa-person-running"></i> {{localize "T20.Skills"}}</a>
+				<a class="item" data-tab="inventory"><i class="fa-solid fa-suitcase-rolling"></i> {{localize "T20.Inventory"}}</a>
+				<a class="item" data-tab="powers"><i class="fa-solid fa-bolt"></i> {{localize "T20.Powers"}}</a>
+				<a class="item" data-tab="spells"><i class="fa-solid fa-hurricane"></i> {{localize "T20.Spells"}}</a>
+			</nav>
+
+			<section class="sheet-body secondary">
+				<div class="tab sheet" data-group="secondary" data-tab="sheet">
+					{{> "tormenta20.abilities"}}
+					{{!-- Header Attributes --}}
+					<ul class="attributes flexrow">
+						{{!-- HP/MP Resources --}}
+						{{> "tormenta20.resources"}}
+						{{!-- Defense --}}
+						{{> "tormenta20.defense"}}
+					</ul>
+					<div class="traits">
+						{{> "tormenta20.traits"}}
+					</div>
+					<div class="traits">
+						<label>Linhas descritivas</label><br>
+						<div class="form">
+							<label>{{localize 'T20.DifficultClass'}} ({{localize 'T20.AbbreviationDC'}})</label>
+							<input type="number" name="system.attributes.cd" value="{{system.attributes.cd}}"/>
+						</div>
+						<label>{{localize 'T20.Resistances'}}</label>
+						<input type="text" name="system.detalhes.resistencias" value="{{system.detalhes.resistencias}}" placeholder="{{localize 'T20.Resistances'}}"/>
+						<label>{{localize 'T20.Movement'}}</label>
+						<input type="text" name="system.detalhes.movimento" value="{{system.detalhes.movimento}}" placeholder="{{localize 'T20.Movement'}}"/>
+						<label>{{localize 'T20.Melee'}}</label>
+						<input type="text" name="system.detalhes.ataquescac" value="{{system.detalhes.ataquescac}}" placeholder="{{localize 'T20.Melee'}}"/>
+						<label>{{localize 'T20.Ranged'}}</label>
+						<input type="text" name="system.detalhes.ataquesad" value="{{system.detalhes.ataquesad}}" placeholder="{{localize 'T20.Ranged'}}"/>
+						<label>{{localize 'T20.Equipments'}}</label>
+						<input type="text" name="system.detalhes.equipamento" value="{{system.detalhes.equipamento}}" placeholder="{{localize 'T20.Equipments'}}"/>
+						<label>{{localize 'T20.Treasure'}}</label>
+						<input type="text" name="system.detalhes.tesouro" value="{{system.detalhes.tesouro}}" placeholder="{{localize 'T20.Treasure'}}"/>
+					</div>
+				</div>
+				<div class="tab skills" data-group="secondary" data-tab="skills">
+					{{> "tormenta20.list-skills"}}
+				</div>
+				<div class="tab inventory" data-group="secondary" data-tab="inventory">
+					{{> "tormenta20.list-inventory"}}
+				</div>
+				<div class="tab powers" data-group="secondary" data-tab="powers">
+					{{> "tormenta20.list-powers"}}
+				</div>
+				<div class="tab spells" data-group="secondary" data-tab="spells">
+					{{> "tormenta20.list-spells"}}
+				</div>
+			</section>
+		</div>
+
+		{{!-- Biography Tab --}}
+		<div class="tab journal flexcol " data-group="primary" data-tab="journal">
+			{{editor htmlFields.biography target="system.detalhes.biography.value" button=true owner=owner editable=editable}}
+		</div>
+
+		{{!-- Modifiers Tab --}}
+		<div class="tab modifiers" data-group="primary" data-tab="modifiers">
+			{{> "tormenta20.modifiers"}}
+		</div>
+		{{!-- Effects Tab --}}
+		<div class="tab effects" data-group="primary" data-tab="effects">
+			{{> "tormenta20.active-effects"}}
+		</div>
+	</section>
+</form>

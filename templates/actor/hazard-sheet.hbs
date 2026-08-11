@@ -1,0 +1,43 @@
+<form class="tormenta20 hazard" autocomplete="off">
+
+	<header class="sheet-header flexrow">
+		<img class="profile" src="{{actor.img}}" title="{{actor.name}}" data-edit="img" />
+		<section class="header-details">
+			<div class="general-information flexrow">
+				<h1 class="charname">
+					<input name="name" type="text" value="{{actor.name}}" placeholder="{{ localize 'T20.Name' }}" />
+				</h1>
+				<aside>
+					<h1 class="hazard-level">
+						<input type="text" name="system.attributes.nd" value="{{system.attributes.nd}}" data-tooltip="{{localize 'T20.AbbreviationCR'}}">
+					</h1>
+				</aside>
+			</div>
+		</section>
+	</header>
+
+	{{!-- Sheet Body --}}
+	<section class="sheet-body">
+		{{!-- Goal Section --}}
+		<div>
+			<h3>{{localize "T20.Goal"}}</h3>
+			<div>
+				{{editor htmlFields.goal target="system.detalhes.goal" button=true owner=owner editable=editable}}
+			</div>
+		</div>
+		{{!-- Effects Section --}}
+		<div>
+			<h3>{{localize "T20.Effect"}}</h3>
+			<div>
+				{{editor htmlFields.effects target="system.detalhes.effects" button=true owner=owner editable=editable}}
+			</div>
+		</div>
+		{{!-- Actions Section --}}
+		<div>
+			<h3>{{localize "T20.ActionPl"}}</h3>
+			<div>
+				{{editor htmlFields.actions target="system.detalhes.actions" button=true owner=owner editable=editable}}
+			</div>
+		</div>
+	</section>
+</form>

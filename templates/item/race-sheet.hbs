@@ -1,0 +1,56 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+	{{!-- Item Sheet Header --}}
+	{{> "tormenta20.item-header"}}
+	{{!-- Item Sheet Navigation --}}
+	<nav class="sheet-tabs tabs" data-group="primary">
+		<a class="item" data-tab="details">{{ localize "T20.Details" }}</a>
+		<a class="item" data-tab="grants">{{ localize "T20.Grants" }}</a>
+	</nav>
+
+	{{!-- Item Sheet Body --}}
+	<section class="sheet-body">
+
+		{{!-- Details Tab --}}
+		<div class="tab details" data-group="primary" data-tab="details">
+
+			<h3>{{ localize "T20.Abilities" }}</h3>
+			<div class="form-group racas">
+				<div class="flexrow">
+					{{#each system.atributos as |atr key|}}
+					<div class="flexrow">
+						<label>{{localize (lookup ../config.atributos key)}}</label>
+						<input type="number" name="system.atributos.{{key}}" value="{{atr}}" />
+					</div>
+					{{/each}}
+				</div>
+				<p class="notes"></p>
+			</div>
+
+			<div class="form-group">
+				<label>{{ localize "T20.DynamicAbilities"}}</label>
+				<div class="form-fields flex6">
+					<multi-select class="small-tags" name="system.atributosDinamicos.value">
+						{{ selectOptions config.atributos selected=system.atributosDinamicos.value  }}
+					</multi-select>
+				</div>
+				<p class="notes">{{ localize "T20.DynamicAbilitiesHint"}}</p>
+			</div>
+
+			<div class="form-group">
+				<label>{{ localize "T20.ItemDescription"}}</label>
+				<div class="form-fields">
+					<input type="text" name="system.atributosDinamicos.description"
+						value="{{ifThen system.atributosDinamicos.value.size system.atributosDinamicos.description ''}}"
+						{{disabled (not system.atributosDinamicos.value.size)}}
+					/>
+				</div>
+				<p class="notes"></p>
+			</div>
+		</div>
+
+		<div class="tab grants" data-group="primary" data-tab="grants">
+			{{> "tormenta20.item-grants"}}
+		</div>
+
+	</section>
+</form>

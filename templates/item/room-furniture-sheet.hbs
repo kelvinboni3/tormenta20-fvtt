@@ -1,0 +1,42 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+	{{!-- Item Sheet Header --}}
+	{{> "tormenta20.item-header"}}
+
+	{{!-- Item Sheet Navigation --}}
+	<nav class="sheet-tabs tabs" data-group="primary">
+		<a class="item" data-tab="description">{{ localize "T20.Description" }}</a>
+		<a class="item" data-tab="effects">{{ localize "T20.Effects" }}</a>
+	</nav>
+
+	{{!-- Item Sheet Body --}}
+	<section class="sheet-body">
+		{{!-- Description Tab --}}
+		<div class="tab item-description flexrow active" data-group="primary" data-tab="description">
+			<div class="item-properties">
+				<div class="form-group">
+					<label>Afeta Residentes?</label>
+					<input type="checkbox" name="system.residentes" value="{{item.system.residentes}}" {{checked item.system.residentes}} data-dtype="Boolean"/>
+				</div>
+				<div class="form-group">
+					<label>{{ localize "T20.Price" }}</label>
+					<input type="text" name="system.preco" value="{{item.system.preco}}" data-dtype="Number" placeholder="0" data-dtype="Number"/>
+				</div>
+			</div>
+
+			<div class="item-description">
+				<div class="form-group">
+					<label>{{ localize "T20.SourceBook" }}</label>
+					<input type="text" name="system.source" value="{{item.system.source}}"/>
+				</div>
+				{{#if (or (eq item.system.description.value "") item.system.description.value ) }}
+				{{editor htmlFields.description target="system.description.value" button=true owner=owner editable=editable engine="prosemirror"}}
+				{{/if}}
+			</div>
+		</div>
+
+		{{!-- Effects Tab --}}
+		<div class="tab effects" data-group="primary" data-tab="effects">
+			{{> "tormenta20.active-effects"}}
+		</div>
+	</section>
+</form>

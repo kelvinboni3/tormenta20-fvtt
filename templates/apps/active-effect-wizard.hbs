@@ -1,0 +1,269 @@
+<section class='main-grid'>
+	<section class='effect-basics'>
+		<img src='{{effect.img}}' alt='{{effect.name}}' class='icon' data-action='clickIcon' />
+		<input type='text' name='name' value='{{effect.name}}' />
+	</section>
+	<section class='preview'>
+		<h2>{{localize 'T20.EffectWizard.Preview'}}</h2>
+		<div class='changes'>
+			<header class='change header text-center'>
+				<span class='label'>{{localize 'T20.EffectWizard.Change'}}</span>
+				<span class='mode'>{{localize 'T20.EffectWizard.Mode'}}</span>
+				<span class='value'>{{localize 'T20.EffectWizard.Value'}}</span>
+				<span></span>
+			</header>
+			<ol class='changes-list unmarked-list'>
+				{{#each changes}}
+					<li data-index='{{@index}}' class='change'>
+						<span class='label'>{{label}}</span>
+						<select class='mode'>
+							{{selectOptions @root.changeModes selected=this.type localize=true }}
+						</select>
+						{{#if this.boolean}}
+							<input type='checkbox' class='value' {{checked this.value}} />
+						{{else if this.choices}}
+							{{formInput this.field value=this.value classes="value" name="" }}
+						{{else}}
+							<input type='text' class='value' value='{{this.value}}' />
+						{{/if}}
+						<span class='change-controls'>
+							<button type='button' class='delete-change' data-action='deleteChange'>
+								<i class='fa-solid fa-trash'></i>
+							</button>
+						</span>
+					</li>
+				{{/each}}
+			</ol>
+		</div>
+	</section>
+	<section class='presets'>
+		<h2>{{localize 'T20.EffectWizard.Changes'}}</h2>
+		{{#if isSpell}}
+			<details data-category='magia' {{collapsible collapsibleStates 'magia' }}>
+				<summary>{{localize 'TYPES.Item.magia'}}</summary>
+				<span class='content'>
+					<ul class='unmarked-list other-presets'>
+						{{#each spellPresets}}
+							<li>
+								<button type='button' data-key='{{key}}' data-action='addChange'>
+									{{label}}
+								</button>
+							</li>
+						{{/each}}
+					</ul>
+				</span>
+			</details>
+		{{/if}}
+		{{#if isWeapon}}
+			<details data-category='arma' {{collapsible collapsibleStates 'arma' }}>
+				<summary>{{localize 'TYPES.Item.arma'}}</summary>
+				<span class='content'>
+					<ul class='unmarked-list other-presets'>
+						{{#each weaponPresets}}
+							<li>
+								<button type='button' data-key='{{key}}' data-action='addChange'>
+									{{label}}
+								</button>
+							</li>
+						{{/each}}
+					</ul>
+				</span>
+			</details>
+		{{/if}}
+		<details data-category='atributo' {{collapsible collapsibleStates 'atributo' }}>
+			<summary>{{localize 'T20.Attributes'}}</summary>
+			<span class='content'>
+				<div class='form-group'>
+					<label>{{localize 'T20.EffectWizard.SelectAttribute'}}</label>
+					<span class='form-fields'>
+						<select name='currAttribute' class='target'>
+							{{selectOptions attributes selected=currAttribute}}
+						</select>
+					</span>
+				</div>
+				<div class='flexrow button-list'>
+					<button type='button' data-key='value' data-action='addChange'>
+						{{localize 'T20.Value'}}
+					</button>
+					<button type='button' data-key='bonus' data-action='addChange'>
+						{{localize 'T20.Bonus'}}
+					</button>
+				</div>
+			</span>
+		</details>
+		<details data-category='skill' {{collapsible collapsibleStates 'skill' }}>
+			<summary>{{localize 'T20.Skills'}}</summary>
+			<span class='content'>
+				<div class='form-group'>
+					<label for='aewizard-skill'>
+						{{localize 'T20.EffectWizard.EnterSkill.Label'}}
+					</label>
+					<span class='form-fields'>
+						<select name='currSkill' class='target'>
+							{{selectOptions skillSuggestions selected=currSkill}}
+						</select>
+					</span>
+				</div>
+				<div class='flexrow button-list'>
+					<button type='button' data-key='bonus' data-action='addChange'>
+						{{localize 'T20.Bonus'}}
+					</button>
+					<button type='button' data-key='atributo' data-action='addChange'>
+						{{localize 'T20.Ability'}}
+					</button>
+				</div>
+			</span>
+		</details>
+		<details data-category='resistance' {{collapsible collapsibleStates 'resistance' }}>
+			<summary>{{localize 'T20.ResistancesWeaknesses'}}</summary>
+			<span class='content'>
+				<div class='form-group'>
+					<label for='aewizard-skill'>
+						{{localize 'T20.EffectWizard.EnterResistance.Label'}}
+					</label>
+					<span class='form-fields'>
+						<select name='currResistance' class='target'>
+							{{selectOptions resistanceSuggestions selected=currResistance}}
+						</select>
+					</span>
+				</div>
+				<ul class='unmarked-list other-presets'>
+					{{#each resistancePresets}}
+						<li>
+							<button type='button' data-key='{{key}}' data-action='addChange' {{disabled this.disabled}}>
+								{{label}}
+							</button>
+						</li>
+					{{/each}}
+				</ul>
+			</span>
+		</details>
+		<details data-category='movement' {{collapsible collapsibleStates 'movement' }}>
+			<summary>{{localize 'T20.Movement'}}</summary>
+			<span class='content'>
+				<div class='form-group'>
+					<label for='aewizard-skill'>
+						{{localize 'T20.EffectWizard.EnterMovement.Label'}}
+					</label>
+					<span class='form-fields'>
+						<select name='currMovement' class='target'>
+							{{selectOptions movementSuggestions selected=currMovement}}
+						</select>
+					</span>
+				</div>
+				<div class='flexrow button-list'>
+					<button type='button' data-key='base' data-action='addChange'>
+						{{localize 'T20.Value'}}
+					</button>
+					<button type='button' data-key='bonus' data-action='addChange'>
+						{{localize 'T20.Bonus'}}
+					</button>
+				</div>
+			</span>
+		</details>
+		<details data-category='derived' {{collapsible collapsibleStates 'derived' }}>
+			<summary>{{localize 'T20.Derived'}}</summary>
+			<span class='content'>
+				<ul class='unmarked-list other-presets'>
+					{{#each derivedPresets}}
+						<li>
+							<button type='button' data-key='{{key}}' data-action='addChange'>
+								{{label}}
+							</button>
+						</li>
+					{{/each}}
+				</ul>
+			</span>
+		</details>
+		<details data-category='onUse' {{collapsible collapsibleStates 'onUse' }}>
+			<summary>{{ localize 'T20.OnUseEffects' }}</summary>
+			<span class="content">
+				<div class="form-fields form-checks">
+					<label class="main-label"><input type="checkbox" name="flags.tormenta20.onuse" {{ checked effect.flags.tormenta20.onuse }} /> {{ localize 'T20.OnUseEffect' }}</label>
+					<label><input type="checkbox" name="flags.tormenta20.self" {{ checked effect.flags.tormenta20.self }} /> {{ localize 'T20.ApplyToSelf' }}</label>
+					<label><input type="checkbox" name="flags.tormenta20.attack" {{ checked effect.flags.tormenta20.attack }} /> {{ localize 'T20.Attack' }}</label>
+					<label><input type="checkbox" name="flags.tormenta20.skill" {{ checked effect.flags.tormenta20.skill }} /> {{ localize 'T20.Skill' }}</label>
+					<label><input type="checkbox" name="flags.tormenta20.ability" {{ checked effect.flags.tormenta20.ability }} /> {{ localize 'T20.Ability' }}</label>
+					<label><input type="checkbox" name="flags.tormenta20.power" {{ checked effect.flags.tormenta20.power }} /> {{ localize 'T20.Power' }}</label>
+					<label><input type="checkbox" name="flags.tormenta20.equipment" {{ checked effect.flags.tormenta20.equipment }} /> {{ localize 'T20.Equipment' }}</label>
+					<label><input type="checkbox" name="flags.tormenta20.spell" {{ checked effect.flags.tormenta20.spell }} /> {{ localize 'T20.Spell' }}</label>
+					<label><input type="checkbox" name="flags.tormenta20.consumable" {{ checked effect.flags.tormenta20.consumable }} /> {{ localize 'T20.Consumable' }}</label>
+				</div>
+
+				<div class="form-group">
+					<label>{{ localize 'T20.SpecificItems'}}:</label>
+					<div class="form-fields">
+						<input type="text" name="flags.tormenta20.items" value="{{effect.flags.tormenta20.items}}" data-dtype="String" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label for="ae.aumenta">{{ localize 'T20.AllowMultApply'}}</label>
+					<div class="form-fields">
+						<input type="checkbox" id="ae.aumenta" name="flags.tormenta20.aumenta" {{ checked effect.flags.tormenta20.aumenta }} />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label>{{ localize  'T20.PMCost'}}</label>
+					<div class="form-fields">
+						<input type="text" name="flags.tormenta20.custo" value="{{ effect.flags.tormenta20.custo }}" />
+					</div>
+				</div>
+			</span>
+		</details>
+		<details data-category='duration' {{collapsible collapsibleStates 'duration' }}>
+			<summary>{{localize "EFFECT.TABS.duration"}}</summary>
+			<span class="content">
+				{{!-- <div class='form-group turns'>
+					<label for='aewizard-duration'>{{localize 'COMBAT.Rounds'}}</label>
+					<span class='form-fields'>
+						<input id='aewizard-duration' type='number' name='duration.rounds' value='{{effect.duration.rounds}}' data-dtype='Number'/>
+					</span>
+				</div> --}}
+				<div class="form-group">
+					<label for="aewizard-durationScene">{{localize "T20.TimeScene"}}</label>
+					<div class="form-fields">
+						<input type="checkbox" id="aewizard-durationScene" name="flags.tormenta20.durationScene" {{ checked effect.flags.tormenta20.durationScene }} />
+					</div>
+				</div>
+				{{!-- <div class='form-group behavior'>
+					<label>{{localize 'T20.Expiration.Behavior'}}</label>
+					<span class='form-fields'>
+						<select name='system.expiration' data-dtype='Number'>
+							{{selectOptions expirationOptions localize=true selected=effect.system.expiration blank='SWADE.Expiration.None' }}
+						</select>
+					</span>
+				</div> --}}
+			</span>
+		</details>
+		<details data-category='globalMod' {{collapsible collapsibleStates 'globalMod' }}>
+			<summary>{{localize 'T20.GlobalMod.Label'}}</summary>
+			<span class='content'>
+				<ul class='unmarked-list other-presets'>
+					{{#each globalModPresets}}
+						<li>
+							<button type='button' data-key='{{key}}' data-action='addChange'>
+								{{label}}
+							</button>
+						</li>
+					{{/each}}
+				</ul>
+			</span>
+		</details>
+		<details data-category='other' {{collapsible collapsibleStates 'other' }}>
+			<summary>{{localize 'T20.EffectWizard.OtherStats'}}</summary>
+			<span class='content'>
+				<ul class='unmarked-list other-presets'>
+					{{#each otherPresets}}
+						<li>
+							<button type='button' data-key='{{key}}' data-action='addChange'>
+								{{label}}
+							</button>
+						</li>
+					{{/each}}
+				</ul>
+			</span>
+		</details>
+	</section>
+</section>

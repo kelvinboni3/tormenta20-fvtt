@@ -1,0 +1,211 @@
+<form autocomplete="off">
+
+	<!-- Effect Header -->
+	<header class="sheet-header">
+		<img class="effect-icon" src="{{ effect.img }}" data-edit="icon">
+		<h3 class="effect-title">{{ effect.name }}</h1>
+	</header>
+
+	<!-- Effect Configuration Tabs -->
+	<nav class="sheet-tabs tabs">
+		<a class="item" data-tab="details"><i class="fas fa-book"></i> {{ localize 'T20.Details' }}</a>
+		<a class="item" data-tab="duration"><i class="fas fa-clock"></i> {{ localize 'T20.Duration' }}</a>
+		<a class="item" data-tab="effects"><i class="fas fa-cogs"></i> {{ localize 'T20.Effects' }}</a>
+	</nav>
+
+	<!-- Details Tab -->
+	<section class="tab" data-tab="details">
+
+		<div class="form-group">
+			<label>{{ localize "EFFECT.Name" }}</label>
+			<div class="form-fields">
+				<textarea name="name">{{ effect.name }}</textarea>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>{{ localize "EFFECT.Image" }}</label>
+			<div class="form-fields">
+				{{filePicker target="icon" type="image"}}
+				<input class="image" type="text" name="icon" placeholder="path/image.png" value="{{effect.icon}}" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>{{ localize "EFFECT.Tint" }}</label>
+			<div class="form-fields">
+				<input class="color" type="text" name="tint" value="{{effect.tint}}" />
+				<input type="color" value="{{effect.tint}}" data-edit="tint" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>{{ localize 'T20.EffectStatusType' }}: </label>
+			<div class="form-fields form-checks">
+				<label><input type="checkbox" name="flags.tormenta20.onuse" {{ checked effect.flags.tormenta20.onuse }} /> <br> {{ localize 'T20.OnUseEffect' }}</label>
+				<label><input type="checkbox" name="disabled" {{ checked effect.disabled }} /> <br> {{ localize "EFFECT.Disabled" }}</label>
+				{{#if isItemEffect}}
+					<label><input type="checkbox" name="transfer" {{ checked effect.transfer }} /> <br> {{ localize "EFFECT.Transfer" }}</label>
+				{{/if}}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>{{ localize 'T20.ApplyTo' }}: </label>
+			<div class="form-fields form-checks">
+				<label><input type="checkbox" name="flags.tormenta20.self" {{ checked effect.flags.tormenta20.self }} /> {{ localize 'T20.ApplyToSelf' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.attack" {{ checked effect.flags.tormenta20.attack }} /> {{ localize 'T20.Attack' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.skill" {{ checked effect.flags.tormenta20.skill }} /> {{ localize 'T20.Skill' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.ability" {{ checked effect.flags.tormenta20.ability }} /> {{ localize 'T20.Ability' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.power" {{ checked effect.flags.tormenta20.power }} /> {{ localize 'T20.Power' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.equipment" {{ checked effect.flags.tormenta20.equipment }} /> {{ localize 'T20.Equipment' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.spell" {{ checked effect.flags.tormenta20.spell }} /> {{ localize 'T20.Spell' }}</label>
+				<label><input type="checkbox" name="flags.tormenta20.consumable" {{ checked effect.flags.tormenta20.consumable }} /> {{ localize 'T20.Consumable' }}</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>{{ localize 'T20.SpecificItems'}}:</label>
+			<div class="form-fields">
+				<input type="text" name="flags.tormenta20.items" value="{{effect.flags.tormenta20.items}}" data-dtype="String" />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>{{ localize 'T20.AllowMultApply'}}</label>
+			<label>
+				<input type="checkbox" name="flags.tormenta20.aumenta" {{ checked effect.flags.tormenta20.aumenta }} />
+			</label>
+		</div>
+
+		<div class="form-group">
+			<label>{{ localize  'T20.Cost'}}</label>
+			<div class="form-fields">
+				<input type="text" name="flags.tormenta20.custo" value="{{ effect.flags.tormenta20.custo }}" />
+			</div>
+		</div>
+
+		<div class="form-group hidden">
+			<label>{{ localize "EFFECT.Origin" }} ({{ _sourceName }})</label>
+			<div class="form-fields">
+				<input type="text" name="origin" value="{{ effect.origin }}" disabled />
+			</div>
+		</div>
+
+
+		<div class="form-group stacked">
+			<label>{{ localize "EFFECT.Description" }}</label>
+			<div class="form-fields">
+				{{editor descriptionHTML target="description" compact=true button=false editable=editable engine="prosemirror" collaborate=false}}
+			</div>
+		</div>
+	</section>
+
+	<!-- Duration Tab -->
+	<section class="tab" data-tab="duration">
+		<div class="form-group">
+			<label>{{ localize "EFFECT.DurationSecs" }}</label>
+			<div class="form-fields">
+				<input type="number" name="duration.seconds" value="{{ effect.duration.seconds }}" />
+			</div>
+		</div>
+		{{#if startTimeString}}
+			<div>
+				{{ startTimeString }}
+				{{#if durationString}}
+					->
+					{{durationString}}
+				{{/if}}
+			</div>
+		{{/if}}
+
+		<div class="form-group">
+			<label>{{ localize "EFFECT.StartTime" }}</label>
+			<div class="form-fields">
+				<input type="number" name="duration.startTime" value="{{ effect.duration.startTime }}" />
+			</div>
+		</div>
+
+
+
+		<hr />
+		<div class="form-group">
+			<label>{{ localize "EFFECT.DurationTurns" }}</label>
+			<div class="form-fields">
+				<label>{{ localize "COMBAT.Rounds" }}</label>
+				<input type="number" name="duration.rounds" value="{{ effect.duration.rounds }}" />
+				<label>{{ localize "COMBAT.Turns" }}</label>
+				<input type="number" name="duration.turns" value="{{ effect.duration.turns }}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label>{{ localize "EFFECT.Combat" }}</label>
+			<div class="form-fields">
+				<input type="text" name="duration.combat" value="{{ effect.duration.combat }}" disabled />
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label>{{ localize "EFFECT.StartTurns" }}</label>
+			<div class="form-fields">
+				<label>{{ localize "COMBAT.Round" }}</label>
+				<input type="number" name="duration.startRound" value="{{ effect.duration.startRound }}" />
+				<label>{{ localize "COMBAT.Turn" }}</label>
+				<input type="number" name="duration.startTurn" value="{{ effect.duration.startTurn }}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label>{{localize 'T20.TimeScene'}}:</label>
+			<label><input type="checkbox" name="flags.tormenta20.durationScene" {{ checked effect.flags.tormenta20.durationScene }} /></label>
+		</div>
+	</section>
+
+	<!-- Effects Tab -->
+	<section class="tab" data-tab="effects">
+		<header class="effect-change effects-header flexrow">
+			<div class="key">{{ localize "EFFECT.ChangeKey" }}</div>
+			<div class="mode">{{ localize "EFFECT.ChangeMode" }}</div>
+			<div class="value">{{ localize "EFFECT.ChangeValue" }}</div>
+			<div style='flex:0 0 30px' class="priority" title="{{ localize 'EFFECT.ChangePriority' }}"><i class="fa-solid fa-weight-hanging"></i></div>
+			<div class="effect-controls">
+				<a class="effect-control" data-action="add"><i class="far fa-plus-square"></i></a>
+			</div>
+		</header>
+		<ol class="changes-list">
+			{{#each effect.changes as |change i|}}
+				<li class="effect-change flexrow" data-index="{{i}}">
+					<!--
+				<div class="formgroup">
+					<div class="keylist">
+						<select name="selectedKey" data-dtype="String">
+							<option>Select pra auxiliar nas variaveis</option>
+						</select>
+					</div>
+				</div>
+				-->
+					<div class="key">
+						<input class="keyinput" type="text" name="changes.{{i}}.key" value="{{change.key}}" />
+					</div>
+					<div class="mode">
+						<select name="changes.{{i}}.mode" data-dtype="Number">
+							{{selectOptions ../modes selected=change.mode}}
+						</select>
+					</div>
+					<div class="value">
+						<input type="text" name="changes.{{i}}.value" value="{{change.value}}" />
+					</div>
+					<div style='flex:0 0 30px' class="priority">
+						<input type="text" name="changes.{{i}}.priority" value="{{change.priority}}" />
+					</div>
+					<div class="effect-controls">
+						<a class="effect-control" data-action="delete"><i class="fas fa-trash"></i></a>
+					</div>
+				</li>
+			{{/each}}
+		</ol>
+	</section>
+
+	<footer class="sheet-footer">
+		<button type="submit"><i class="fas fa-save"></i> {{localize submitText}}</button>
+	</footer>
+</form>

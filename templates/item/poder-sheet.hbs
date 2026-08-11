@@ -1,0 +1,144 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+	{{!-- Item Sheet Header --}}
+	{{> "tormenta20.item-header"}}
+
+	{{!-- Item Sheet Navigation --}}
+	<nav class="sheet-tabs tabs" data-group="primary">
+		<a class="item" data-tab="description">{{ localize "T20.Description" }}</a>
+		<a class="item" data-tab="details">{{ localize "T20.Details" }}</a>
+		<a class="item" data-tab="effects">{{ localize "T20.Effects" }}</a>
+	</nav>
+
+	{{!-- Sheet Body --}}
+	<section class="sheet-body">
+		{{!-- Description Tab --}}
+		{{> "tormenta20.item-description"}}
+
+		<div class="tab details" data-group="primary" data-tab="details">
+			<div class="form-group">
+				<label>{{ localize "T20.Type" }}</label>
+				<div class="form-fields">
+					<select name="system.tipo">
+						{{selectOptions config.powerType selected=item.system.tipo localize=true}}
+					</select>
+					<input type="text" title="Subtipo" list="list-subtipo" name="system.subtipo" value="{{item.system.subtipo}}"/>
+					<datalist id="list-subtipo">
+						{{selectOptions config.powerSubType localize=true}}
+					</datalist>
+				</div>
+			</div>
+			<div class="form-group input-select">
+				<label>{{localize "T20.PMCost"}}</label>
+				<div class="form-fields">
+					<input
+						type="number"
+						name="system.ativacao.custo"
+						value="{{item.system.ativacao.custo}}"
+						data-dtype="Number"
+						placeholder="0"
+					/>
+				</div>
+			</div>
+			<div class="form-group input-select">
+				<label>{{localize "T20.ActivationCost"}}</label>
+				<div class="form-fields">
+					<select name="system.ativacao.execucao">
+						{{selectOptions config.abilityActivationTypes selected=item.system.ativacao.execucao localize=true}}
+					</select>
+					{{#if (eq system.ativacao.execucao "special")}}
+						<div class="form-fields">
+							<input
+								type="text"
+								placeholder="{{localize 'T20.Description'}}"
+								title="{{localize 'T20.Description'}}"
+								name="system.ativacao.special"
+								value="{{item.system.ativacao.special}}"
+							/>
+						</div>
+					{{else}}
+						<input type="hidden" name="system.ativacao.special" value="" />
+					{{/if}}
+					{{#if (includes item.system.ativacao.execucao "minute" "hour" "day")}}
+						<div class="form-fields">
+							<input
+								type="text"
+								name="system.ativacao.qtd"
+								value="{{item.system.ativacao.qtd}}"
+								placeholder="{{localize 'T20.Quantity'}}"
+								title="{{localize 'T20.Quantity'}}"
+							/>
+						</div>
+					{{else}}
+						<input type="hidden" name="system.ativacao.qtd" value="" />
+					{{/if}}
+				</div>
+			</div>
+			<div class="form-group input-select">
+				<label>{{localize "T20.Range"}}</label>
+				<div class="form-fields">
+					{{#if (or (eq item.system.alcance "m") (eq item.system.alcance "km"))}}
+						<input type="text" name="system.range.value" value="{{item.system.range.value}}" data-dtype="Number" />
+					{{/if}}
+					<select name="system.alcance">
+						{{selectOptions config.distanceUnits selected=item.system.alcance localize=true}}
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>{{localize "T20.Area"}}</label>
+				<div class="form-fields">
+					<input type="text" name="system.area" value="{{item.system.area}}" data-dtype="String" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label>{{localize "T20.Effect"}}</label>
+				<div class="form-fields">
+					<input type="text" name="system.efeito" value="{{item.system.efeito}}" data-dtype="String" />
+				</div>
+			</div>
+			<div class="form-group input-select">
+				<label>{{localize "T20.Duration"}}</label>
+				<div class="form-fields">
+					{{#if (includes item.system.duracao.units "round" "turn" "minute" "hour" "day" "month" "year")}}
+						<input
+							type="text"
+							name="system.duracao.value"
+							value="{{item.system.duracao.value}}"
+							placeholder="{{localize 'T20.Quantity'}}"
+						/>
+					{{/if}}
+					<select name="system.duracao.units">
+						{{selectOptions config.timePeriods selected=item.system.duracao.units localize=true}}
+					</select>
+					{{#if (eq item.system.duracao.units "special")}}
+						<input
+							type="text"
+							name="system.duracao.special"
+							value="{{item.system.duracao.special}}"
+							placeholder="{{localize 'T20.Description'}}"
+						/>
+					{{/if}}
+				</div>
+			</div>
+
+			{{> "tormenta20.item-resistencia"}}
+
+			<hr>
+			{{!-- Rolls --}}
+			{{> "tormenta20.item-rolls"}}
+
+			<hr>
+			{{{rolltags}}}
+			{{!-- Chat Message Flavor --}}
+			<div class="form-group stacked">
+				<label>{{ localize "T20.ChatFlavor" }}</label>
+				<textarea name="system.chatFlavor">{{item.system.chatFlavor}}</textarea>
+			</div>
+		</div>
+
+		{{!-- Effects Tab --}}
+		<div class="tab effects" data-group="primary" data-tab="effects">
+			{{> "tormenta20.active-effects"}}
+		</div>
+	</section>
+</form>

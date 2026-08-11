@@ -1,0 +1,20 @@
+<div class="tab enchantments" data-group="primary" data-tab="enchantments">
+	{{#if (eq item.type "arma")}}
+	<div class="form-group">
+		<label class="tooltip">{{localize 'T20.WeaponEnchantmentLan'}} <i class="fas fa-question-circle" data-tooltip="{{localize 'T20.WeaponEnchantmentLanHint'}}"></i></label>
+		<div class="form-fields">
+			<input type="checkbox" name="system.encantos.lancinante" value="{{item.system.encantos.lancinante}}" {{checked item.system.encantos.lancinante}} data-dtype="Boolean"/>
+		</div>
+	</div>
+	{{#if TODOCREATE }}
+	<div class="form-group stacked weapon-properties">
+		{{#each config.encantosArmas as |prop|}}
+		<label class="checkbox tooltip">
+			<input type="checkbox" name="system.encantos.{{id}}" value="{{id}}" {{checked (lookup ../system.encantos prop)}} data-dtype="Boolean"/> {{ name }}
+			<i class="fas fa-question-circle"></i><div class="tooltipcontent">{{prop.tooltip}}</div>
+		</label>
+		{{/each}}
+	</div>
+	{{/if}}
+	{{/if}}
+</div>

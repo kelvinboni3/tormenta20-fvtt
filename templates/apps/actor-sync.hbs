@@ -1,0 +1,35 @@
+<form autocomplete="off">
+	{{log this}}
+	<div class="flexcol">
+		{{#each categorys as |category c|}}
+			<div class="flexcol">
+				<h3>{{{c}}}</h3>
+				{{#each category as |item i|}}
+				<div class="flexrow">
+					<div class="item-controls" style="flex:0 0 100px;">
+						<input type="checkbox" name="update">
+						<input type="checkbox" name="lock">
+						<input type="checkbox" name="unlink">
+					</div>
+					<div class="item flex2">{{{item.uuid}}} | {{{item.sourceId}}}</div>
+					<div class="statuses flexrow" style="flex:0 0 100px;">
+						<div class="item" data-tooltip="{{item.name_diff}}" style="color:{{ift item.name 'green' 'red'}};">
+							<i class="fa-solid fa-signature"></i>
+						</div>
+						<div class="item " data-tooltip="{{item.flags_diff}}" style="color:{{ift item.flags 'green' 'red'}};">
+							<i class="fa-solid fa-flag"></i>
+						</div>
+						<div class="item " data-tooltip="{{item.system_diff}}" style="color:{{ift item.system 'green' 'red'}};">
+							<i class="fa-solid fa-file-invoice"></i>
+						</div>
+						<div class="item" style="color:{{ift item.effects 'green' 'red'}};">
+							<i class="fa-solid fa-bahai"></i>
+						</div>
+					</div>
+				</div>
+				<hr>
+				{{/each}}
+			</div>
+		{{/each}}
+	</div>
+</form>

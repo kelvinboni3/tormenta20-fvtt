@@ -1,0 +1,36 @@
+<form autocomplete="off">
+	<p class="notes">Configure o deslocamento e deslocamentos especiais dessa criatura.</p>
+	<div class="form-group">
+		<label>{{ localize 'T20.MovementWalk'}}</label>
+		<input name="system.attributes.movement.walk.base" type="number" min="0" step="1.5" value="{{movement.walk.base}}" />
+	</div>
+	<div class="form-group">
+		<label>{{ localize 'T20.MovementClimb'}}</label>
+		<input name="system.attributes.movement.climb.base" type="number" min="0" step="1.5" value="{{movement.climb.base}}" />
+	</div>
+	<div class="form-group">
+		<label>{{ localize 'T20.MovementBurrow'}}</label>
+		<input name="system.attributes.movement.burrow.base" type="number" min="0" step="1.5" value="{{movement.burrow.base}}" />
+	</div>
+	<div class="form-group">
+		<label>{{ localize 'T20.MovementSwim'}}</label>
+		<input name="system.attributes.movement.swim.base" type="number" min="0" step="1.5" value="{{movement.swim.base}}" />
+	</div>
+	<div class="form-group">
+		<label>{{ localize 'T20.MovementFly'}}</label>
+		<input name="system.attributes.movement.fly.base" type="number" min="0" step="1.5" value="{{movement.fly.base}}" />
+	</div>
+	<div class="form-group">
+		<label>{{ localize 'T20.MovementHover'}}</label>
+		<input name="system.attributes.movement.hover" type="checkbox" {{checked movement.hover}} />
+	</div>
+	<div class="form-group">
+		<label>TAGS</label>
+		{{formInput
+			schema.tags
+			value=movement.tags
+			localize=true
+		}}
+	</div>
+	<button type="submit" name="submit" value="1"><i class="far fa-save"></i> {{ localize 'T20.Submit'}}</button>
+</form>

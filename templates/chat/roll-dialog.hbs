@@ -1,0 +1,49 @@
+<form>
+    {{#if formula}}
+    <div class="form-group">
+        <label>Fórmula da Jogada</label>
+        <input type="text" name="formula" value="{{formula}}" disabled/>
+    </div>
+    <div class="form-group">
+        <label>Aplicar Bônus ou Penalidade?</label>
+        <input type="text" name="bonus" value="" placeholder="ex. +1d4 ou -3"/>
+    </div>
+    {{/if}}
+
+    {{#if formuladano}}
+    <div class="form-group">
+        <label>Fórmula do Dano</label>
+        <input type="text" name="formuladano" value="{{formuladano}}" disabled/>
+        {{#if formuladanocritico}}
+        <label>Crítico</label>
+        <input type="text" name="formuladanocritico" value="{{formuladanocritico}}" disabled/>        
+    {{/if}}
+    </div>
+    <div class="form-group">
+        <label>Aplicar Bônus ou Penalidade?</label>
+        <input type="text" name="bonusdano" value="" placeholder="ex. +1d4 ou -4"/>
+    </div>
+    {{/if}}
+
+    {{#if custo}}
+    <div class="form-group">
+        <label>Custo em Pontos de Mana</label>
+        <input type="text" name="custo" value="{{custo}}" disabled/>
+    </div>
+    <div class="form-group">
+        <label>Aumentar ou Diminuir esse Custo? (Mínimo 1)</label>
+        <input type="text" name="ajustecusto" value="" placeholder="ex. +3 ou -2"/>
+    </div>
+    {{/if}}
+
+    <div class="form-group">
+        <label>Roll Mode</label>
+        <select name="rollMode">
+        {{#select rollMode}}
+        {{#each rollModes as |label mode|}}
+            <option value="{{mode}}">{{localize label}}</option>
+        {{/each}}
+        {{/select}}
+        </select>
+    </div>
+</form>

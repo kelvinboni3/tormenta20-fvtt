@@ -1,0 +1,17 @@
+{{#with system.attributes.carga as | carga | }}
+{{#if carga.max}}
+<div class="encumbrance{{#if carga.encumbered}} encumbered{{/if}}" title="{{localize T20.Encumbrance}}">
+	<span class="encumbrance-bar" style="width:{{carga.pct}}%"></span>
+	<div class="encumbrance-label">
+		<span>Carga: {{carga.value}} / Sobrecarga: {{carga.limit}}</span>
+		{{#if (or isVehicle isSimple)}}
+		<span>Limite: <input type="number" style="width:40px;color: white;" name="system.attributes.carga.max" value="{{carga.max}}"></span>
+		{{else}}
+		<span>Limite: {{carga.max}}</span>
+		{{/if}}
+	</div>
+	<i class="encumbrance-breakpoint encumbrance-50 arrow-up"></i>
+	<i class="encumbrance-breakpoint encumbrance-50 arrow-down"></i>
+</div>
+{{/if}}
+{{/with}}

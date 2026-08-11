@@ -1,0 +1,54 @@
+<ol class="choicesets">
+	{{#each system.grants as | grant |}}
+	<ol class="choiceset" data-id="{{@key}}">
+		<div class="form-group">
+			<label>{{localize "T20.Name"}}</label>
+			<div class="form-fields">
+				<input type="text" name="system.grants.{{@../key}}.title" value="{{grant.title}}" />
+				<div class="item-controls">
+					<a type="button" data-action="delete-choiceset">
+						<i class="fa fa-trash"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label>{{localize "T20.Description"}}</label>
+			<div class="form-fields">
+				<input type="text" name="system.grants.{{@../key}}.desc" value="{{grant.desc}}">
+			</div>
+		</div>
+		<hr>
+		{{#if grant.choices.length}}
+		<li class="form-group items-field">
+			<div>{{localize "DOCUMENT.Items"}}</div>
+		</li>
+		{{/if}}
+		{{#each grant.choices}}
+		<li class="form-group choiceset-item" data-uuid="{{this.uuid}}" data-id="{{@index}}">
+			<div class="item flexrow">
+				<img src="{{this.img}}" height="32" width="32">
+				<div class="item-name">
+					<label>{{this.name}}</label>
+					<span class="item-controls">
+						<a data-action="delete-item">
+							<i class="fa fa-xmark"></i>
+						</a>
+					</span>
+				</div>
+			</div>
+			<input type="text" name="system.grants.{{@../../key}}.choices.{{@index}}.uuid" value="{{this.uuid}}" hidden>
+			<input type="text" name="system.grants.{{@../../key}}.choices.{{@index}}.img" value="{{this.img}}" hidden>
+			<input type="text" name="system.grants.{{@../../key}}.choices.{{@index}}.name" value="{{this.name}}" hidden>
+		</li>
+		<hr>
+		{{/each}}
+		<div class="drop-zone">{{localize "T20.DropItemsHere"}}</div>
+	</ol>
+	{{/each}}
+</ol>
+<footer>
+	<button type="button" data-action="add-choiceset">
+		<i class="fa fa-plus"></i>{{localize "T20.AddItemGrant"}}
+	</button>
+</footer>

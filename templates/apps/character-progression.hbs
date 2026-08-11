@@ -1,0 +1,127 @@
+<form class="tormenta20 builder" autocomplete="off">
+	{{!-- Sheet Header --}}
+	{{!-- flags.tormenta20.character-planner --}}
+	<div class="flexrow">
+		<section class="flexcol">
+			<article class="abilities flexcol">
+				<h3>{{localize "T20.Abilities"}}</h3>
+				<div class="form-group">
+				<label for="">{{localize "T20.AbilityGenerationRule"}}</label>
+				<select class="" name="flags.tormenta20.character-planner.abl-gen-rule" value="{{flags.tormenta20.character-planner.abl-gen-rule}}">
+					{{#select flags.tormenta20.character-planner.abl-gen-rule}}
+					<option value="roll-4d6">{{localize "T20.AGR.Rolling"}} (4d6)</option>
+					<option value="pointbuy-20">{{localize "T20.AGR.PointBuy"}} (20)</option>
+					{{/select}}
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="">{{localize "T20.RacialAbilityRule"}}</label>
+				<select class="" name="flags.tormenta20.character-planner.abl-racial" value="{{flags.tormenta20.character-planner.abl-racial}}">
+					{{#select flags.tormenta20.character-planner.racial-abl-rule}}
+					<option value="core">{{localize "T20.RAR.Default"}}</option>
+					<option value="flex">{{localize "T20.RAR.Flex"}}</option>
+					{{/select}}
+				</select>
+			</div>
+				<div class="flexrow">
+					<span>{{localize "T20.Ability"}}</span>
+					<span>{{localize "T20.Total"}}</span>
+					<span>{{localize "T20.Initial"}}</span>
+					<span>{{localize "T20.Racial"}}</span>
+					<span>{{localize "T20.Raise"}}</span>
+				</div>
+				{{#each config.atributosAbr as |abl val|}}
+					<div class="flexrow">
+						<span>{{val}}</span>
+						<span>0</span>
+						<span><input type="number" value="0"></span>
+						<span>0</span>
+						<span>0</span>
+					</div>
+				{{/each}}
+			</article>
+			<article class="race flexcol">
+				<h3>{{localize "T20.Race"}}</h3>
+				{{#if race }}
+				{{else}}
+				<span>race</span>
+				{{/if}}
+			</article>
+			<article class="biography flexcol">
+				<h3>{{localize "T20.Biography"}}</h3>
+				{{#if background }}
+				{{else}}
+				<span>biography</span>
+				{{/if}}
+			</article>
+			<article class="devotion flexcol">
+				<h3>{{localize "T20.Devotion"}}</h3>
+				{{#if devotion }}
+				{{else}}
+				<span>devotion</span>
+				{{/if}}
+			</article>
+		</section>
+		<section class="flexcol">
+			{{#each levels as |lvl| }}
+				<article class="level flexcol">
+					<h3>{{localize "T20.Level"}}</h3>
+					{{#if lvl }}
+					{{else}}
+					<span></span>
+					{{/if}}
+				</article>
+			{{/each}}
+			<div class="form-group">
+				<label for=""></label>
+			</div>
+			
+		</section>
+		{{#if false }}
+		<section class="sheet-body flexcol">
+			{{#each this.choices as | a b | }}
+				<span class="choice flexcol">
+					<span>{{a}}</span>
+					<span class="drop">DROP AREA</span>
+				</span>
+			{{/each}}
+		</section>
+		{{/if}}
+	</div>
+</form>
+
+<style>
+	.tormenta20.builder header {
+		min-height: 300px;
+	}
+	.tormenta20.builder span {
+		padding: 5px;
+		text-align: center;
+		border: 1px dashed brown;
+	}
+
+	.tormenta20.builder .sheet-body {
+		min-height: 1080px;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		flex-wrap: wrap;
+	}
+	.tormenta20.builder span.drop {
+		padding: 15px;
+	}
+
+	.tormenta20.builder .sheet-body span.choice {
+		box-sizing: border-box;
+		max-width: 50%;
+		max-height: 100px;
+	}
+
+	.tormenta20.builder .char-info {
+		float: left;
+	}
+	.tormenta20.builder .char-stats {
+		float: right;
+	}
+
+</style>

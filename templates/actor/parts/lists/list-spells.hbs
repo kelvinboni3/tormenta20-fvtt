@@ -1,0 +1,61 @@
+<ul class="item-list">
+	<li class="item item-header" style="text-align: center;">
+		{{#if isNPC}}
+			<label>{{localize 'T20.SpellDC'}} {{system.attributes.cd}}</label>
+		{{else}}
+			{{#each system.atributos as |atr key|}}
+			{{#if (eq key ../system.attributes.conjuracao)}}
+			<label>{{localize 'T20.SpellDC'}} {{add ../system.attributes.cd atr.value}} =</label>
+			<label title="{{localize 'T20.SpellDCFormula'}}">{{../system.attributes.cd}} +</label>
+			{{/if}}
+			{{/each}}
+			<select class="selectAtr" title="{{localize 'T20.KeyAbility'}}" name="system.attributes.conjuracao">
+				{{selectOptions config.atributos selected=system.attributes.conjuracao localize=true blank=''}}
+			</select>
+			<a class="update-cd" title="{{localize 'T20.UpdateSpellKeyAbility'}}" data-atrRes="{{system.attributes.conjuracao}}"><i class="fas fa-sync"></i></a>
+		{{/if}}
+	</li>
+	{{#each actor.magias as |circulo i|}}
+	{{#if circulo.spells.length}}
+	<ol class="item-list">
+		<li class="item flexrow item-header">
+			{{#if ../isPreparationCaster}}<div class="item-toggles">{{localize 'T20.SpellPrepPreparedAbbr'}}</div>{{/if}}
+			<div class="item-name flex2">{{i}}º {{localize 'T20.SpellCircle'}} ({{circulo.custo}} {{localize 'T20.MP'}})</div>
+			<div class="item-type">{{localize 'T20.SpellSchool'}}</div>
+			<div class="item-activation">{{localize 'T20.Activation'}}</div>
+			<div class="item-controls">
+				<a class="item-control item-create" title="{{localize 'T20.Add'}} {{localize 'T20.Spell'}}" data-type="magia" data-circulo="{{i}}" data-custo="{{circulo.custo}}" data-atrRes="{{../system.attributes.conjuracao}}"><i class="fas fa-plus"></i> {{localize 'T20.Add'}}</a>
+			</div>
+		</li>
+		{{#each circulo.spells as |m index|}}
+		<li class="item flexrow" data-item-id="{{m._id}}">
+			{{#if (and @root.isPreparationCaster (ne m.system.tipo 'eng')) }}
+			<div class="item-toggles">
+				<a class="item-toggle preparation-toggle {{#if m.system.preparada }}active{{/if}}" title="{{localize 'T20.SpellPrepPrepared'}}"><i class="fas fa-sun"></i></a>
+			</div>
+			{{/if}}
+			{{#if (and @root.equipmentSlots (eq m.system.tipo 'eng')) }}
+			<div class="item-toggles">
+				<a class="item-toggle toggle-armor {{#if m.equipado.slot }}active{{/if}}" title="{{localize 'T20.SpellPrepPrepared'}}">
+					<span class="fa-stack">
+						{{{m.equipado.icon1}}}
+						{{{m.equipado.icon2}}}
+					</span>
+				</a>
+			</div>
+			{{/if}}
+			<div class="item-name flexrow rollable flex2" data-label="{{m.name}}">
+				<div class="item-image" style="background-image: url('{{m.img}}')"></div>
+				<label>{{m.name}}</label>
+			</div>
+			<div class="item-type">{{m.labels.escola}}</div>
+			<div class="item-activation">
+				{{"t20-itemLabels" m}}
+			</div>
+			{{> "tormenta20.actor-item-controls" item=m }}
+		</li>
+		{{/each}}
+	</ol>
+	{{/if}}
+	{{/each}}
+</ul>

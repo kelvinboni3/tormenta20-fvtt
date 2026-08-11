@@ -1,0 +1,36 @@
+<ul class="attributes summary flexrow">
+	<li class="char-race">
+		<span {{#if actor.race}}class="item" data-item-id="{{actor.race._id}}"{{/if}}>
+			<a class="item-control {{#unless actor.race}}add-raca{{/unless}}" title="{{ localize 'T20.Edit'}}">
+				{{ifThen actor.race actor.race.name (localize 'T20.Race')}}
+			</a>
+		</span>
+	</li>
+	<li>
+		<input type="text" name="system.detalhes.origem" value="{{system.detalhes.origem}}" placeholder="{{ localize 'T20.Background'}}" />
+	</li>
+	<li class="char-class {{#unless actor.classes.length}}sem-classe{{/unless}} flexrow">
+		{{#if actor.classes.length }}
+		{{#each actor.classes as | class key | }}
+		<span class="item" data-item-id="{{class._id}}">
+			<a class="item-control" title="{{ localize 'T20.Edit'}}">
+				{{#if (eq ../actor.classes.length 1)}} {{class.name}} {{else}} {{class.abbr}} {{/if}}
+				{{class.system.niveis}}
+			</a>
+		</span>
+		{{/each}}
+		<a class="item-control class-config add-classe" title="{{ localize 'T20.Configure'}}">
+			<i class="fas fa-plus" style="float:right;margin-right: 5px;"></i>
+		</a>
+		{{else}}
+		<span data-item-id="{{class._id}}">
+			<a class="item-control add-classe"> {{ localize 'T20.Class'}} </a>
+		</span>
+		{{/if}}
+	</li>
+	{{#if mostrarDivindade }}
+	<li>
+		<input type="text" name="system.detalhes.divindade" value="{{system.detalhes.divindade}}" placeholder="{{ localize 'T20.Deity'}}" />
+	</li>
+	{{/if}}
+</ul>

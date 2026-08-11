@@ -1,0 +1,275 @@
+{
+  "id": "tormenta20",
+  "title": "Tormenta20",
+  "description": "Sistema NÃO OFICIAL de Tormenta20 para FoundryVTT!",
+  "version": "1.5.015",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14.365"
+  },
+  "authors": [{ "name": "Vizael" }],
+  "esmodules": ["tormenta20.mjs"],
+  "styles": ["tormenta20.css"],
+  "documentTypes": {
+    "Actor": {
+      "character": {
+        "htmlFields": [
+          "detalhes.biography.value",
+          "detalhes.biography.public",
+          "detalhes.diario.value",
+          "detalhes.diario1.value",
+          "detalhes.diario2.value",
+          "detalhes.diario3.value",
+          "detalhes.diario4.value",
+          "detalhes.diario5.value"
+        ]
+      },
+      "npc": {
+        "htmlFields": ["detalhes.biography.value", "detalhes.biography.public"]
+      },
+      "simple": {
+        "htmlFields": ["detalhes.biography.value", "detalhes.biography.public"]
+      },
+      "bases": {
+        "htmlFields": ["detalhes.biography.value", "detalhes.biography.public"]
+      },
+      "hazard": {
+        "htmlFields": ["detalhes.actions", "detalhes.effects", "detalhes.goal"]
+      }
+    },
+    "Item": {
+      "arma": {
+        "htmlFields": ["description.value", "description.unidentified"]
+      },
+      "equipamento": {
+        "htmlFields": ["description.value", "description.unidentified"]
+      },
+      "classe": {
+        "htmlFields": ["description.value", "description.unidentified"]
+      },
+      "comodo": {
+        "htmlFields": ["description.value", "description.unidentified"]
+      },
+      "consumivel": {
+        "htmlFields": ["description.value", "description.unidentified"]
+      },
+      "magia": {
+        "htmlFields": ["description.value", "description.unidentified"]
+      },
+      "mobilia": {
+        "htmlFields": ["description.value", "description.unidentified"]
+      },
+      "poder": {
+        "htmlFields": ["description.value", "description.unidentified"]
+      },
+      "race": {
+        "htmlFields": ["description.value", "description.unidentified"]
+      },
+      "tesouro": {
+        "htmlFields": ["description.value", "description.unidentified"]
+      }
+    }
+  },
+  "packs": [
+    {
+      "name": "racas",
+      "label": "Raças",
+      "system": "tormenta20",
+      "path": "./packs/racas",
+      "type": "Item"
+    },
+    {
+      "name": "classes",
+      "label": "Classes",
+      "system": "tormenta20",
+      "path": "./packs/classes",
+      "type": "Item"
+    },
+    {
+      "name": "poderes",
+      "label": "Poderes",
+      "system": "tormenta20",
+      "path": "./packs/poderes",
+      "type": "Item"
+    },
+    {
+      "name": "poderes-distincao",
+      "label": "Poderes de Distinção",
+      "system": "tormenta20",
+      "path": "./packs/poderes-distincao",
+      "type": "Item"
+    },
+    {
+      "name": "equipamentos",
+      "label": "Equipamentos",
+      "system": "tormenta20",
+      "path": "./packs/equipamentos",
+      "type": "Item"
+    },
+    {
+      "name": "equipamentos-magicos",
+      "label": "Itens Mágicos",
+      "system": "tormenta20",
+      "path": "./packs/equipamentos-magicos",
+      "type": "Item"
+    },
+    {
+      "name": "magias",
+      "label": "Magias",
+      "system": "tormenta20",
+      "path": "./packs/magias",
+      "type": "Item"
+    },
+    {
+      "name": "habilidades-de-criaturas",
+      "label": "Habilidades de Criaturas",
+      "system": "tormenta20",
+      "path": "./packs/habilidades-de-criaturas",
+      "type": "Item",
+      "ownership": {
+        "PLAYER": "LIMITED",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "pocoes",
+      "label": "Poções",
+      "system": "tormenta20",
+      "path": "./packs/pocoes",
+      "type": "Item"
+    },
+    {
+      "name": "parceiros",
+      "label": "Parceiros",
+      "system": "tormenta20",
+      "path": "./packs/parceiros",
+      "type": "Item"
+    },
+    {
+      "name": "ameacas",
+      "label": "Ameaças",
+      "system": "tormenta20",
+      "path": "./packs/ameacas",
+      "type": "Actor",
+      "ownership": {
+        "PLAYER": "LIMITED",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "convocacoes",
+      "label": "Convocações",
+      "system": "tormenta20",
+      "path": "./packs/convocacoes",
+      "type": "Actor",
+      "ownership": {
+        "PLAYER": "LIMITED",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "basico",
+      "label": "Livro Básico",
+      "system": "tormenta20",
+      "path": "./packs/basico",
+      "type": "JournalEntry"
+    },
+    {
+      "name": "tabelas-de-tesouro",
+      "label": "Tabelas de Tesouro",
+      "system": "tormenta20",
+      "path": "./packs/tabelas-de-tesouro",
+      "type": "RollTable"
+    },
+    {
+      "name": "macros",
+      "label": "Macros",
+      "system": "tormenta20",
+      "path": "./packs/macros",
+      "type": "Macro"
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Actors",
+      "sorting": "m",
+      "color": "#000000",
+      "packs": ["ameacas", "convocacoes"]
+    },
+    {
+      "name": "Items",
+      "sorting": "m",
+      "color": "#000000",
+      "packs": [
+        "racas",
+        "classes",
+        "poderes",
+        "poderes-distincao",
+        "equipamentos",
+        "equipamentos-magicos",
+        "magias",
+        "habilidades-de-criaturas",
+        "pocoes",
+        "parceiros"
+      ]
+    },
+    {
+      "name": "Journals",
+      "sorting": "m",
+      "color": "#000000",
+      "packs": ["basico"]
+    },
+    {
+      "name": "RollTables",
+      "sorting": "m",
+      "color": "#000000",
+      "packs": ["tabelas-de-tesouro"]
+    },
+    {
+      "name": "Macros",
+      "sorting": "m",
+      "color": "#000000",
+      "packs": ["macros"]
+    }
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/pt-BR.json"
+    },
+    {
+      "lang": "pt-BR",
+      "name": "Português",
+      "path": "lang/pt-BR.json"
+    }
+  ],
+  "flags": {
+    "hotReload": {
+      "extensions": ["css", "hbs", "json"],
+      "paths": ["tormenta20.css", "templates", "lang"]
+    }
+  },
+  "grid": {
+    "distance": 1.5,
+    "units": "m",
+    "diagonals": 3
+  },
+  "relationships": {
+    "recommends": [
+      {
+        "id": "vision-t20",
+        "type": "module",
+        "manifest": "https://github.com/mclemente/vision-t20/releases/latest/download/module.json"
+      }
+    ]
+  },
+  "primaryTokenAttribute": "attributes.pv",
+  "secondaryTokenAttribute": "attributes.pm",
+  "url": "https://gitlab.com/vizael/Tormenta20",
+  "manifest": "This is auto replaced",
+  "download": "This is auto replaced",
+  "changelog": "https://gitlab.com/vizael/Tormenta20/-/releases/",
+  "license": "https://gitlab.com/vizael/Tormenta20/-/blob/master/LICENSE",
+  "bugs": "https://gitlab.com/vizael/Tormenta20/-/issues"
+}

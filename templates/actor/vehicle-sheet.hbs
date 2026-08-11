@@ -1,0 +1,41 @@
+<form class="tormenta20 simple" autocomplete="off">
+	{{!-- Sheet Tab Navigation --}}
+	{{> "tormenta20.nav-bar"}}
+
+
+	{{!-- Sheet Body --}}
+	<section class="sheet-body">
+		{{!-- Sheet Header --}}
+		{{> "tormenta20.sheet-header-simple"}}
+
+		{{!-- Attributes Tab --}}
+		<div class="tab attributes active" data-group="primary" data-tab="attributes">
+			{{!-- Header Attributes --}}
+			<ul class="attributes flexrow">
+				{{!-- HP/MP Resources --}}
+				{{> "tormenta20.resources"}}
+				{{!-- Defense --}}
+				{{> "tormenta20.defense"}}
+			</ul>
+			<div class="traits">
+				{{> "tormenta20.traits"}}
+			</div>
+			<div class="inventory-list">
+				{{> "tormenta20.list-weapon"}}
+				{{> "tormenta20.list-equipment"}}
+				{{> "tormenta20.list-powers"}}
+				{{> "tormenta20.list-spells"}}
+				{{> "tormenta20.list-equipment"}}
+				{{> "tormenta20.list-consumable"}}
+				{{> "tormenta20.list-loot"}}
+				{{> "tormenta20.currency"}}
+				{{> "tormenta20.encumbrance"}}
+			</div>
+		</div>
+		{{!-- Biography Tab --}}
+		<div class="tab journal flexcol " data-group="primary" data-tab="journal">
+			{{editor htmlFields.biography target="system.detalhes.biography.value" button=true owner=owner editable=editable}}
+		</div>
+
+	</section>
+</form>

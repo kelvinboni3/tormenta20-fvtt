@@ -1,0 +1,30 @@
+<div>
+	<ul class="trait-list" style="columns:{{columns}};">
+		{{#each choices as |choice key|}}
+		<li>
+			<label class="checkbox">
+				<input type="checkbox" name="{{key}}" data-dtype="Boolean" {{checked choice.chosen}}>
+				{{localize choice.label}}
+			</label>
+			{{#if choice.choices }}
+			<ul class="trait-list">
+				{{#each choice.choices as |schoice skey|}}
+				<li>
+					<label class="checkbox">
+						<input type="checkbox" name="{{skey}}" data-dtype="Boolean" {{checked schoice.chosen}} {{disabled choice.chosen}}>
+						{{localize schoice.label}}
+					</label>
+				</li>
+				{{/each}}
+			</ul>
+			{{/if}}
+		</li>
+		{{/each}}
+	</ul>
+	{{#if allowCustom}}
+	<div class="form-group stacked">
+		<label>{{ localize 'T20.Special' }} ({{ localize 'T20.CommaSeparated' }})</label>
+		<input type="text" name="custom" value="{{custom}}" data-dtype="String" />
+	</div>
+	{{/if}}
+</div>

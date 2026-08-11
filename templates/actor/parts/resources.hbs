@@ -1,0 +1,28 @@
+<li class="attribute health flexcol">
+	<h4 class="attribute-name box-title">{{ localize 'T20.HitPoints'}}</h4>
+	<div class="attribute-value multiple flexrow">
+		<input type="number" data-dtype="Number" placeholder="0" name="system.attributes.pv.value" value="{{system.attributes.pv.value}}" max="{{system.attributes.pv.max}}">
+		<span class="sep">/</span>
+		<input type="number" placeholder="0" name="system.attributes.pv.max" value="{{system.attributes.pv.max}}"
+			{{disabled autoCalcResources}}
+			{{#if isCharacter}}data-tooltip="{{fieldBonuses 'system.attributes.pv'}}"{{/if}}
+		>
+	</div>
+	<footer class="attribute-footer">
+		<input type="number" data-dtype="Number" placeholder="+ {{localize 'T20.Temp'}}" name="system.attributes.pv.temp" value="{{system.attributes.pv.temp}}">
+	</footer>
+</li>
+<li class="attribute mana flexcol">
+	<h4 class="attribute-name box-title">{{ localize 'T20.ManaPoints'}}</h4>
+	<div class="attribute-value multiple flexrow">
+		<input type="number" data-dtype="Number" placeholder="0" name="system.attributes.pm.value" value="{{system.attributes.pm.value}}" max="{{system.attributes.pm.max}}">
+		<span class="sep">/</span>
+		<input type="number" placeholder="0" name="system.attributes.pm.max" value="{{system.attributes.pm.max}}"
+			{{disabled autoCalcResources}}
+			{{#if isCharacter}}data-tooltip="{{fieldBonuses 'system.attributes.pm'}}"{{/if}}
+		>
+	</div>
+	<footer class="attribute-footer">
+		<input type="number" data-dtype="Number" placeholder="+ {{localize 'T20.Temp'}}" name="system.attributes.pm.temp" value="{{system.attributes.pm.temp}}">
+	</footer>
+</li>

@@ -1,0 +1,108 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+	{{!-- Item Sheet Header --}}
+	{{> "tormenta20.item-header"}}
+	{{!-- Item Sheet Navigation --}}
+	<nav class="sheet-tabs tabs" data-group="primary">
+		<a class="item" data-tab="description">{{ localize "T20.Description" }}</a>
+		<a class="item" data-tab="details">{{ localize "T20.Details" }}</a>
+		<a class="item" data-tab="enhancements">{{ localize "T20.Enhancements" }}</a>
+		<a class="item" data-tab="effects">{{ localize "T20.Effects" }}</a>
+	</nav>
+
+	{{!-- Item Sheet Body --}}
+	<section class="sheet-body">
+		{{!-- Description Tab --}}
+		{{> "tormenta20.item-description"}}
+
+		{{!-- Details Tab --}}
+		<div class="tab details" data-group="primary" data-tab="details">
+
+			{{!-- Weapon Type --}}
+			<div class="form-group">
+				<label>{{ localize "T20.WeaponProficiency" }}</label>
+				<div class="form-fields">
+					<select name="system.proficiencia">
+						{{selectOptions config.weaponTypes selected=item.system.proficiencia localize=true}}
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>{{ localize "T20.WeaponPurpose" }}</label>
+				<div class="form-fields">
+					<select name="system.proposito">
+						{{selectOptions config.weaponPurposeTypes selected=item.system.proposito localize=true}}
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>{{ localize "T20.WeaponWielding" }}</label>
+				<div class="form-fields">
+					<select name="system.empunhadura">
+						{{selectOptions config.weaponWieldingTypes selected=item.system.empunhadura localize=true}}
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>{{ localize "T20.PMCost" }}</label>
+				<div class="form-fields">
+					<input type="number" data-dtype="Number" placeholder="0" name="system.ativacao.custo" value="{{item.system.ativacao.custo}}" />
+				</div>
+			</div>
+			<div class="form-group input-select">
+				<label>{{ localize "T20.ConsumeTitle" }}</label>
+				<div class="form-fields">
+					<select name="system.consume.type">
+						{{selectOptions config.abilityConsumptionTypes selected=item.system.consume.type blank=''}}
+					</select>
+					<select name="system.consume.target">
+						{{selectOptions abilityConsumptionTargets selected=item.system.consume.target blank=''}}
+					</select>
+					<input type="text" name="system.consume.amount" value="{{system.consume.amount}}" data-dtype="Number" />
+				</div>
+			</div>
+			<hr>
+			{{!-- Weapon Properties --}}
+			<div class="form-group stacked weapon-properties">
+				<label>{{ localize "T20.Properties" }}</label>
+				{{#each config.weaponProperties as |name prop|}}
+					<label class="checkbox">
+						<input type="checkbox" name="system.propriedades.{{prop}}" value="{{name}}" {{checked (lookup ../item.system.propriedades prop)}} data-dtype="Boolean" /> {{ localize name }}
+					</label>
+				{{/each}}
+
+			</div>
+			<hr>
+			{{!-- Rolls --}}
+			{{> "systems/tormenta20/templates/item/parts/item-rolls.hbs"}}
+			<div class="form-group">
+				<label>{{ localize "T20.Critical" }}</label>
+				<div class="form-fields">
+					<input type="number" title="{{ localize 'T20.CriticalHitThreshold' }}" name="system.criticoM" value="{{item.system.criticoM}}" data-dtype="Number" min="1" max="20" placeholder="ex.: 19" />
+					<input type="number" title="{{ localize 'T20.CriticalHitMultiplier' }}" name="system.criticoX" value="{{item.system.criticoX}}" data-dtype="Number" min="2" placeholder="2" />
+				</div>
+			</div>
+			{{log 'ARMA'}}
+			{{log selectOptions}}
+			<div class="form-group">
+				<label>{{ localize "T20.Range" }}</label>
+				<div class="form-fields">
+					<select class="selectatr" name="system.alcance" value={{item.system.alcance}} data-type="String">
+						{{selectOptions selectOptions.range selected=item.system.alcance blank='' localize=true}}
+					</select>
+				</div>
+			</div>
+			<hr>
+
+			{{{rolltags}}}
+			<div class="form-group">
+				<label for="chatFlavor">{{ localize "T20.ChatFlavor" }}</label>
+				<textarea name="system.chatFlavor">{{item.system.chatFlavor}}</textarea>
+			</div>
+		</div>
+		{{!-- Enhancements Tab --}}
+		{{> "tormenta20.item-enhancements"}}
+		<div class="tab effects" data-group="primary" data-tab="effects">
+			{{> "tormenta20.active-effects"}}
+		</div>
+	</section>
+</form>

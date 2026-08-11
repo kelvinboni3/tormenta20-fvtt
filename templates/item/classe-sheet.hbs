@@ -1,0 +1,102 @@
+<form class="{{cssClass}} flexcol" autocomplete="off">
+	{{!-- Item Sheet Header --}}
+	{{> "tormenta20.item-header"}}
+	{{!-- Item Sheet Navigation --}}
+	<nav class="sheet-tabs tabs" data-group="primary">
+		<a class="item" data-tab="details">{{ localize "T20.Details" }}</a>
+		{{#if false}}
+		<a class="item" data-tab="progression">{{ localize "T20.Progression" }}</a>
+		{{/if}}
+		{{#if isGM}}<a class="item" data-tab="config">Configuração (GM)</a>{{/if}}
+	</nav>
+
+	{{!-- Item Sheet Body --}}
+	<section class="sheet-body">
+
+		{{!-- Details Tab --}}
+		<div class="tab details" data-group="primary" data-tab="details">
+
+			{{!-- Class Levels --}}
+			<div class="form-group">
+				<label>{{ localize "T20.ClassLevels"}}</label>
+				<div class="form-fields">
+					<input type="number" min="1" max="20" name="system.niveis" value="{{item.system.niveis}}" data-dtype="Number" />
+				</div>
+			</div>
+			{{#if isOwned }}
+			<div class="form-group">
+				<label>{{ localize "T20.ClassOriginal"}}?</label>
+				<div class="form-fields">
+					<input type="checkbox" name="system.inicial" {{checked item.system.inicial}} data-dtype="Boolean" />
+				</div>
+			</div>
+			{{/if}}
+
+			{{!-- Class Hit Dice --}}
+			<div class="form-group">
+				<label>{{ localize "T20.ClassHPLevels" }}</label>
+				<div class="form-fields">
+					<input type="number" min="1" name="system.pvPorNivel" value="{{item.system.pvPorNivel}}" data-dtype="Number" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label>{{ localize "T20.ClassMPLevels" }}</label>
+				<div class="form-fields">
+					<input type="number" min="1" name="system.pmPorNivel" value="{{item.system.pmPorNivel}}" data-dtype="Number" />
+				</div>
+			</div>
+
+			{{!-- Level 1 skills --}}
+			<div class="form-group">
+				<label>{{ localize "T20.ClassSkillsEligible"}}</label>
+				<div class="form-fields">
+					<textarea type="text" name="system.pericias.inatas" rows="6" />{{item.system.pericias.inatas}}</textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label>{{ localize "T20.ClassSkillsNumber" }}</label>
+				<div class="form-fields">
+					<input type="text" name="system.pericias.numero" value="{{item.system.pericias.numero}}"
+					data-dtype="Number" />
+				</div>
+			</div>
+			{{#if SkillProgression}}
+			<div class="form-group">
+				<label>{{ localize "T20.ClassSkillsChosen"}}
+				{{#if editable }}
+					<a class="trait-selector class-skills" data-target="item.system.pericias" data-options="pericias">
+					<i class="fas fa-edit"></i></a>
+				{{/if}}
+				</label>
+				<div class="form-fields">
+					<ul class="traits-list">
+						{{#each item.system.pericias.value}}
+						<li class="tag {{this}}">{{lookup ../config.pericias this}}</li>
+						{{/each}}
+					</ul>
+				</div>
+			</div>
+			{{/if}}
+
+			<hr>
+			{{{rolltags}}}
+		</div>
+
+		{{> "tormenta20.item-progression"}}
+
+		<div class="tab config" data-group="primary" data-tab="config">
+			{{#if isGM}}
+			<div class="form-group stacked weapon-properties">
+				<label>Perícias Adicionais</label>
+				{{#each config.pericias as |name prop|}}
+				<label class="checkbox">
+					<input type="checkbox" name="system.pericias.escolhas.{{prop}}" {{checked (lookup ../item.system.pericias.escolhas prop)}} /> {{ localize name }}
+				</label>
+				{{/each}}
+			</div>
+			{{/if}}
+		</div>
+
+	</section>
+</form>

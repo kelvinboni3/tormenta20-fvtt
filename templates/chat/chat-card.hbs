@@ -1,0 +1,88 @@
+<div class="tormenta20 chat-card item-card" data-actor-id="{{actor.id}}" data-item-id="{{itemId}}">
+	<header class="card-header flexrow">
+		{{#if item.img}}
+			<img src="{{item.img}}" title="{{item.name}}" width="36" height="36" style="flex:0" />
+		{{/if}}
+		<h3 class="item-name">
+			<div>{{item.name}}</div>
+		</h3>
+
+		{{!-- Mana Cost --}}
+		{{#if custo}}
+			<button class="chat-spend-mana" value="{{{custo}}}">
+				{{{custo}}} {{localize 'T20.MP'}}
+			</button>
+		{{/if}}
+		{{#if truque}}
+			<button class="chat-spend-mana truque" disabled>
+				{{localize 'T20.Cantrip'}}
+			</button>
+		{{/if}}
+	</header>
+
+	{{#if (eq item.type "magia")}}
+		<div class="card-item-header">
+			<h4>{{labels.tipo}} {{labels.nivel}} {{labels.escola}}</h4>
+			<p>{{{labels.header}}}</p>
+		</div>
+	{{/if}}
+	{{#if (eq item.type "poder")}}
+		<div class="card-item-header">
+			<p>{{{labels.header}}}</p>
+		</div>
+	{{/if}}
+
+	<div class="card-content">
+		{{#if system.description.value}} {{{system.description.value}}} {{/if}}
+	</div>
+	{{#if onUseEffects}}
+		<div class="card-upgrades">
+			<ul>
+				{{#each onUseEffects as |ap|}}
+					<li>
+						<div class="row">
+							<b>
+								{{#if (eq ap.cost "Truque")}}
+									{{localize 'T20.Cantrip'}}:
+								{{else if ap.cost}}
+									{{#if (gt ap.cost 0)}}+{{/if}}{{ap.cost}} PM{{#if (gt ap.qty 1)}} ({{ap.qty}}x){{/if}}:
+									{{/if}}
+							</b>
+							{{{ap.description}}}
+						</div>
+					</li>
+				{{/each}}
+			</ul>
+		</div>
+	{{/if}}
+
+	{{#each rolls as |r id|}}
+		<div class="row">{{r.roll.options.title}}</div>
+		<div class="roll {{r.roll.tipo}}" data-roll-title="{{r.roll.options.title}}">{{{r.template}}}</div>
+	{{/each}}
+	{{#if effects}}
+		<footer class="card-item-effects flexcol">
+			{{#each effects as |ef i|}}
+				{{#if ef.length }}
+					<button class="chat-apply-ae" data-effect-index="{{i}}">
+						<img src="{{ef.0.icon}}">
+						{{{ef.0.name}}}
+					</button>
+				{{else}}
+					<button class="chat-apply-ae" data-effect-index="{{i}}">
+						<img src="{{ef.icon}}">
+						{{{ef.name}}}
+					</button>
+				{{/if}}
+			{{/each}}
+		</footer>
+	{{/if}}
+	{{#if placeTemplate}}
+		<footer class="card-item-template flexcol">
+			<button class="chat-place-template">
+				<i class="fas fa-ruler-combined"></i>
+				{{localize 'T20.PlaceAbilityTemplate'}}
+			</button>
+		</footer>
+	{{/if}}
+</div>

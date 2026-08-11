@@ -1,0 +1,85 @@
+<form id="ability-use-form">
+	{{#if formula}}
+		<div class="form-group">
+			<label>{{localize 'T20.CheckBonus'}}:</label>
+			<input type="text" name="bonus" value="" placeholder="ex. +1d4 ou -3" />
+		</div>
+	{{/if}}
+	{{#if formuladano}}
+		<div class="form-group">
+			<label>{{localize "T20.Damage"}}:</label>
+			<input type="text" name="bonusdano" value="" placeholder="ex. +1d4 ou -4" />
+		</div>
+	{{/if}}
+
+	{{#if custo}}
+		<div class="form-group">
+			<label>{{localize 'T20.PMCost'}} ({{item.ativacao.custo}})</label>
+			<input type="text" name="ajustecusto" value="" placeholder="ex. +3 ou -2" />
+		</div>
+	{{/if}}
+
+	{{#if aprimoramentos.length}}
+		<div class="form-group">
+			<ul class="item-list effects-list aprimoramentos-list">
+				<li class="items-header item flexrow">
+					<h3>{{localize 'T20.Apply'}}</h3>
+					<h3 style="flex: 2">{{localize 'T20.Name'}}</h3>
+					{{#if (eq itype "arma")}}
+						<h3>{{localize 'T20.Source'}}</h3>
+					{{/if}}
+				</li>
+				{{#each aprimoramentos as |ap|}}
+					<li class="item flexrow">
+						<div class="item-cost flexrow">
+							{{#if ap.flags.tormenta20.aumenta}}
+								<!-- <input type="button" value="-" class="numCtrl" /> -->
+								<button class="numCtrl" value="-"><i class="fa-solid fa-minus"></i></button>
+								<input type="number" name="aprs.{{ap.id}}.aplica" min="0" value="0" step="1" class="numInp" data-dtype="Number" style="max-width: 25px; height: auto;" onkeydown="return false" />
+								<!-- <input type="button" value="+" class="numCtrl" /> -->
+								<button class="numCtrl" value="+"><i class="fa-solid fa-plus"></i></button>
+							{{else}}
+								<input type="checkbox" name="aprs.{{ap.id}}.aplica" value="1" {{#unless ap.disabled}}checked{{/unless}} />
+							{{/if}}
+
+							{{#if (and (eq ../itype "magia") (eq ap.flags.tormenta20.custo "") ap.flags.tormenta20.self )}}
+								<label>{{ localize 'T20.Cantrip'}}</label>
+								<input type="hidden" name="aprs.{{ap.id}}.custo" value="Truque">
+							{{else if (eq ap.flags.tormenta20.custo "")}}
+								-
+								<input type="hidden" name="aprs.{{ap.id}}.custo" value="0">
+							{{else if ap.flags.tormenta20.custo}}
+								<label>{{ap.flags.tormenta20.custo}} {{ localize 'T20.MP'}}</label>
+								<input type="hidden" name="aprs.{{ap.id}}.custo" value="{{ap.flags.tormenta20.custo}}">
+							{{/if}}
+						</div>
+						<h4 class="item-name" style="flex: 2">{{{ap.name}}}</h4>
+						{{#if (eq ../itype "arma")}}
+							<small>{{ap.sourceName}}</small>
+						{{/if}}
+					</li>
+				{{/each}}
+			</ul>
+		</div>
+	{{/if}}
+
+	<div class="form-group total-cost">
+		<label>Custo de Mana Total</label>
+		<input disabled class="cost" value="{{initialCost}}" data-initial-cost="{{custo}}">
+	</div>
+	<div class="form-group">
+		<label>Melhor/Pior de 2d20</label>
+		<select name="rollKeep">
+			{{selectOptions rollKeep selected=rollKeeping blank="Normal" localize=true }}
+		</select>
+	</div>
+	<div class="form-group">
+		<label>Roll Mode</label>
+		<select name="rollMode">
+			{{selectOptions rollModes selected=rollMode localize=true }}
+		</select>
+	</div>
+	<!-- <footer class="sheet-footer">
+		<button type="submit"><i class="{{submit.icon}}"></i> {{submit.label}}</button>
+	</footer> -->
+</form>

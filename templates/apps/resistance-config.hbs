@@ -1,0 +1,31 @@
+<form class="tormenta20 rd-config" autocomplete="off">
+	<p class="notes">{{ localize 'T20.ResistancesConfig'}}.</p>
+	<div class="form-group ">
+		<label>{{ localize 'T20.Type'}}:</label>
+		<!-- <input type="text" value="{{ localize 'T20.Total'}}" disabled /> -->
+		<!-- <input type="text" value="{{ localize 'T20.Value'}}" disabled /> -->
+		<label style="flex: 0 0 70px; margin: 3px 5px; text-align: center;">Valor</label>
+		<label style="flex: 0 0 70px; margin: 3px 5px; text-align: center;" title="{{ localize 'T20.DamExce'}}">Exceção</label>
+		<label style="flex: 0 0 20px; margin: 3px 5px; text-align: center;" data-tooltip="{{ localize 'T20.DamPerDie'}}">
+			<i class="fa-solid fa-dice"></i>
+		</label>
+		<label style="flex: 0 0 20px; margin: 3px 5px; text-align: center;" data-tooltip="{{ localize 'T20.DamVuln'}}">V</label>
+		<label style="flex: 0 0 20px; margin: 3px 5px; text-align: center;" data-tooltip="{{ localize 'T20.DamImm'}}">I</label>
+	</div>
+	{{#each config.damageTypes as | label key | }}
+		<div class="form-group">
+			<label>{{localize label}}</label>
+			{{#with (lookup ../resistance key) }}
+				<!-- <input type="number" name="system.tracos.resistencias.{{key}}.value"  min="0" value="{{value}}"/> -->
+				<input type="number" name="system.tracos.resistencias.{{key}}.base" min="0" value="{{base}}" />
+				<input type="number" name="system.tracos.resistencias.{{key}}.excecao" min="0" value="{{excecao}}" />
+
+				<input type="checkbox" name="system.tracos.resistencias.{{key}}.danoPorDado" {{ checked danoPorDado }} title="{{ localize 'T20.DamVuln'}}" />
+
+				<input type="checkbox" name="system.tracos.resistencias.{{key}}.vulnerabilidade" {{ checked vulnerabilidade }} title="{{ localize 'T20.DamVuln'}}" />
+				<input type="checkbox" name="system.tracos.resistencias.{{key}}.imunidade" {{ checked imunidade }} title="{{ localize 'T20.DamImm'}}" />
+			{{/with}}
+		</div>
+	{{/each}}
+	<button type="submit" name="submit" value="1"><i class="far fa-save"></i> {{ localize 'T20.Submit'}}</button>
+</form>

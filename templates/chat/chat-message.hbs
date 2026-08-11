@@ -1,0 +1,39 @@
+<li class="chat-message message flexcol {{cssClass}}" data-message-id="{{message._id}}"
+	{{#if borderColor}}style="border-color:{{borderColor}}"{{/if}}>
+	{{#if message.flags.gif }}
+		<img class="message-gif" src="{{message.flags.gif}}">
+	{{/if}}
+	{{#if message.flags.tormenta20.minimal }}
+	<header class="hidden">
+	{{else}}
+	<header class="message-header flexrow" >
+	{{/if}}
+		{{#if message.flags.img }}
+		<img class="chat-portrait" src="message.flags.img" width="42" height="42">
+		{{/if}}
+		<h4 class="message-sender">{{alias}}</h4>
+		<span class="message-metadata">
+			<time class="message-timestamp">{{timeSince message.timestamp}}</time>
+			{{#if canDelete}}
+			<a aria-label="{{localize 'Delete'}}" class="message-delete" data-action="deleteMessage">
+				<i class="fas fa-trash"></i>
+			</a>
+			{{/if}}
+			{{#if canClose}}
+			<a aria-label="{{ localize "CHAT.Dismiss" }}" class="message-dismiss" data-action="dismissMessage">
+				<i class="fas fa-xmark"></i>
+			</a>
+			{{/if}}
+		</span>
+		{{#if isWhisper}}
+		<span class="whisper-to">{{localize 'CHAT.To'}}: {{whisperTo}}</span>
+		{{/if}}
+
+		{{#if message.flavor}}
+		<span class="flavor-text">{{{message.flavor}}}</span>
+		{{/if}}
+	</header>
+	<div class="message-content {{message.flags.tormenta20.cssClass}}">
+		{{{message.content}}}
+	</div>
+</li>

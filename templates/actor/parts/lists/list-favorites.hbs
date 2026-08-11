@@ -1,0 +1,58 @@
+{{#if actor.favoritos.armas}}
+<ol class="item-list favorites">
+	<li class="item item-header flexrow">
+		<div class="item-name" >{{ localize 'T20.Weapons'}}</div>
+	</li>
+	{{#each actor.favoritos.armas as |item|}}
+	<li class="item" data-item-id="{{item._id}}">
+		<div class="item-name flexrow rollable">
+			{{> "tormenta20.list-header-element" item=item}}
+		</div>
+	</li>
+	{{/each}}
+</ol>
+{{/if}}
+{{#if actor.favoritos.itens}}
+<ol class="item-list favorites">
+	<li class="item item-header flexrow">
+		<div class="item-name">{{ localize 'T20.Items'}}</div>
+	</li>
+	{{#each actor.favoritos.itens as |item|}}
+	<li class="item" data-item-id="{{item._id}}">
+		<div class="item-name flexrow {{#if (eq item.type "consumivel")}}rollable{{/if}}">
+			{{> "tormenta20.list-header-element" item=item}}
+		</div>
+	</li>
+	{{/each}}
+</ol>
+{{/if}}
+{{#if actor.favoritos.poderes}}
+<ol class="item-list favorites">
+	<li class="item item-header flexrow">
+		<div class="item-name">{{ localize 'T20.Powers'}}</div>
+	</li>
+	{{#each actor.favoritos.poderes as |item|}}
+	<li class="item" data-item-id="{{item._id}}">
+		<div class="item-name flexrow rollable" data-label="{{item.name}}">
+			{{> "tormenta20.list-header-element" item=item}}
+		</div>
+	</li>
+	{{/each}}
+</ol>
+{{/if}}
+{{#if actor.favoritos.qtdMagias}}
+<ol class="item-list favorites">
+	<li class="item item-header flexrow">
+		<div class="item-name">{{ localize 'T20.Spells'}}</div>
+	</li>
+	{{#each actor.favoritos.magias as |circulo|}}
+		{{#each circulo.spells as |magia|}}
+		<li class="item" data-item-id="{{magia._id}}">
+			<div class="item-name flexrow rollable" data-label="{{magia.name}}">
+				{{> "tormenta20.list-header-element" item=magia}}
+			</div>
+		</li>
+		{{/each}}
+	{{/each}}
+</ol>
+{{/if}}
