@@ -1,0 +1,28 @@
+_id: zKG5mSoyPstUeC99
+name: 'Vidente Carmesim de Rusivald'
+type: classe
+img: icons/svg/book.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>O Vidente Carmesim de Rusivald enxerga o que os outros nao veem: intencoes, mentiras, ecos do passado e o instante antes do golpe. Ligado ao espirito Rusivald, seus olhos sao de natureza espiritual e permitem tanto a leitura tatica do campo de batalha quanto a manifestacao de pequenas magias espectrais (espinhos, selos, vislumbres). E um personagem que vence pela informacao acumulada e pela precisao, nunca pela forca bruta.</p>'
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  niveis: 1
+  pvPorNivel: 4
+  pmPorNivel: 5
+  inicial: false
+  rolls: []
+  origin: ''
+  tags: []
+  chatFlavor: ''
+  chatGif: ''
+  pericias:
+    numero: 4
+    inatas: 'Pericias obrigatorias: Percepcao e Intuicao. Pericias a escolha (4): Reflexos, Luta, Enganacao, Misticismo, Vontade, Investigacao.'
+ownership:
+  default: 0
+_key: '!items!zKG5mSoyPstUeC99'

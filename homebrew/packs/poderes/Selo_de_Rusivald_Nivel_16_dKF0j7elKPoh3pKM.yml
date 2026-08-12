@@ -1,0 +1,56 @@
+_id: dKF0j7elKPoh3pKM
+name: 'Selo de Rusivald (Nivel 16)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>Acao padrao, por 3 PM: marca o alvo com um selo espiritual visivel, uma rosa de espinhos carmesim. Pelo resto da cena, o alvo sofre -2 em testes de resistencia contra efeitos mentais e espirituais causados pelo Vidente.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: action
+    custo: 3
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!dKF0j7elKPoh3pKM'

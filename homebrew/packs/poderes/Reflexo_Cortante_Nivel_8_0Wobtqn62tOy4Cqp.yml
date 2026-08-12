@@ -1,0 +1,56 @@
+_id: 0Wobtqn62tOy4Cqp
+name: 'Reflexo Cortante (Nivel 8)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>Upgrade de Veu de Espinhos: sempre que Veu de Espinhos reduzir o dano de um ataque recebido, o Vidente pode gastar a propria reacao para revidar imediatamente contra o atacante com um ataque corpo a corpo de dano cheio (incluindo bonus de Marca do Julgamento, se aplicavel).</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: reaction
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: inst
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: touch
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!0Wobtqn62tOy4Cqp'

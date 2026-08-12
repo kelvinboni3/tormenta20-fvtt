@@ -1,0 +1,56 @@
+_id: 9G81aSQHqNgAC72q
+name: 'Olho Desperto (Nivel 5)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>Passiva: imunidade a ilusoes simples e +2 em testes de Vontade.</p><p>Ativa (2 PM): enxerga criaturas e objetos invisiveis por 1 rodada.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!9G81aSQHqNgAC72q'

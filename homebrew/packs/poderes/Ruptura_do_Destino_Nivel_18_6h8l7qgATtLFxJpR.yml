@@ -1,0 +1,56 @@
+_id: 6h8l7qgATtLFxJpR
+name: 'Ruptura do Destino (Nivel 18)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>Por 4 PM, o Vidente escolhe um entre dois efeitos: transformar um proprio erro em acerto critico, ou forcar a falha de um teste de um inimigo. Gera +3 pontos de Fadiga da Visao.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: free
+    custo: 4
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: inst
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: medium
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!6h8l7qgATtLFxJpR'

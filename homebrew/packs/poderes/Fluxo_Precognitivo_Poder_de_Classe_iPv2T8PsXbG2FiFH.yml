@@ -1,0 +1,56 @@
+_id: iPv2T8PsXbG2FiFH
+name: 'Fluxo Precognitivo (Poder de Classe)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>Passiva: o Vidente ganha um bonus fixo em testes de Iniciativa (sugestao: +5, a mesa define o valor).</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!iPv2T8PsXbG2FiFH'

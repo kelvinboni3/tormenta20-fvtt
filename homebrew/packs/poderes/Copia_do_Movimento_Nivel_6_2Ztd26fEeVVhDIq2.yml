@@ -1,0 +1,56 @@
+_id: 2Ztd26fEeVVhDIq2
+name: 'Copia do Movimento (Nivel 6)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>1 vez por cena, por 2 PM: se um inimigo acertar o Vidente com uma tecnica marcial nao magica, ele pode reproduzir uma versao simplificada dela no proprio proximo ataque (mesmo dano base da tecnica, sem o efeito extra dela).</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: free
+    custo: 2
+    qtd: '1x por cena'
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!2Ztd26fEeVVhDIq2'

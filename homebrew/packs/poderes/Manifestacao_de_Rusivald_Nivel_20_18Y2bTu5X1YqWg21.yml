@@ -1,0 +1,56 @@
+_id: 18Y2bTu5X1YqWg21
+name: 'Manifestacao de Rusivald (Nivel 20)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>1 vez por cena, por 1 rodada: todas as marcas e leituras que o Vidente ja acumulou contra o alvo se tornam penalidade real, entre -2 e -6 em Defesa e testes conforme o historico de leituras na campanha. O Vidente forca automaticamente 1 falha de teste no alvo, e enxerga atraves de qualquer ilusao, disfarce ou protecao espiritual que ele tenha.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: full
+    custo: 0
+    qtd: '1x por cena'
+    condicao: ''
+    special: ''
+  duracao:
+    value: 1
+    units: round
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: medium
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!18Y2bTu5X1YqWg21'

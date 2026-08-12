@@ -1,0 +1,56 @@
+_id: P6ihgIqLSmNqE40f
+name: 'Guardiao da Rosa (Nivel 13)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>1 vez por combate, ao cair a 0 pontos de vida, o Vidente permanece com 1 ponto de vida. Pelas 2 rodadas seguintes, ganha +2 de Defesa e resistencia a dano.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: '1x por combate, gatilho: cair a 0 PV'
+    condicao: ''
+    special: ''
+  duracao:
+    value: 2
+    units: round
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!P6ihgIqLSmNqE40f'

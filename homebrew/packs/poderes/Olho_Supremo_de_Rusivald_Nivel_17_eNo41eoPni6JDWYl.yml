@@ -1,0 +1,56 @@
+_id: eNo41eoPni6JDWYl
+name: 'Olho Supremo de Rusivald (Nivel 17)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>Passiva: imunidade a ilusoes comuns, imunidade a efeitos mentais leves, e os ataques do Vidente ignoram bonus magicos simples de defesa do alvo.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!eNo41eoPni6JDWYl'

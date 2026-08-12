@@ -1,0 +1,56 @@
+_id: gAACTP9gyv1plBAr
+name: 'Sussurro dos Espinhos (Nivel 4)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>Passiva: enquanto os Olhos do Julgamento estao ativos, os espiritos ligados ao Vidente avisam um instante antes de qualquer ataque de oportunidade. Ao se afastar de um alvo Marcado, nunca sofre ataque de oportunidade dele, e ganha +1 em Reflexos ate o fim do movimento.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!gAACTP9gyv1plBAr'

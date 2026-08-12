@@ -1,5 +1,5 @@
-_id: hbPoderExemplo01
-name: Habilidade de Exemplo
+_id: 2dGHjO4Wyh8GNXxd
+name: 'Eco de Roswa (Poder de Classe)'
 type: poder
 img: icons/svg/upgrade.svg
 effects: []
@@ -8,21 +8,19 @@ sort: 0
 flags: {}
 system:
   description:
-    value: >-
-      <p>Habilidade de exemplo, criada apenas para validar o fluxo de build.
-      Substitua ou apague este arquivo.</p>
+    value: '<p>1 vez por cena: o Vidente pergunta a um espirito proximo algo sobre o passado do local. A resposta e enigmatica, mas verdadeira (a criterio do mestre).</p>'
     chat: ''
     unidentified: ''
-  source: Homebrew da mesa
+  source: 'Homebrew da mesa'
   ativacao:
-    execucao: free
-    custo: 1
-    qtd: ''
+    execucao: action
+    custo: 0
+    qtd: '1x por cena'
     condicao: ''
     special: ''
   duracao:
     value: 0
-    units: round
+    units: scene
     special: ''
   target:
     value: null
@@ -38,7 +36,7 @@ system:
     amount: null
     mpMultiplier: false
   efeito: ''
-  alcance: none
+  alcance: short
   alvo: ''
   area: ''
   resistencia:
@@ -48,11 +46,11 @@ system:
     txt: ''
   rolls: []
   tipo: classe
-  subtipo: Classe de Exemplo
+  subtipo: 'Vidente Carmesim de Rusivald'
   chatFlavor: ''
   origin: ''
   tags: []
   chatGif: ''
 ownership:
   default: 0
-_key: '!items!hbPoderExemplo01'
+_key: '!items!2dGHjO4Wyh8GNXxd'

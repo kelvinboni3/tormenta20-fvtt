@@ -6,9 +6,11 @@
   "description": "Ferramentas de build para a camada homebrew do sistema Tormenta20.",
   "scripts": {
     "unpack": "node ./tools/packs.mjs unpack",
-    "pack": "node ./tools/packs.mjs pack"
+    "pack": "npm run validar && node ./tools/packs.mjs pack",
+    "validar": "node ./tools/validar.mjs"
   },
   "devDependencies": {
-    "@foundryvtt/foundryvtt-cli": "^1.0.3"
+    "@foundryvtt/foundryvtt-cli": "^1.0.3",
+    "js-yaml": "^4.3.1"
   }
 }

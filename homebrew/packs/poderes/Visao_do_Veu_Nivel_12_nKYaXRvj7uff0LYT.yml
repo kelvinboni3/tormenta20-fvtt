@@ -1,0 +1,56 @@
+_id: nKYaXRvj7uff0LYT
+name: 'Visao do Veu (Nivel 12)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>Acao padrao, 1 vez por cena: o Vidente enxerga espiritos e ecos do passado do local, podendo conversar brevemente com uma sombra do que ja aconteceu ali. Ganha +2 em um teste social ou investigativo relacionado a cena.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: action
+    custo: 0
+    qtd: '1x por cena'
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!nKYaXRvj7uff0LYT'

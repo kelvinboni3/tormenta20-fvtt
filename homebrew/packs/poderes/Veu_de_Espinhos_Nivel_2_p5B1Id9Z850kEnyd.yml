@@ -1,0 +1,56 @@
+_id: p5B1Id9Z850kEnyd
+name: 'Veu de Espinhos (Nivel 2)'
+type: poder
+img: icons/svg/upgrade.svg
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>Reacao: quando atacado, invoca uma barreira espectral de espinhos ao redor do corpo por um instante, reduzindo o dano recebido em valor igual a metade do nivel (arredondado para cima) mais o modificador de Sabedoria. Pode ser usada 1 vez por cena sem custo; usos adicionais custam 2 PM.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  ativacao:
+    execucao: reaction
+    custo: 0
+    qtd: '1x por cena gratis, demais usos custam 2 PM'
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: inst
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: ''
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Vidente Carmesim de Rusivald'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!p5B1Id9Z850kEnyd'
