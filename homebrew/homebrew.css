@@ -12,3 +12,59 @@
 	border-left: 3px solid var(--color-border-highlight, #c9a227);
 	padding-left: 0.5rem;
 }
+
+/* -------------------------------------------- */
+/*  Fadiga da Visao                              */
+/* -------------------------------------------- */
+
+/* Herda a caixa de PV/PM: o <li> entra na mesma ul.attributes, entao so
+   precisamos do que difere. */
+.hb-fadiga .hb-fadiga-valor {
+	font-size: 1.5rem;
+	font-weight: bold;
+	min-width: 1.5rem;
+	text-align: center;
+}
+
+.hb-fadiga .hb-fadiga-max {
+	opacity: 0.6;
+}
+
+.hb-fadiga .attribute-value button {
+	width: 1.4rem;
+	height: 1.4rem;
+	line-height: 1;
+	padding: 0;
+	flex: 0 0 1.4rem;
+	border-radius: 3px;
+}
+
+/* A cor so aparece quando ha penalidade em vigor: sem limiar atingido, a
+   caixa fica igual as outras e nao chama atencao a toa. */
+.hb-fadiga--ativa .hb-fadiga-valor {
+	color: #8b1a1a;
+}
+
+.hb-fadiga-limiar {
+	font-size: 0.7rem;
+	text-align: center;
+	color: #8b1a1a;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+}
+
+.hb-fadiga .hb-olhos {
+	width: 100%;
+	font-size: 0.75rem;
+	padding: 0.1rem 0.2rem;
+	line-height: 1.4;
+	opacity: 0.65;
+}
+
+.hb-fadiga .hb-olhos--ativo {
+	opacity: 1;
+	font-weight: bold;
+	border-color: #c9a227;
+	box-shadow: 0 0 4px rgba(201, 162, 39, 0.6);
+}

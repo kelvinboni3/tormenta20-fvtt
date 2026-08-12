@@ -31,6 +31,44 @@ Use `npm run unpack` para ler o conteúdo oficial e copiar o formato exato de um
 item antes de escrever o seu. A extração trabalha sobre uma cópia, então os
 packs oficiais nunca são alterados.
 
+## Fadiga da Visão
+
+Recurso da classe Vidente Carmesim de Rusivald, implementado em `homebrew.mjs`.
+O contador vive numa flag do ator (`flags.tormenta20-homebrew.fadigaVisao`) e é
+traduzido em penalidade real nas rolagens.
+
+**Como acumula.** A barra aparece na ficha entre PM e Defesa, só para quem tem
+a classe. O botão de Olhos liga o acúmulo: a cada rodada de combate com os
+Olhos ativos, +1 ponto — ou a cada 2 rodadas se o personagem tiver *Fôlego do
+Predador*. Os botões `+` e `−` permitem ajuste manual (Olho Profético +2,
+Ruptura do Destino +3, Foco Carmesim −1).
+
+**Limiares.** Vale apenas o mais alto; eles não somam.
+
+| Fadiga | Efeito | Como é aplicado |
+| --- | --- | --- |
+| 4 | −1 em testes mentais | `modificadores.atributos.mentais` e `pericias.atr.int`/`sab`/`car` |
+| 6 | −2 em testes gerais | `modificadores.atributos.geral` e `pericias.geral` |
+| 9 | Confuso | condição nativa |
+| 11 | Exausto | condição nativa |
+
+As penalidades entram por um ActiveEffect gerenciado, recriado a cada mudança.
+As chaves são as que o próprio sistema documenta como presets de efeito, e
+todas são `ArrayField` de String — o modo ADD empurra a fórmula no array, que é
+o mesmo mecanismo das condições nativas como Debilitado.
+
+**Como zera.** Só no descanso. `Actor#descanso` é envolvido (não reescrito), de
+modo que a lógica do sistema continua valendo e só acrescentamos o reset.
+Desligar os Olhos interrompe o acúmulo mas não alivia o que já foi acumulado.
+
+**Por que não usamos `toggleStatusEffect`.** Tanto ele quanto
+`ActiveEffect.fromStatusEffect` fazem `CONFIG.statusEffects[id]`, contando com
+o Proxy do core, que aceita acesso por chave. O sistema substitui esse Proxy
+por um array simples (`Object.values(T20Conditions)`), onde o acesso por chave
+devolve `undefined` e as duas APIs lançam erro. Por isso as condições são
+criadas a partir de `CONFIG.T20.conditions`, um objeto indexado por id — a via
+que o próprio sistema usa internamente.
+
 ## Duas armadilhas do sistema
 
 **1. Campos novos em `system.*` não persistem.** Os DataModels são estritos: o
