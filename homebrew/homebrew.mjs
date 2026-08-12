@@ -92,6 +92,39 @@ export async function repararPericias(actor) {
 }
 
 /**
+ * Repara as pericias de todos os atores do mundo de uma vez, incluindo os
+ * tokens nao vinculados das cenas - eles guardam uma copia propria dos dados do
+ * ator e nao sao alcancados por game.actors.
+ *
+ * O guarda de preUpdateActor impede que a ficha estrague de novo, mas nao
+ * desfaz o que ja estava gravado; e para isso que esta funcao serve.
+ *
+ * @returns {Promise<object>}  Resumo do que foi corrigido, por ator.
+ */
+export async function repararTudo() {
+	const resumo = {};
+	for (const actor of game.actors) {
+		const n = await repararPericias(actor);
+		if (n.length) resumo[actor.name] = n.length;
+	}
+	for (const scene of game.scenes) {
+		for (const token of scene.tokens) {
+			if (token.actorLink || !token.actor) continue;
+			const n = await repararPericias(token.actor);
+			if (n.length) resumo[`[token] ${scene.name} / ${token.name}`] = n.length;
+		}
+	}
+	const total = Object.values(resumo).reduce((s, n) => s + n, 0);
+	console.log(`${NS} | pericias reparadas: ${total} em ${Object.keys(resumo).length} atores`, resumo);
+	ui.notifications?.info(
+		total
+			? `Perícias reparadas: ${total} em ${Object.keys(resumo).length} ficha(s).`
+			: "Nenhuma perícia precisava de reparo."
+	);
+	return resumo;
+}
+
+/**
  * Quantas pericias alteradas de uma vez ja indicam corrupcao, e nao edicao.
  * Trocar o atributo de uma pericia e uma decisao pontual; ninguem troca cinco
  * na mesma acao.
@@ -620,7 +653,9 @@ Hooks.once("ready", () => {
 		ajustarFadiga,
 		alternarOlhos,
 		repararPericias,
-		sincronizarPV
+		repararTudo,
+		sincronizarPV,
+		sincronizarOlhos
 	};
 	console.log(`${NS} | pronto`);
 });

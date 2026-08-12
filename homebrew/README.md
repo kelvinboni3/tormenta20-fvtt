@@ -103,7 +103,18 @@ atualização do sistema. O guarda vive na camada homebrew e sobrevive.
 
 Se uma ficha aparecer com **todas as perícias usando FOR**, o campo `atributo`
 de cada perícia foi gravado errado — e isso afeta as rolagens de verdade, não
-só a exibição. Conserto:
+só a exibição. O guarda acima impede que aconteça de novo, mas não desfaz o que
+já estava gravado.
+
+Para consertar o mundo inteiro de uma vez, incluindo os tokens não vinculados
+das cenas (que guardam uma cópia própria dos dados e não aparecem em
+`game.actors`):
+
+```js
+game.tormenta20Homebrew.repararTudo();
+```
+
+Para uma ficha só:
 
 ```js
 game.tormenta20Homebrew.repararPericias(game.actors.getName("Nome"));
