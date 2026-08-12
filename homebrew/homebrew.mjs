@@ -18,6 +18,20 @@ const NS = "tormenta20-homebrew";
 /* -------------------------------------------- */
 
 /**
+ * Escopo das flags.
+ *
+ * Precisa ser "tormenta20": Document#getFlag valida o escopo e so aceita
+ * "core", o id do sistema ativo ou o id de um MODULO ativo. Um escopo proprio
+ * como "tormenta20-homebrew" faz o getFlag lancar
+ * `Flag scope ... is not valid or not currently active`, porque nao existe
+ * modulo com esse id - este codigo faz parte do sistema, nao de um modulo.
+ * Tudo fica aninhado sob a chave "homebrew" para nao colidir com as flags que
+ * o proprio sistema grava.
+ */
+const SCOPE = "tormenta20";
+const PREFIXO = "homebrew";
+
+/**
  * Le um dado homebrew de um documento.
  * @param {Document} doc    Ator ou item.
  * @param {string} key      Chave dentro do namespace homebrew.
@@ -25,7 +39,7 @@ const NS = "tormenta20-homebrew";
  * @returns {*}
  */
 export function getHB(doc, key, fallback = null) {
-	return doc?.getFlag(NS, key) ?? fallback;
+	return doc?.getFlag(SCOPE, `${PREFIXO}.${key}`) ?? fallback;
 }
 
 /**
@@ -37,7 +51,7 @@ export function getHB(doc, key, fallback = null) {
  * @returns {Promise<Document>}
  */
 export function setHB(doc, key, value) {
-	return doc.setFlag(NS, key, value);
+	return doc.setFlag(SCOPE, `${PREFIXO}.${key}`, value);
 }
 
 /* -------------------------------------------- */
@@ -155,7 +169,7 @@ async function sincronizarEfeito(actor) {
 	const fadiga = getFadiga(actor);
 	const limiar = limiarAtual(fadiga);
 
-	const existente = actor.effects.find((e) => e.getFlag(NS, "fadiga"));
+	const existente = actor.effects.find((e) => e.getFlag(SCOPE, `${PREFIXO}.fadiga`));
 	if (existente) await existente.delete();
 
 	if (limiar) {
@@ -171,7 +185,7 @@ async function sincronizarEfeito(actor) {
 					value,
 					priority: 20
 				})),
-				flags: { [NS]: { fadiga: true } }
+				flags: { [SCOPE]: { [PREFIXO]: { fadiga: true } } }
 			}
 		]);
 	}
@@ -190,11 +204,40 @@ async function sincronizarEfeito(actor) {
 }
 
 /**
- * Define a Fadiga da Visao, respeitando os limites, e ressincroniza os efeitos.
+ * Fila de escrita por ator.
+ *
+ * Alterar a fadiga e um ciclo ler-modificar-gravar que dispara varias operacoes
+ * assincronas em documentos (gravar a flag, apagar o efeito antigo, criar o
+ * novo). Sem serializar, duas alteracoes proximas - duas rodadas passando
+ * rapido, ou cliques repetidos no botao - leem o mesmo valor inicial e uma
+ * sobrescreve a outra, perdendo um incremento.
+ * @type {Map<string, Promise>}
+ */
+const filaPorAtor = new Map();
+
+/**
+ * Executa `tarefa` depois de tudo que ja estava na fila daquele ator.
+ * @param {Actor} actor
+ * @param {() => Promise<void>} tarefa
+ * @returns {Promise<void>}
+ */
+function enfileirar(actor, tarefa) {
+	const anterior = filaPorAtor.get(actor.id) ?? Promise.resolve();
+	const proxima = anterior.then(tarefa, tarefa);
+	filaPorAtor.set(
+		actor.id,
+		proxima.catch((e) => console.error(`${NS} | falha ao atualizar a fadiga`, e))
+	);
+	return proxima;
+}
+
+/**
+ * Nucleo da gravacao, SEM fila. So pode ser chamado de dentro de uma tarefa ja
+ * enfileirada - chamar enfileirar() daqui travaria a fila esperando por si.
  * @param {Actor} actor
  * @param {number} valor
  */
-export async function definirFadiga(actor, valor) {
+async function aplicarFadiga(actor, valor) {
 	const novo = Math.clamp(Math.round(Number(valor) || 0), 0, FADIGA_MAX);
 	if (novo === getFadiga(actor)) return;
 	await setHB(actor, "fadigaVisao", novo);
@@ -203,12 +246,24 @@ export async function definirFadiga(actor, valor) {
 }
 
 /**
+ * Define a Fadiga da Visao, respeitando os limites, e ressincroniza os efeitos.
+ * @param {Actor} actor
+ * @param {number} valor
+ */
+export function definirFadiga(actor, valor) {
+	return enfileirar(actor, () => aplicarFadiga(actor, valor));
+}
+
+/**
  * Soma (ou subtrai) pontos de Fadiga da Visao.
+ *
+ * A leitura do valor atual acontece dentro da fila, e nao no momento da
+ * chamada, para que dois ajustes seguidos somem em vez de se sobrescrever.
  * @param {Actor} actor
  * @param {number} delta
  */
-export async function ajustarFadiga(actor, delta) {
-	await definirFadiga(actor, getFadiga(actor) + delta);
+export function ajustarFadiga(actor, delta) {
+	return enfileirar(actor, () => aplicarFadiga(actor, getFadiga(actor) + delta));
 }
 
 /**
@@ -247,10 +302,14 @@ Hooks.on("updateCombat", async (combat, changed) => {
 		if (!actor || !ehVidente(actor)) continue;
 		if (!getHB(actor, "olhosAtivos", false)) continue;
 
-		const rodadas = Number(getHB(actor, "rodadasOlhos", 0)) + 1;
-		await setHB(actor, "rodadasOlhos", rodadas);
-		if (temFolegoDoPredador(actor) && rodadas % 2 !== 0) continue;
-		await ajustarFadiga(actor, 1);
+		// Contagem de rodadas e incremento vao na mesma tarefa da fila: sao um
+		// unico ler-modificar-gravar e nao podem ser intercalados por outro.
+		enfileirar(actor, async () => {
+			const rodadas = Number(getHB(actor, "rodadasOlhos", 0)) + 1;
+			await setHB(actor, "rodadasOlhos", rodadas);
+			if (temFolegoDoPredador(actor) && rodadas % 2 !== 0) return;
+			await aplicarFadiga(actor, getFadiga(actor) + 1);
+		});
 	}
 });
 

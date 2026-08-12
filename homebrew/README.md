@@ -34,7 +34,7 @@ packs oficiais nunca são alterados.
 ## Fadiga da Visão
 
 Recurso da classe Vidente Carmesim de Rusivald, implementado em `homebrew.mjs`.
-O contador vive numa flag do ator (`flags.tormenta20-homebrew.fadigaVisao`) e é
+O contador vive numa flag do ator (`flags.tormenta20.homebrew.fadigaVisao`) e é
 traduzido em penalidade real nas rolagens.
 
 **Como acumula.** A barra aparece na ficha entre PM e Defesa, só para quem tem
@@ -60,6 +60,21 @@ o mesmo mecanismo das condições nativas como Debilitado.
 **Como zera.** Só no descanso. `Actor#descanso` é envolvido (não reescrito), de
 modo que a lógica do sistema continua valendo e só acrescentamos o reset.
 Desligar os Olhos interrompe o acúmulo mas não alivia o que já foi acumulado.
+
+**Por que o escopo das flags é `tormenta20`.** `Document#getFlag` valida o
+escopo e só aceita `core`, o id do sistema ativo, ou o id de um **módulo**
+ativo. Um escopo próprio como `tormenta20-homebrew` faz a chamada lançar
+`Flag scope ... is not valid or not currently active`, porque não existe módulo
+com esse id — este código é parte do sistema. Por isso tudo fica em
+`flags.tormenta20.homebrew.*`, aninhado para não colidir com o que o sistema
+grava.
+
+**Por que as escritas são enfileiradas.** Mudar a fadiga é um ciclo
+ler-modificar-gravar que dispara várias operações assíncronas (gravar a flag,
+apagar o efeito antigo, criar o novo). Sem serializar por ator, duas alterações
+próximas — rodadas passando rápido, ou cliques repetidos — leem o mesmo valor
+inicial e uma sobrescreve a outra, perdendo um incremento. Isso foi observado
+em teste: 5 rodadas contadas produziam 1 ponto em vez de 2.
 
 **Por que não usamos `toggleStatusEffect`.** Tanto ele quanto
 `ActiveEffect.fromStatusEffect` fazem `CONFIG.statusEffects[id]`, contando com
