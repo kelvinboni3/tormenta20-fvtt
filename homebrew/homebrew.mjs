@@ -312,7 +312,7 @@ export function sincronizarPV(actor) {
 		await actor.createEmbeddedDocuments("ActiveEffect", [
 			{
 				name: `${EFEITO_PV} (${desejado > 0 ? "+" : ""}${desejado} PV)`,
-				img: "icons/svg/heal.svg",
+				img: "icons/magic/life/heart-cross-strong-blue.webp",
 				origin: actor.uuid,
 				disabled: false,
 				changes: [
@@ -467,7 +467,9 @@ async function sincronizarEfeito(actor) {
 		await actor.createEmbeddedDocuments("ActiveEffect", [
 			{
 				name: `${EFEITO_FADIGA} (${fadiga}) - ${limiar.rotulo}`,
-				img: "icons/svg/blind.svg",
+				// Icone de Fatigado do proprio sistema: e o vocabulario visual que
+				// a mesa ja reconhece para cansaco.
+				img: "systems/tormenta20/icons/conditions/fatigado.svg",
 				origin: actor.uuid,
 				disabled: false,
 				changes: limiar.changes.map(([key, value]) => ({
@@ -612,7 +614,9 @@ export function sincronizarOlhos(actor) {
 		await actor.createEmbeddedDocuments("ActiveEffect", [
 			{
 				name: EFEITO_OLHOS,
-				img: "systems/tormenta20/icons/conditions/ofuscado.svg",
+				// O mesmo icone do poder, para o efeito ativo ser reconhecido de
+				// imediato como "os Olhos estao ligados".
+				img: "icons/magic/perception/eye-ringed-glow-angry-large-red.webp",
 				origin: actor.uuid,
 				disabled: false,
 				changes: MUDANCAS_OLHOS.map(([key, mode, value]) => ({ key, mode, value, priority: 20 })),

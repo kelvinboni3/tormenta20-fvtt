@@ -47,6 +47,18 @@ O `npm run validar` confere que todo `folder` aponta para uma pasta existente
 no mesmo pack — uma referência quebrada faz o documento sumir da árvore no
 Foundry sem erro visível.
 
+### Ícones
+
+Os ícones vêm da biblioteca do **próprio Foundry** (`icons/magic/perception`,
+`icons/magic/nature`, `icons/magic/time`…), então nada de arte precisa ser
+distribuído junto e os caminhos funcionam em qualquer instalação. Os efeitos
+usam o mesmo ícone do item que os concede, para serem reconhecidos de imediato
+na aba Efeitos do ator.
+
+Se um caminho estiver errado o Foundry mostra um quadrado vazio, sem erro. Vale
+conferir que o arquivo existe em
+`<instalação do Foundry>/resources/app/public/icons/…` antes de usar.
+
 Use `npm run unpack` para ler o conteúdo oficial e copiar o formato exato de um
 item antes de escrever o seu. A extração trabalha sobre uma cópia, então os
 packs oficiais nunca são alterados.

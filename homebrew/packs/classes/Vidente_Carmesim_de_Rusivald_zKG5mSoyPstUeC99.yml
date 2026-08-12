@@ -1,7 +1,7 @@
 _id: zKG5mSoyPstUeC99
 name: 'Vidente Carmesim de Rusivald'
 type: classe
-img: icons/svg/book.svg
+img: icons/magic/perception/third-eye-blue-red.webp
 effects:
   # PM: o sistema NAO soma atributo nenhum no PM. bonus.nivel entra dentro do
   # laco por nivel (tormenta20.mjs:16934), entao "@sab" ali da exatamente
@@ -13,7 +13,7 @@ effects:
   # homebrew.mjs (ver sincronizarPV).
   - _id: hbVidentePVPM001
     name: 'Mana do Vidente'
-    img: icons/svg/book.svg
+    img: icons/magic/perception/third-eye-blue-red.webp
     type: base
     system: {}
     description: ''
