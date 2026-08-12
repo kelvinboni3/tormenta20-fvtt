@@ -2,7 +2,40 @@ _id: zKG5mSoyPstUeC99
 name: 'Vidente Carmesim de Rusivald'
 type: classe
 img: icons/svg/book.svg
-effects: []
+effects:
+  # PV: o sistema ja soma CON por nivel sozinho, entao pvPorNivel=5 da "5 + CON"
+  # por nivel. Falta so a diferenca do nivel 1, que deveria ser 16 + CON: um
+  # bonus fixo de +11 no total acerta TODOS os niveis de uma vez
+  # (5*N + 11 + N*CON = 16 + CON + (N-1)*(5 + CON)), sem depender do campo
+  # "inicial" - cuja regra no sistema e "nivel 1 vale 4x pvPorNivel", que nao
+  # consegue expressar 16 inicial com 5 por nivel.
+  #
+  # PM: o sistema NAO soma atributo nenhum no PM. bonus.nivel entra dentro do
+  # laco por nivel, entao "@sab" ali da exatamente "5 + SAB" por nivel.
+  - _id: hbVidentePVPM001
+    name: 'Vitalidade e Mana do Vidente'
+    img: icons/svg/book.svg
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.attributes.pv.bonus.total
+        mode: 2
+        value: '11'
+        priority: 20
+      - key: system.attributes.pm.bonus.nivel
+        mode: 2
+        value: '@sab'
+        priority: 20
+    _key: '!items.effects!zKG5mSoyPstUeC99.hbVidentePVPM001'
 folder: null
 sort: 0
 flags: {}
@@ -12,7 +45,7 @@ system:
     unidentified: ''
   source: 'Homebrew da mesa'
   niveis: 1
-  pvPorNivel: 4
+  pvPorNivel: 5
   pmPorNivel: 5
   inicial: false
   rolls: []

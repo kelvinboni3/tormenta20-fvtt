@@ -31,6 +31,34 @@ Use `npm run unpack` para ler o conteúdo oficial e copiar o formato exato de um
 item antes de escrever o seu. A extração trabalha sobre uma cópia, então os
 packs oficiais nunca são alterados.
 
+## PV e PM da classe
+
+A regra da mesa é **PV 16 + CON no nível 1, depois 5 + CON por nível**, e
+**PM 5 + SAB por nível**. Nenhuma das duas sai só com os campos do item.
+
+O sistema calcula assim (`tormenta20.mjs:16911`), por nível de cada classe:
+
+- **PV**: soma `pvPorNivel` e **acrescenta CON automaticamente**. Se a classe
+  estiver marcada como `inicial`, o nível 1 vale `4 × pvPorNivel`.
+- **PM**: soma só `pmPorNivel`. **Nenhum atributo é somado.**
+
+Duas consequências:
+
+**O campo `inicial` não serve aqui.** Sua regra "nível 1 vale 4×" não consegue
+expressar 16 inicial com 5 por nível — precisaria de `pvPorNivel` 4 e 5 ao
+mesmo tempo. Em vez disso, `pvPorNivel: 5` com um bônus **fixo de +11** no
+total acerta todos os níveis de uma vez, porque
+`5N + 11 + N·CON` é identicamente igual a `16 + CON + (N−1)·(5 + CON)`.
+
+**SAB por nível precisa de `bonus.nivel`.** Marcar o atributo em
+`attributes.pm.atributos` somaria SAB **uma vez** no total, não por nível.
+Já `bonus.nivel` entra dentro do laço (`tormenta20.mjs:16934`), então `@sab`
+ali dá exatamente 5 + SAB por nível.
+
+Os dois ajustes vivem num ActiveEffect `transfer: true` dentro do próprio item
+de classe, então acompanham a classe e não precisam ser refeitos por
+personagem. Conferido em jogo do nível 1 ao 20, com CON negativo inclusive.
+
 ## Fadiga da Visão
 
 Recurso da classe Vidente Carmesim de Rusivald, implementado em `homebrew.mjs`.
