@@ -8,8 +8,8 @@
     "verified": "14.365"
   },
   "authors": [{ "name": "Vizael" }],
-  "esmodules": ["tormenta20.mjs"],
-  "styles": ["tormenta20.css"],
+  "esmodules": ["tormenta20.mjs", "homebrew/homebrew.mjs"],
+  "styles": ["tormenta20.css", "homebrew/homebrew.css"],
   "documentTypes": {
     "Actor": {
       "character": {
@@ -187,6 +187,13 @@
       "system": "tormenta20",
       "path": "./packs/macros",
       "type": "Macro"
+    },
+    {
+      "name": "homebrew-classes",
+      "label": "Classes (Homebrew)",
+      "system": "tormenta20",
+      "path": "./packs/homebrew-classes",
+      "type": "Item"
     }
   ],
   "packFolders": [
@@ -230,6 +237,12 @@
       "sorting": "m",
       "color": "#000000",
       "packs": ["macros"]
+    },
+    {
+      "name": "Homebrew",
+      "sorting": "m",
+      "color": "#4a7c59",
+      "packs": ["homebrew-classes"]
     }
   ],
   "languages": [

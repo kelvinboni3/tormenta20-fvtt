@@ -14,3 +14,11 @@ npm-debug.log*
 
 # Logs
 *.log
+
+# Conteudo oficial extraido para consulta (gerado por `npm run unpack`)
+_reference/
+
+# Arquivos de runtime que o LevelDB cria ao abrir um pack
+packs/**/LOCK
+packs/**/LOG
+packs/**/LOG.old

@@ -1,0 +1,14 @@
+/**
+ * Ajustes visuais da camada homebrew.
+ *
+ * Carregado depois de tormenta20.css, entao regras de mesma especificidade
+ * vencem sem precisar de !important. Evite !important: ele torna o proximo
+ * ajuste do sistema impossivel de sobrepor.
+ *
+ * Prefixe classes proprias com hb- para nunca colidir com o sistema.
+ */
+
+.hb-destaque {
+	border-left: 3px solid var(--color-border-highlight, #c9a227);
+	padding-left: 0.5rem;
+}

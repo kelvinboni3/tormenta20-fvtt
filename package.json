@@ -1,0 +1,14 @@
+{
+  "name": "tormenta20-homebrew",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Ferramentas de build para a camada homebrew do sistema Tormenta20.",
+  "scripts": {
+    "unpack": "node ./tools/packs.mjs unpack",
+    "pack": "node ./tools/packs.mjs pack"
+  },
+  "devDependencies": {
+    "@foundryvtt/foundryvtt-cli": "^1.0.3"
+  }
+}
