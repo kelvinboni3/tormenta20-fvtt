@@ -3,17 +3,16 @@ name: 'Vidente Carmesim de Rusivald'
 type: classe
 img: icons/svg/book.svg
 effects:
-  # PV: o sistema ja soma CON por nivel sozinho, entao pvPorNivel=5 da "5 + CON"
-  # por nivel. Falta so a diferenca do nivel 1, que deveria ser 16 + CON: um
-  # bonus fixo de +11 no total acerta TODOS os niveis de uma vez
-  # (5*N + 11 + N*CON = 16 + CON + (N-1)*(5 + CON)), sem depender do campo
-  # "inicial" - cuja regra no sistema e "nivel 1 vale 4x pvPorNivel", que nao
-  # consegue expressar 16 inicial com 5 por nivel.
-  #
   # PM: o sistema NAO soma atributo nenhum no PM. bonus.nivel entra dentro do
-  # laco por nivel, entao "@sab" ali da exatamente "5 + SAB" por nivel.
+  # laco por nivel (tormenta20.mjs:16934), entao "@sab" ali da exatamente
+  # "5 + SAB" por nivel. Isso nao depende de nenhum outro campo, entao pode
+  # viver aqui como efeito estatico.
+  #
+  # O ajuste de PV NAO fica aqui: ele depende da caixa "Classe Inicial", que o
+  # jogador marca na ficha, e por isso e mantido dinamicamente pelo
+  # homebrew.mjs (ver sincronizarPV).
   - _id: hbVidentePVPM001
-    name: 'Vitalidade e Mana do Vidente'
+    name: 'Mana do Vidente'
     img: icons/svg/book.svg
     type: base
     system: {}
@@ -27,10 +26,6 @@ effects:
     flags: {}
     duration: {}
     changes:
-      - key: system.attributes.pv.bonus.total
-        mode: 2
-        value: '11'
-        priority: 20
       - key: system.attributes.pm.bonus.nivel
         mode: 2
         value: '@sab'

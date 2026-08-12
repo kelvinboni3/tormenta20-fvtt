@@ -55,10 +55,133 @@ export function setHB(doc, key, value) {
 }
 
 /* -------------------------------------------- */
-/*  Fadiga da Visao                              */
+/*  Reparo: atributo das pericias                */
+/* -------------------------------------------- */
+
+/**
+ * Devolve ao campo `atributo` de cada pericia o valor de referencia do sistema.
+ *
+ * Existem fichas em que as 34 pericias ficam gravadas com "for", fazendo toda
+ * rolagem usar Forca. A referencia correta e CONFIG.T20.pericias[chave].abl -
+ * repare que a chave no CONFIG e `abl`, e no ator e `atributo`. O proprio
+ * sistema traz uma migracao para isso (tormenta20.mjs:19077), o que sugere ser
+ * um defeito conhecido dele; esta funcao aplica o mesmo conserto sob demanda.
+ *
+ * Atencao: e uma reposicao ao padrao. Se o jogador tiver trocado o atributo de
+ * alguma pericia de proposito, essa troca tambem sera desfeita. Use so quando a
+ * ficha estiver claramente errada.
+ *
+ * @param {Actor} actor
+ * @returns {Promise<string[]>}  Chaves das pericias corrigidas.
+ */
+export async function repararPericias(actor) {
+	const pericias = actor?.system?.pericias;
+	if (!pericias) return [];
+	const alteracoes = {};
+	const corrigidas = [];
+	for (const [chave, pericia] of Object.entries(pericias)) {
+		const padrao = CONFIG.T20.pericias?.[chave]?.abl;
+		if (!padrao || pericia.atributo === padrao) continue;
+		alteracoes[`system.pericias.${chave}.atributo`] = padrao;
+		corrigidas.push(`${chave}: ${pericia.atributo} -> ${padrao}`);
+	}
+	if (corrigidas.length) await actor.update(alteracoes);
+	return corrigidas;
+}
+
+/* -------------------------------------------- */
+/*  PV da classe Vidente                         */
 /* -------------------------------------------- */
 
 const CLASSE_VIDENTE = "Vidente Carmesim de Rusivald";
+const EFEITO_PV = "Vitalidade do Vidente";
+
+/**
+ * Ajuste de PV necessario, em pontos, conforme a classe esteja ou nao marcada
+ * como "Classe Inicial" na ficha.
+ *
+ * A regra da mesa e PV 16 + CON no nivel 1 e 5 + CON por nivel seguinte. Com
+ * pvPorNivel = 5 o sistema ja soma CON sozinho, e o total dos N niveis fica:
+ *
+ *   inicial marcada   -> (N+3)*5 + N*CON = 5N + 15 + N*CON   => faltam -4
+ *   inicial desmarcada->     N*5 + N*CON = 5N      + N*CON   => faltam +11
+ *
+ * porque o alvo e 16 + CON + (N-1)*(5 + CON) = 5N + 11 + N*CON. Em ambos os
+ * casos o ajuste e uma constante, valida em todos os niveis.
+ */
+const AJUSTE_PV = { inicial: -4, naoInicial: 11 };
+
+/**
+ * Mantem o efeito de PV do Vidente coerente com o estado da caixa "Classe
+ * Inicial". Nao pode ser um efeito estatico no item de classe porque o valor
+ * correto muda conforme essa caixa, que o jogador controla na ficha.
+ * @param {Actor} actor
+ */
+export function sincronizarPV(actor) {
+	if (!actor?.isOwner || actor.pack) return Promise.resolve();
+	// Mesma fila da fadiga: dois gatilhos (hook de item e render da ficha) podem
+	// chamar isto ao mesmo tempo, e sem serializar ambos veem "nao existe
+	// efeito" e criam um cada, aplicando o ajuste em dobro.
+	return enfileirar(actor, async () => {
+		const classe = actor.itemTypes?.classe?.find((i) => i.name === CLASSE_VIDENTE);
+		const desejado = classe ? (classe.system.inicial ? AJUSTE_PV.inicial : AJUSTE_PV.naoInicial) : null;
+		// Busca TODOS, nao apenas o primeiro: se alguma duplicata escapou, ela e
+		// removida aqui em vez de continuar somando.
+		const existentes = actor.effects.filter((e) => e.getFlag(SCOPE, `${PREFIXO}.pv`));
+
+		const jaCorreto =
+			desejado !== null && existentes.length === 1 && Number(existentes[0].changes[0]?.value) === desejado;
+		if (jaCorreto) return;
+
+		if (existentes.length) {
+			await actor.deleteEmbeddedDocuments(
+				"ActiveEffect",
+				existentes.map((e) => e.id)
+			);
+		}
+		if (desejado === null) return;
+
+		await actor.createEmbeddedDocuments("ActiveEffect", [
+			{
+				name: `${EFEITO_PV} (${desejado > 0 ? "+" : ""}${desejado} PV)`,
+				img: "icons/svg/heal.svg",
+				origin: actor.uuid,
+				disabled: false,
+				changes: [
+					{
+						key: "system.attributes.pv.bonus.total",
+						mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+						value: String(desejado),
+						priority: 20
+					}
+				],
+				flags: { [SCOPE]: { [PREFIXO]: { pv: true } } }
+			}
+		]);
+	});
+}
+
+for (const hook of ["createItem", "updateItem", "deleteItem"]) {
+	Hooks.on(hook, (item) => {
+		if (item?.parent?.documentName !== "Actor" || item.type !== "classe") return;
+		if (item.name !== CLASSE_VIDENTE) return;
+		sincronizarPV(item.parent);
+	});
+}
+
+// Rede de seguranca: os hooks de item nao sao confiaveis aqui. Ao desmarcar
+// "Classe Inicial" num personagem de classe unica, ItemT20._onUpdate
+// (tormenta20.mjs:6732) tenta promover outra classe, nao acha nenhuma e lanca
+// TypeError - o que aborta a cadeia ANTES do Foundry disparar "updateItem".
+// Sincronizar tambem ao abrir a ficha garante que o ajuste se corrija sozinho.
+// sincronizarPV so escreve quando o valor muda, entao isso nao vira um laco de
+// render.
+Hooks.on("renderActorSheet", (app) => sincronizarPV(app.actor));
+
+/* -------------------------------------------- */
+/*  Fadiga da Visao                              */
+/* -------------------------------------------- */
+
 const EFEITO_FADIGA = "Fadiga da Visao";
 const FADIGA_MAX = 11;
 
@@ -394,6 +517,13 @@ Hooks.once("init", () => {
 
 Hooks.once("ready", () => {
 	// Exposto para macros e para depuracao no console.
-	game.tormenta20Homebrew = { getFadiga, definirFadiga, ajustarFadiga, alternarOlhos };
+	game.tormenta20Homebrew = {
+		getFadiga,
+		definirFadiga,
+		ajustarFadiga,
+		alternarOlhos,
+		repararPericias,
+		sincronizarPV
+	};
 	console.log(`${NS} | pronto`);
 });

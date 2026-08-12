@@ -44,20 +44,58 @@ O sistema calcula assim (`tormenta20.mjs:16911`), por nível de cada classe:
 
 Duas consequências:
 
-**O campo `inicial` não serve aqui.** Sua regra "nível 1 vale 4×" não consegue
-expressar 16 inicial com 5 por nível — precisaria de `pvPorNivel` 4 e 5 ao
-mesmo tempo. Em vez disso, `pvPorNivel: 5` com um bônus **fixo de +11** no
-total acerta todos os níveis de uma vez, porque
-`5N + 11 + N·CON` é identicamente igual a `16 + CON + (N−1)·(5 + CON)`.
+**O ajuste de PV depende da caixa "Classe Inicial".** Com `pvPorNivel: 5`, o
+alvo `16 + CON + (N−1)·(5 + CON)` é igual a `5N + 11 + N·CON`. O que o sistema
+produz depende da caixa:
+
+| Caixa | Sistema produz | Ajuste necessário |
+| --- | --- | --- |
+| marcada | `5N + 15 + N·CON` | **−4** |
+| desmarcada | `5N + N·CON` | **+11** |
+
+Em ambos os casos é uma constante, válida em todos os níveis — mas são
+constantes **diferentes**. Por isso o ajuste não é um efeito estático no item
+de classe: `sincronizarPV` em `homebrew.mjs` mantém um efeito no ator com o
+valor certo, reagindo à caixa.
+
+Ele roda nos hooks de item **e** ao abrir a ficha. A ficha é a rede de
+segurança: ao desmarcar "Classe Inicial" num personagem de classe única,
+`ItemT20._onUpdate` (`tormenta20.mjs:6732`) tenta promover outra classe, não
+encontra nenhuma e lança `TypeError` — o que aborta a cadeia antes do Foundry
+disparar `updateItem`. É um defeito do sistema, não da camada homebrew.
+
+As escritas passam pela mesma fila da Fadiga. Sem isso os dois gatilhos rodam
+juntos, ambos veem "não existe efeito" e criam um cada, aplicando o ajuste em
+dobro — observado em teste, com PV 28 no lugar de 17.
 
 **SAB por nível precisa de `bonus.nivel`.** Marcar o atributo em
 `attributes.pm.atributos` somaria SAB **uma vez** no total, não por nível.
 Já `bonus.nivel` entra dentro do laço (`tormenta20.mjs:16934`), então `@sab`
 ali dá exatamente 5 + SAB por nível.
 
-Os dois ajustes vivem num ActiveEffect `transfer: true` dentro do próprio item
-de classe, então acompanham a classe e não precisam ser refeitos por
-personagem. Conferido em jogo do nível 1 ao 20, com CON negativo inclusive.
+O ajuste de PM é estático e vive num ActiveEffect `transfer: true` dentro do
+item de classe, porque não depende de mais nada. Conferido em jogo do nível 1
+ao 20, com CON negativo inclusive, e com a caixa "Classe Inicial" nos dois
+estados.
+
+## Reparo: perícias todas com Força
+
+Se uma ficha aparecer com **todas as perícias usando FOR**, o campo `atributo`
+de cada perícia foi gravado errado — e isso afeta as rolagens de verdade, não
+só a exibição. Conserto:
+
+```js
+game.tormenta20Homebrew.repararPericias(game.actors.getName("Nome"));
+```
+
+A referência correta é `CONFIG.T20.pericias[chave].abl` — note que no CONFIG a
+chave é `abl` e no ator é `atributo`. O próprio sistema traz uma migração para
+esse mesmo campo (`tormenta20.mjs:19077`), o que sugere ser um defeito
+conhecido dele. Não foi possível reproduzir a causa: atores criados agora saem
+corretos, e nem a camada homebrew nem a importação da classe alteram o campo.
+
+Cuidado: a função repõe o padrão. Se você tiver trocado o atributo de alguma
+perícia de propósito, essa troca também será desfeita.
 
 ## Fadiga da Visão
 
