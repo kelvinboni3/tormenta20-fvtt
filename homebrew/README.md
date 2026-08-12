@@ -97,6 +97,31 @@ corretos, e nem a camada homebrew nem a importação da classe alteram o campo.
 Cuidado: a função repõe o padrão. Se você tiver trocado o atributo de alguma
 perícia de propósito, essa troca também será desfeita.
 
+## O que os poderes automatizam
+
+A maioria dos 34 poderes é **texto descritivo**, de propósito: só vira efeito o
+que tem um número fixo e permanente. Bônus condicionais ("contra o alvo
+Marcado", "contra desprevenidos") não são expressáveis como efeito estático —
+aplicá-los sempre seria pior que não aplicar.
+
+| Poder | Automatizado | Como |
+| --- | --- | --- |
+| Olhos do Julgamento | +2 Percepção/Intuição/Reflexos, SAB na Defesa | efeito ligado ao botão da ficha |
+| Olho Desperto | +2 Vontade | efeito no item |
+| Fluxo Precognitivo | +5 Iniciativa | efeito no item |
+| Fôlego do Predador | fadiga a cada 2 rodadas | lógica em `homebrew.mjs` |
+
+O botão **Olhos** na barra de Fadiga liga e desliga o efeito. Ele aparece na
+aba Efeitos do ator enquanto ativo, e some ao desligar.
+
+O que fica na mão: Marca do Julgamento e Precisão Cirúrgica (dependem de alvo),
+Véu de Espinhos e Ritmo do Duelista (reações), Golpe Previsto e Predador
+Silencioso (condicionais), Olhar Implacável (ignorar esquiva não tem chave), e
+os poderes narrativos como Visão Espiritual e Eco de Roswa.
+
+Nem tudo dos Olhos é numérico: detectar ilusões, presenças espirituais e
+intenções hostis, e ignorar camuflagem leve, continuam sendo leitura de mesa.
+
 ## Fadiga da Visão
 
 Recurso da classe Vidente Carmesim de Rusivald, implementado em `homebrew.mjs`.

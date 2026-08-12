@@ -2,7 +2,29 @@ _id: iPv2T8PsXbG2FiFH
 name: 'Fluxo Precognitivo (Poder de Classe)'
 type: poder
 img: icons/svg/upgrade.svg
-effects: []
+effects:
+  # O texto original nao fixava o valor; +5 foi a sugestao registrada. Para
+  # mudar, altere o "value" aqui e rode `npm run pack`.
+  - _id: hbFluxoPrecog001
+    name: 'Fluxo Precognitivo'
+    img: icons/svg/upgrade.svg
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.pericias.inic.outros
+        mode: 2
+        value: '5'
+        priority: 20
+    _key: '!items.effects!iPv2T8PsXbG2FiFH.hbFluxoPrecog001'
 folder: null
 sort: 0
 flags: {}

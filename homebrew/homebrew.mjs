@@ -399,6 +399,59 @@ export async function alternarOlhos(actor, ativo) {
 	const novo = ativo ?? !getHB(actor, "olhosAtivos", false);
 	await setHB(actor, "olhosAtivos", novo);
 	if (!novo) await setHB(actor, "rodadasOlhos", 0);
+	await sincronizarOlhos(actor);
+}
+
+const EFEITO_OLHOS = "Olhos do Julgamento";
+
+/**
+ * Bonus concedidos enquanto os Olhos do Julgamento estao ativos.
+ *
+ * `pericias.<chave>.outros` e o campo de bonus avulso de uma pericia
+ * (tormenta20.mjs:9264); `defesa.atributo` troca o atributo que entra na
+ * Defesa (tormenta20.mjs:9044) e por isso usa OVERRIDE, nao ADD.
+ *
+ * O que o poder faz e nao esta aqui - detectar ilusoes, presencas espirituais
+ * e intencoes hostis, ignorar camuflagem leve - nao tem numero no sistema e
+ * continua sendo leitura de mesa.
+ */
+const MUDANCAS_OLHOS = [
+	["system.pericias.perc.outros", CONST.ACTIVE_EFFECT_MODES.ADD, "2"],
+	["system.pericias.intu.outros", CONST.ACTIVE_EFFECT_MODES.ADD, "2"],
+	["system.pericias.refl.outros", CONST.ACTIVE_EFFECT_MODES.ADD, "2"],
+	["system.attributes.defesa.atributo", CONST.ACTIVE_EFFECT_MODES.OVERRIDE, "sab"]
+];
+
+/**
+ * Cria ou remove o efeito dos Olhos do Julgamento conforme o estado do botao.
+ * @param {Actor} actor
+ */
+export function sincronizarOlhos(actor) {
+	if (!actor?.isOwner || actor.pack) return Promise.resolve();
+	return enfileirar(actor, async () => {
+		const deveEstar = ehVidente(actor) && getHB(actor, "olhosAtivos", false);
+		const existentes = actor.effects.filter((e) => e.getFlag(SCOPE, `${PREFIXO}.olhos`));
+
+		if (deveEstar && existentes.length === 1) return;
+		if (existentes.length) {
+			await actor.deleteEmbeddedDocuments(
+				"ActiveEffect",
+				existentes.map((e) => e.id)
+			);
+		}
+		if (!deveEstar) return;
+
+		await actor.createEmbeddedDocuments("ActiveEffect", [
+			{
+				name: EFEITO_OLHOS,
+				img: "systems/tormenta20/icons/conditions/ofuscado.svg",
+				origin: actor.uuid,
+				disabled: false,
+				changes: MUDANCAS_OLHOS.map(([key, mode, value]) => ({ key, mode, value, priority: 20 })),
+				flags: { [SCOPE]: { [PREFIXO]: { olhos: true } } }
+			}
+		]);
+	});
 }
 
 /* -------------------------------------------- */
