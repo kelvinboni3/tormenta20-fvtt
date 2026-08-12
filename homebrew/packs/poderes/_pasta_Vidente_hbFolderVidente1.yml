@@ -1,0 +1,16 @@
+# Pasta do compendio "Poderes (Homebrew)".
+#
+# Uma pasta por classe. Para acrescentar outra, copie este arquivo, gere um _id
+# novo de 16 caracteres alfanumericos, ajuste o name e aponte os poderes da
+# classe nova com `folder: <novo _id>`.
+#
+# O prefixo _pasta_ no nome do arquivo e so para as pastas ficarem agrupadas na
+# listagem do diretorio; o Foundry ignora o nome do arquivo.
+folder: null
+name: Vidente Carmesim de Rusivald
+sorting: a
+type: Item
+_id: hbFolderVidente1
+sort: 0
+flags: {}
+_key: '!folders!hbFolderVidente1'

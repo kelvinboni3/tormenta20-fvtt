@@ -29,9 +29,12 @@ let total = 0;
 const packs = await fs.readdir(HOMEBREW, { withFileTypes: true }).catch(() => []);
 for (const entry of packs.filter((e) => e.isDirectory())) {
 	const dir = path.join(HOMEBREW, entry.name);
+	// Pastas e itens vivem no mesmo diretorio, mas com prefixos de chave
+	// diferentes. Precisamos das pastas antes para conferir as referencias.
+	const pastas = new Set();
+	const documentos = [];
 	for (const f of await fs.readdir(dir)) {
 		if (!f.endsWith(".yml") && !f.endsWith(".yaml")) continue;
-		total++;
 		let doc;
 		try {
 			doc = yaml.load(await fs.readFile(path.join(dir, f), "utf8"));
@@ -39,6 +42,13 @@ for (const entry of packs.filter((e) => e.isDirectory())) {
 			erros.push(`${f}: YAML invalido - ${e.message}`);
 			continue;
 		}
+		documentos.push([f, doc]);
+		if (typeof doc?._key === "string" && doc._key.startsWith("!folders!")) pastas.add(doc._id);
+	}
+
+	for (const [f, doc] of documentos) {
+		total++;
+		const ehPasta = typeof doc._key === "string" && doc._key.startsWith("!folders!");
 
 		const id = doc._id;
 		if (typeof id !== "string" || !/^[a-zA-Z0-9]{16}$/.test(id)) {
@@ -46,8 +56,20 @@ for (const entry of packs.filter((e) => e.isDirectory())) {
 		}
 		if (ids.has(id)) erros.push(`${f}: _id duplicado com ${ids.get(id)}`);
 		else ids.set(id, f);
-		if (doc._key !== `!items!${id}`) erros.push(`${f}: _key nao corresponde ao _id (${doc._key})`);
+		const prefixo = ehPasta ? "!folders!" : "!items!";
+		if (doc._key !== `${prefixo}${id}`) erros.push(`${f}: _key nao corresponde ao _id (${doc._key})`);
 		if (!doc.name) erros.push(`${f}: sem name`);
+
+		if (ehPasta) {
+			if (doc.type !== "Item") erros.push(`${f}: pasta com type "${doc.type}", esperado "Item"`);
+			if (doc.folder && !pastas.has(doc.folder)) erros.push(`${f}: pasta-mae inexistente (${doc.folder})`);
+			continue;
+		}
+		// Uma referencia a pasta inexistente faz o documento sumir da arvore no
+		// Foundry, sem erro visivel.
+		if (doc.folder && !pastas.has(doc.folder)) {
+			erros.push(`${f}: aponta para a pasta "${doc.folder}", que nao existe neste pack`);
+		}
 
 		const s = doc.system ?? {};
 		if (doc.type === "poder") {

@@ -27,6 +27,26 @@ A fonte de verdade do seu conteúdo é o **YAML** em `homebrew/packs/`. O LevelD
 em `packs/homebrew-*` é gerado — nunca edite à mão. Rode `npm run pack` e
 reinicie o mundo no Foundry para ver o resultado.
 
+O Foundry mantém o LevelDB aberto enquanto o mundo está ativo, então
+`npm run pack` falha com erro de arquivo em uso. Volte à tela de setup (ou
+encerre o servidor) antes de compilar.
+
+### Pastas por classe
+
+Os poderes ficam em uma pasta por classe dentro do compêndio. Uma pasta é um
+documento como qualquer outro, com `_key: '!folders!<id>'` — veja
+`homebrew/packs/poderes/_pasta_Vidente_hbFolderVidente1.yml`.
+
+Para acrescentar outra classe:
+
+1. Copie o arquivo da pasta, troque o `name` e gere um `_id` novo de 16
+   caracteres alfanuméricos (o `_key` precisa repetir esse `_id`).
+2. Nos poderes da classe nova, use `folder: <novo _id>`.
+
+O `npm run validar` confere que todo `folder` aponta para uma pasta existente
+no mesmo pack — uma referência quebrada faz o documento sumir da árvore no
+Foundry sem erro visível.
+
 Use `npm run unpack` para ler o conteúdo oficial e copiar o formato exato de um
 item antes de escrever o seu. A extração trabalha sobre uma cópia, então os
 packs oficiais nunca são alterados.

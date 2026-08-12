@@ -3,7 +3,7 @@ name: 'Julgamento Interior (Nivel 15)'
 type: poder
 img: icons/svg/upgrade.svg
 effects: []
-folder: null
+folder: hbFolderVidente1
 sort: 0
 flags: {}
 system:
