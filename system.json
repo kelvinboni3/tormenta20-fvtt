@@ -194,6 +194,13 @@
       "system": "tormenta20",
       "path": "./packs/homebrew-classes",
       "type": "Item"
+    },
+    {
+      "name": "homebrew-poderes",
+      "label": "Poderes (Homebrew)",
+      "system": "tormenta20",
+      "path": "./packs/homebrew-poderes",
+      "type": "Item"
     }
   ],
   "packFolders": [
@@ -242,7 +249,7 @@
       "name": "Homebrew",
       "sorting": "m",
       "color": "#4a7c59",
-      "packs": ["homebrew-classes"]
+      "packs": ["homebrew-classes", "homebrew-poderes"]
     }
   ],
   "languages": [
