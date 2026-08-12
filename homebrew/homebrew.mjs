@@ -85,9 +85,53 @@ export async function repararPericias(actor) {
 		alteracoes[`system.pericias.${chave}.atributo`] = padrao;
 		corrigidas.push(`${chave}: ${pericia.atributo} -> ${padrao}`);
 	}
-	if (corrigidas.length) await actor.update(alteracoes);
+	// A opcao marca esta escrita como intencional, para o guarda abaixo deixar
+	// passar - ele bloqueia justamente alteracoes em massa como esta.
+	if (corrigidas.length) await actor.update(alteracoes, { [PREFIXO]: { reparo: true } });
 	return corrigidas;
 }
+
+/**
+ * Quantas pericias alteradas de uma vez ja indicam corrupcao, e nao edicao.
+ * Trocar o atributo de uma pericia e uma decisao pontual; ninguem troca cinco
+ * na mesma acao.
+ */
+const LIMITE_PERICIAS_EM_MASSA = 5;
+
+/**
+ * Impede a ficha de gravar o atributo errado em massa.
+ *
+ * A ficha de personagem em modo de edicao renderiza um <select> por pericia
+ * (templates/actor/parts/lists/list-skills.hbs). Em algum re-render esses
+ * selects perdem o valor e voltam ao primeiro do CONFIG - "for". A partir dai
+ * qualquer alteracao na ficha, mesmo mudar um atributo, envia o formulario
+ * inteiro e grava Forca em cerca de 20 das 34 pericias, o que estraga TODAS as
+ * rolagens de pericia.
+ *
+ * Reproduzido em ator sem nenhum item, entao e defeito do sistema e nao desta
+ * camada. Como o tormenta20.mjs e um bundle gerado, consertar la seria perdido
+ * na proxima atualizacao; aqui a escrita ruim e apenas descartada.
+ */
+Hooks.on("preUpdateActor", (actor, changed, options) => {
+	if (options?.[PREFIXO]?.reparo) return;
+	const plano = foundry.utils.flattenObject(changed ?? {});
+	const suspeitas = Object.keys(plano).filter((k) => /^system\.pericias\.[^.]+\.atributo$/.test(k));
+	if (suspeitas.length < LIMITE_PERICIAS_EM_MASSA) return;
+
+	// Mantem apenas o que realmente muda em relacao ao padrao do sistema, que e
+	// nenhuma coisa numa gravacao vinda do bug: todas viriam como "for".
+	let descartadas = 0;
+	for (const chave of suspeitas) {
+		const pericia = chave.split(".")[2];
+		const padrao = CONFIG.T20.pericias?.[pericia]?.abl;
+		if (!padrao || plano[chave] === padrao) continue;
+		foundry.utils.setProperty(changed, chave, padrao);
+		descartadas++;
+	}
+	if (descartadas) {
+		console.warn(`${NS} | ${descartadas} pericias seriam gravadas com o atributo errado pela ficha; corrigido`);
+	}
+});
 
 /* -------------------------------------------- */
 /*  PV da classe Vidente                         */

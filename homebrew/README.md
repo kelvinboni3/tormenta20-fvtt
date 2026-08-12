@@ -78,6 +78,27 @@ item de classe, porque não depende de mais nada. Conferido em jogo do nível 1
 ao 20, com CON negativo inclusive, e com a caixa "Classe Inicial" nos dois
 estados.
 
+## Bug do sistema: perícias viram Força ao editar a ficha
+
+**Causa, reproduzida.** A ficha em modo de edição renderiza um `<select>` por
+perícia (`templates/actor/parts/lists/list-skills.hbs`). Em algum re-render
+esses selects perdem o valor e voltam ao primeiro do CONFIG — `for`. A partir
+daí, **qualquer** alteração na ficha (mudar um atributo, por exemplo) envia o
+formulário inteiro e grava Força em cerca de 20 das 34 perícias, arruinando
+todas as rolagens de perícia.
+
+Reproduzido num ator recém-criado, sem nenhum item e sem a classe Vidente —
+portanto é defeito do sistema, não desta camada.
+
+**Contenção.** Um `preUpdateActor` em `homebrew.mjs` descarta escritas em massa
+no campo `atributo`: a partir de 5 perícias alteradas de uma vez, os valores
+são repostos ao padrão do CONFIG. Trocar o atributo de uma perícia continua
+funcionando normalmente — ninguém troca cinco na mesma ação, mas a ficha
+bugada troca vinte.
+
+Como `tormenta20.mjs` é um bundle gerado, consertar lá seria perdido na próxima
+atualização do sistema. O guarda vive na camada homebrew e sobrevive.
+
 ## Reparo: perícias todas com Força
 
 Se uma ficha aparecer com **todas as perícias usando FOR**, o campo `atributo`
