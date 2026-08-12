@@ -13,6 +13,13 @@
 	padding-left: 0.5rem;
 }
 
+/* Botao de conserto das pericias, na barra lateral de Atores. */
+.hb-reparar-pericias {
+	width: 100%;
+	margin-top: 0.25rem;
+	font-size: 0.85rem;
+}
+
 /* -------------------------------------------- */
 /*  Fadiga da Visao                              */
 /* -------------------------------------------- */

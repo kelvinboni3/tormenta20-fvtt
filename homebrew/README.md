@@ -101,24 +101,26 @@ atualização do sistema. O guarda vive na camada homebrew e sobrevive.
 
 ## Reparo: perícias todas com Força
 
-Se uma ficha aparecer com **todas as perícias usando FOR**, o campo `atributo`
-de cada perícia foi gravado errado — e isso afeta as rolagens de verdade, não
-só a exibição. O guarda acima impede que aconteça de novo, mas não desfaz o que
-já estava gravado.
+O guarda acima impede que aconteça de novo, mas não desfaz o que já estava
+gravado. O conserto é feito **pela interface**, sem console:
 
-Para consertar o mundo inteiro de uma vez, incluindo os tokens não vinculados
-das cenas (que guardam uma cópia própria dos dados e não aparecem em
-`game.actors`):
+**1. Aviso automático.** Ao entrar no mundo, se alguma ficha estiver corrompida,
+o mestre recebe uma janela listando quais e um botão **Corrigir agora**. Só
+aparece quando há algo errado — mundo limpo não incomoda ninguém.
 
-```js
-game.tormenta20Homebrew.repararTudo();
-```
+**2. Botão na aba Atores.** Um botão *Corrigir perícias* fica no rodapé da barra
+lateral de Atores, para quem dispensou o aviso ou notou o problema depois.
+Quando não há nada a corrigir, ele diz isso.
 
-Para uma ficha só:
+Ambos corrigem todos os atores do mundo **e** os tokens não vinculados das
+cenas, que guardam uma cópia própria dos dados e não apareceriam num conserto
+ficha a ficha.
 
-```js
-game.tormenta20Homebrew.repararPericias(game.actors.getName("Nome"));
-```
+Uma ficha é considerada corrompida a partir de **10** perícias fora do padrão;
+abaixo disso presume-se customização deliberada e nada é tocado.
+
+Pelo console, se preciso: `game.tormenta20Homebrew.repararTudo()` ou
+`repararPericias(ator)` para uma só.
 
 A referência correta é `CONFIG.T20.pericias[chave].abl` — note que no CONFIG a
 chave é `abl` e no ator é `atributo`. O próprio sistema traz uma migração para

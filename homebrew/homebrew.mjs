@@ -125,6 +125,97 @@ export async function repararTudo() {
 }
 
 /**
+ * A partir de quantas pericias fora do padrao uma ficha e considerada
+ * corrompida. Trocar uma ou duas de proposito e legitimo; dez ou mais so
+ * acontece pelo bug da ficha, que joga tudo em "for".
+ */
+const LIMITE_DETECCAO = 10;
+
+/**
+ * Quantas pericias de um ator estao fora do padrao do sistema.
+ * @param {Actor} actor
+ * @returns {number}
+ */
+function periciasSuspeitas(actor) {
+	const pericias = actor?.system?.pericias;
+	if (!pericias) return 0;
+	let n = 0;
+	for (const [chave, pericia] of Object.entries(pericias)) {
+		const padrao = CONFIG.T20.pericias?.[chave]?.abl;
+		if (padrao && pericia.atributo !== padrao) n++;
+	}
+	return n;
+}
+
+/**
+ * Lista os atores do mundo que parecem ter sido atingidos pelo bug.
+ * @returns {Actor[]}
+ */
+function atoresCorrompidos() {
+	return game.actors.filter((a) => a.system?.pericias && periciasSuspeitas(a) >= LIMITE_DETECCAO);
+}
+
+/**
+ * Pergunta ao mestre se quer consertar, e conserta. Pensado para quem nao vai
+ * abrir o console: aparece sozinho ao entrar no mundo e resolve num clique.
+ * @param {boolean} [silencioso]  Nao avisa quando nao ha nada a corrigir.
+ */
+export async function oferecerReparo(silencioso = false) {
+	const atingidos = atoresCorrompidos();
+	if (!atingidos.length) {
+		if (!silencioso) ui.notifications?.info("Nenhuma ficha com perícias corrompidas.");
+		return;
+	}
+	const lista = atingidos
+		.slice(0, 10)
+		.map((a) => `<li>${foundry.utils.escapeHTML(a.name)}</li>`)
+		.join("");
+	const resto = atingidos.length > 10 ? `<p>...e mais ${atingidos.length - 10}.</p>` : "";
+	const conteudo = `
+		<p><strong>${atingidos.length} ficha(s)</strong> estão com as perícias usando o atributo errado
+		(quase todas em Força). Isso vem de uma falha da ficha do sistema ao editar em modo de edição,
+		e faz as rolagens de perícia saírem erradas.</p>
+		<ul>${lista}</ul>${resto}
+		<p>Posso repor os atributos padrão de cada perícia. Se você tiver trocado o atributo de alguma
+		perícia de propósito, essa troca também será desfeita.</p>`;
+
+	// O conserto e feito no proprio callback do botao, e nao a partir do valor
+	// devolvido pelo dialogo: assim nao depende de como cada versao do Foundry
+	// resolve esse retorno.
+	await foundry.applications.api.DialogV2.wait({
+		window: { title: "Tormenta20 — Perícias com atributo errado" },
+		content: conteudo,
+		buttons: [
+			{ action: "corrigir", label: "Corrigir agora", icon: "fas fa-wrench", default: true, callback: () => repararTudo() },
+			{ action: "depois", label: "Agora não", icon: "fas fa-times" }
+		],
+		rejectClose: false
+	});
+}
+
+// Avisa o mestre ao entrar no mundo, sem incomodar quando esta tudo certo.
+Hooks.once("ready", () => {
+	if (!game.user.isGM) return;
+	setTimeout(() => oferecerReparo(true), 3000);
+});
+
+// Botao permanente na barra lateral de Atores, para quem dispensou o aviso ou
+// so notou o problema depois.
+Hooks.on("renderActorDirectory", (app, html) => {
+	const raiz = html instanceof HTMLElement ? html : html?.[0];
+	if (!raiz || !game.user.isGM || raiz.querySelector(".hb-reparar-pericias")) return;
+	const alvo = raiz.querySelector(".directory-footer") ?? raiz.querySelector(".directory-header");
+	if (!alvo) return;
+
+	const botao = document.createElement("button");
+	botao.type = "button";
+	botao.className = "hb-reparar-pericias";
+	botao.innerHTML = `<i class="fas fa-wrench"></i> Corrigir perícias`;
+	botao.addEventListener("click", () => oferecerReparo());
+	alvo.append(botao);
+});
+
+/**
  * Quantas pericias alteradas de uma vez ja indicam corrupcao, e nao edicao.
  * Trocar o atributo de uma pericia e uma decisao pontual; ninguem troca cinco
  * na mesma acao.
@@ -654,6 +745,7 @@ Hooks.once("ready", () => {
 		alternarOlhos,
 		repararPericias,
 		repararTudo,
+		oferecerReparo,
 		sincronizarPV,
 		sincronizarOlhos
 	};
