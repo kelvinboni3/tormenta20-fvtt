@@ -1,0 +1,56 @@
+_id: QiNLNChwP7nAciYA
+name: 'Comando Defensivo (Poder de Treinador)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/baluarte.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 104000
+flags: {}
+system:
+  description:
+    value: '<p>Quando seu melhor amigo sofre dano, você pode gastar 2 PM para fazer um teste de Adestramento e reduzir o resultado do teste desse dano. Você pode usar esta habilidade uma vez por rodada para cada melhor amigo.</p><p><em>Nota da mesa: o texto não é explícito sobre como o resultado do teste se converte em redução; a leitura direta é subtrair o resultado do dano.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: reaction
+    custo: 2
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: inst
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: spec
+  alvo: 'Melhor amigo que sofreu dano'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!QiNLNChwP7nAciYA'

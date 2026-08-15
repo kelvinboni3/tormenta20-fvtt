@@ -1,0 +1,59 @@
+# Nao vira efeito: o sistema nao tem campo de 'limite de parceiros'.
+# A camada homebrew le este poder para calcular quantas fichas de melhor
+# amigo o treinador pode ter.
+_id: EsAu3JMNzTvio5AJ
+name: 'Coração Grande (Poder de Treinador)'
+type: poder
+img: systems/tormenta20/icons/itens/gerais/parceiros.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 107000
+flags: {}
+system:
+  description:
+    value: '<p>Seu limite de parceiros aumenta em +1. No 11º nível, esse limite aumenta em +1.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: none
+  alvo: 'Limite de parceiros'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!EsAu3JMNzTvio5AJ'

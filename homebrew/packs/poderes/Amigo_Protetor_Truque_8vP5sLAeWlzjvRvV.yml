@@ -1,0 +1,56 @@
+_id: 8vP5sLAeWlzjvRvV
+name: 'Amigo Protetor (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/baluarte.webp
+effects: []
+folder: hbFolderTruques1
+sort: 204000
+flags: {}
+system:
+  description:
+    value: '<p>Quando você sofre dano, caso seu melhor amigo esteja em alcance curto, você pode gastar 2 PM para que ele salte em sua defesa. Se fizer isso, você sofre apenas metade do dano e o melhor amigo sofre o restante.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: reaction
+    custo: 2
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: inst
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: 'Você'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!8vP5sLAeWlzjvRvV'

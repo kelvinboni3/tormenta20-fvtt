@@ -1,0 +1,84 @@
+_id: avhP5FNa972H8n0Z
+name: 'Amigão (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/furia-titanica.webp
+effects:
+  # O tamanho e StringField com choices em T20.actorSizes; 'eno' e Enorme.
+  # Trocar o tamanho ja faz o sistema recalcular Furtividade e manobras.
+  # O aumento de um passo no dado de dano da arma natural NAO entra aqui:
+  # o passo depende do dado atual da arma, que e um item a parte.
+  - _id: 4xBxtZF5GlmAh6G4
+    name: 'Amigão'
+    img: systems/tormenta20/icons/poderes/classes/combatentes/furia-titanica.webp
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.atributos.for.bonus
+        mode: 2
+        value: '1'
+        priority: 20
+      - key: system.tracos.tamanho
+        mode: 5
+        value: 'eno'
+        priority: 20
+    _key: '!items.effects!avhP5FNa972H8n0Z.4xBxtZF5GlmAh6G4'
+folder: hbFolderTruques1
+sort: 201000
+flags: {}
+system:
+  description:
+    value: '<p>Seu melhor amigo recebe +1 em Força e o tamanho dele muda para <strong>Enorme</strong>. Isso aumenta o dano de suas armas naturais em um passo e afeta seu modificador de Furtividade e manobras.</p><p><strong>Pré-requisito:</strong> melhor amigo Grande, 7º nível de treinador.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!avhP5FNa972H8n0Z'

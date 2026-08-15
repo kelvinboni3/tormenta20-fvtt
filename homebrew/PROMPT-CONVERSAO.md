@@ -1,5 +1,15 @@
 # Prompt para converter uma classe homebrew
 
+> **Prefira o [prompts/1-classe.md](prompts/1-classe.md).** Este prompt pede o
+> YAML pronto à outra IA; o outro pede uma ficha técnica normalizada e deixa o
+> YAML para quem está com o repositório aberto. Foi assim que o Vidente entrou,
+> e os commits seguintes foram consertar ícones, pastas, efeitos e o cálculo de
+> PV/PM — coisas que dependem de detalhes do sistema que não cabem num prompt.
+> O motivo completo está em [prompts/README.md](prompts/README.md).
+>
+> Este arquivo continua aqui para quando você quiser um rascunho de YAML rápido
+> e souber que vai revisar tudo à mão.
+
 Copie **todo o conteúdo abaixo da linha** para o Claude Desktop e cole a sua
 classe no final, onde está indicado.
 

@@ -1,0 +1,82 @@
+_id: 09Jod8fxXCr8EmjK
+name: 'Alado (Truque)'
+type: poder
+img: systems/tormenta20/icons/itens/gerais/grifo.webp
+effects:
+  # A chave termina em '.base': cada deslocamento e um SchemaField
+  # {base: Number, bonus: [String]} (MovementData, tormenta20.mjs:18230).
+  # Apontar para 'movement.fly' direto nao aplica nada - testado em jogo.
+  # 
+  # OVERRIDE, nao ADD: o truque define o valor do voo, nao soma ao que
+  # ja houver (Asas ja da 12m com gasto de PM).
+  - _id: kO5b9XILwx9LlTWn
+    name: 'Alado'
+    img: systems/tormenta20/icons/itens/gerais/grifo.webp
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.attributes.movement.fly.base
+        mode: 5
+        value: '15'
+        priority: 20
+    _key: '!items.effects!09Jod8fxXCr8EmjK.kO5b9XILwx9LlTWn'
+folder: hbFolderTruques1
+sort: 200000
+flags: {}
+system:
+  description:
+    value: '<p>Seu melhor amigo ganha deslocamento de voo 15m.</p><p><strong>Pré-requisitos:</strong> Asas, 5º nível de treinador.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!09Jod8fxXCr8EmjK'

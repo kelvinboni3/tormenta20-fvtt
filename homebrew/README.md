@@ -14,6 +14,7 @@ como um segundo arquivo em cada lista, carregado **depois** do sistema:
 | `homebrew/homebrew.mjs` | Mecânica e automação, via hooks |
 | `homebrew/homebrew.css` | Ajustes visuais (prefixo `hb-`) |
 | `homebrew/packs/<nome>/*.yml` | Conteúdo, em YAML versionável |
+| `homebrew/prompts/` | Prompts para outra IA normalizar conteúdo cru antes de virar YAML |
 
 ## Fluxo de trabalho
 
@@ -63,7 +64,33 @@ Use `npm run unpack` para ler o conteúdo oficial e copiar o formato exato de um
 item antes de escrever o seu. A extração trabalha sobre uma cópia, então os
 packs oficiais nunca são alterados.
 
-## PV e PM da classe
+## Raças
+
+O compêndio **Raças (Homebrew)** (`homebrew-racas`) vem de
+`homebrew/packs/racas/`, pelo mesmo `npm run pack`.
+
+Uma raça não guarda as próprias habilidades: ela aponta para elas por UUID, em
+`system.grants[].choices[].uuid`. As habilidades raciais são itens `type: poder`
+com `tipo: racial`, e vivem em `homebrew/packs/poderes/` junto com as demais —
+com uma pasta própria, como as classes têm. O UUID de uma delas fica
+`Compendium.tormenta20.homebrew-poderes.Item.<_id>`.
+
+Nas 18 raças oficiais, todo `grants` é um bloco único com `type: multi`
+listando todas as habilidades — ou seja, o personagem recebe todas. O schema
+também aceita `type: single`, mas nenhuma raça oficial usa, então esse caminho
+não está testado em jogo.
+
+`npm run validar` confere os seis atributos (o `RaceData` exige todos, com
+mínimo −5), o `tamanho` contra `min/peq/med/gra/eno/col`, o `movement.walk`, e
+que todo UUID de grant apontando para um pack homebrew exista de fato no YAML.
+Um UUID quebrado não gera erro no Foundry: a habilidade simplesmente não
+aparece na hora de criar o personagem.
+
+## PV e PM da classe (Vidente)
+
+> As contas abaixo são as do Vidente. A fórmula geral, válida para qualquer
+> classe homebrew, está no comentário de `AJUSTE_PV` em `homebrew.mjs`; veja
+> também [Classe Treinador](#classe-treinador), que cai em ajuste zero.
 
 A regra da mesa é **PV 16 + CON no nível 1, depois 5 + CON por nível**, e
 **PM 5 + SAB por nível**. Nenhuma das duas sai só com os campos do item.
@@ -109,6 +136,224 @@ O ajuste de PM é estático e vive num ActiveEffect `transfer: true` dentro do
 item de classe, porque não depende de mais nada. Conferido em jogo do nível 1
 ao 20, com CON negativo inclusive, e com a caixa "Classe Inicial" nos dois
 estados.
+
+## Classe Treinador
+
+Segunda classe homebrew. Vive em `homebrew/packs/classes/` e seus 27 poderes
+em `homebrew/packs/poderes/`, na pasta `hbFolderTreinad1`:
+
+| Grupo | Quantos | Pasta | Nome no compêndio |
+| --- | --- | --- | --- |
+| Habilidades de nível | 6 | Treinador | `Direcionar (Nível 1)`, `Melhor Amigo (Nível 1)`, `Domar Criatura (Nível 2)`, `Treino Especializado (Nível 5)`, `Sincronia de Combate (Nível 6)`, `Sincronia Perfeita (Nível 20)` |
+| Poderes de Treinador | 21 | Treinador | `<Nome> (Poder de Treinador)` |
+| Truques do Melhor Amigo | 22 | Truques do Melhor Amigo | `<Nome> (Truque)` |
+
+**PV e PM saem de graça.** Ao contrário do Vidente, o Treinador não precisa de
+nenhum ActiveEffect no item de classe:
+
+- **PM 4 por nível, sem atributo.** É exatamente o que o sistema faz com
+  `pmPorNivel: 4`. O Vidente precisava de `bonus.nivel` só porque somava SAB.
+- **PV 12 + CON, depois 3 + CON.** Com `pvPorNivel: 3` e a caixa "Classe
+  Inicial" **marcada**, o sistema produz `3N + 9 + N·CON`, que é o alvo exato —
+  porque 12 é justamente `4 × 3`. Ajuste zero.
+
+Com a caixa desmarcada faltam +9, e disso cuida `sincronizarPV`. A tabela
+`AJUSTE_PV` em `homebrew.mjs` agora guarda uma linha por classe, com a fórmula
+geral (`P1 − 4p` marcada, `P1 − p` desmarcada) derivada no comentário. Ajuste
+zero não cria efeito nenhum.
+
+**Nenhum poder virou ActiveEffect, e isso é proposital.** Os poderes do
+Treinador quase todos alteram a ficha do *melhor amigo*, não a dele. Dos que
+sobram, `Aumento de Atributo` depende de qual atributo o jogador escolheu,
+`Comandos Distantes` promove uma categoria de alcance (que não é chave de
+efeito) e `Coração Grande` mexe no limite de parceiros (que não existe como
+campo). Os três ficam como texto, com o motivo anotado no próprio YAML.
+
+### Truques: os únicos que automatizam
+
+Os truques ficam na ficha do **melhor amigo**, não na do treinador. Por isso —
+ao contrário dos Poderes de Treinador — vários viram ActiveEffect de verdade:
+o item entra na ficha do bicho e o efeito passa para ele.
+
+| Truque | Chave | Modo |
+| --- | --- | --- |
+| Alado | `system.attributes.movement.fly` | OVERRIDE 15 |
+| Amigão | `system.atributos.for.bonus` + `system.tracos.tamanho` | ADD 1 / OVERRIDE `eno` |
+| Amigo Feroz | `system.modificadores.pericias.ataque` | ADD 2 |
+| Anatomia Humanoide | `system.atributos.int.bonus` | ADD 2 |
+| Redução de Dano | `system.tracos.resistencias.dano.bonus` | ADD 5 |
+| Veloz | `system.attributes.defesa.bonus` + `system.attributes.movement.walk` | ADD 2 / ADD 3 |
+
+Os outros 16 ficam como texto, e o motivo está escrito no topo de cada YAML.
+Em resumo: escolha do jogador (Condicionamento Especial, Magia Inata), bônus
+condicional (Táticas de Matilha só flanqueando, Bote só em investida), ou valor
+que depende do nível do treinador (Treinamento Defensivo, Treinamento Marcial)
+— esses três últimos a camada homebrew recalcula.
+
+**Deslocamento não é um número.** Cada tipo é um `SchemaField`
+`{base: Number, bonus: [String]}` (`MovementData`, `tormenta20.mjs:18230`).
+Apontar um efeito para `system.attributes.movement.walk` não aplica nada e
+**não gera erro** — o valor simplesmente não muda. As chaves certas terminam em
+`.base` (para OVERRIDE) ou `.bonus` (para ADD). Isso custou uma rodada de teste
+em jogo antes de aparecer.
+
+Três armadilhas que valem registro:
+
+- **Amigo Feroz** dá +2 "com armas naturais", e o bicho só tem armas naturais —
+  exceto se pegar **Anatomia Humanoide**, que lhe dá proficiência com armas
+  comuns. Nessa combinação o +2 se aplica também a elas, indevidamente.
+- **Redução de Dano** (RD 5) e a RD do poder **Treino Intensivo** (5/10/15) são
+  fontes diferentes. No T20 vale a maior, não a soma — o efeito não sabe disso.
+  Confirmado em jogo: com os dois, a ficha mostrou RD 10 no 7º nível, quando o
+  correto seria 5.
+- A ficha de Personagem do Mestre **mostra a Defesa base, não o total**: a caixa
+  "Defesa" é um input ligado a `defesa.base`. Num teste, ela exibia 10 enquanto
+  o valor real era 24. É comportamento do sistema, não da camada — e é por isso
+  que o painel do Melhor Amigo mostra o total.
+
+## Ficha do Melhor Amigo
+
+O melhor amigo é um ator **`simple`** (Personagem do Mestre) próprio, ligado à
+ficha do treinador, que é um ator **`character`** normal.
+
+### Como ligar
+
+Clique com o botão direito no ator, na barra lateral de Atores →
+**Marcar como Melhor Amigo**. Depois escolha o treinador no seletor que aparece
+no painel da ficha dele.
+
+A ativação fica no menu de contexto, e não na ficha, de propósito: assim as
+fichas de Personagem do Mestre que nada têm a ver com Treinador continuam
+exatamente como são — nenhum elemento a mais, nem escondido.
+
+### O que é calculado
+
+O painel na ficha do bicho mostra, e a camada grava:
+
+| Valor | Conta |
+| --- | --- |
+| Nível | nível de Treinador, ou nível de personagem com **Treinador Eclético** |
+| PV máximo | `16 + CON + (N−1)(4 + CON)`, mais `4×N` com **Treino Intensivo** |
+| Defesa | `CAR do treinador + metade do nível` — nível cheio com **Treinamento Defensivo** |
+| RD | 5 / 10 / 15 nos níveis 5 / 11 / 17, só com **Treino Intensivo** |
+| Marcial | `1 + patamar` com **Treinamento Marcial** (+2 iniciante … +5 lenda) |
+| Truques | `2 + ⌊(N−1)/3⌋`, mais 1 no 5º e outro no 11º com Treino Intensivo, mais 1 por cópia de **Ensinar Truque** |
+
+O painel na ficha do treinador traz a escolha de **Treino Especializado**, o
+limite de parceiros (1 + Conquistar pelos Números + Coração Grande, que dobra no
+11º) e a lista de marcos de nível, com o que já está liberado em negrito.
+
+### Por que quase tudo vira número, e não fórmula
+
+O ator `simple` **não tem nível**: o sistema apaga `attributes.nivel`, `treino`
+e `cd` do schema quando o tipo é `simple` (`tormenta20.mjs:16256`). Logo
+`@nivel` vale 1 e `@meionivel` vale 0 em qualquer fórmula avaliada na ficha do
+bicho. Toda conta que dependa do nível precisa sair daqui já resolvida.
+
+Isso tem um efeito colateral útil: `preparePVPM` (`tormenta20.mjs:16911`)
+desiste logo no início quando não há nível, então o PV máximo do bicho **não é
+calculado pelo sistema** e pode ser gravado direto. Defesa, RD e os bônus de
+Treinamento Marcial não podem, porque o sistema os recalcula — esses vivem num
+único ActiveEffect gerenciado (`Vínculo com o Treinador`), recriado sempre que
+algum valor muda.
+
+O PV máximo sobrescreve edição manual. É o comportamento pedido: o valor segue
+o nível do treinador.
+
+### Onde a escolha de Treino Especializado mora
+
+Numa flag do treinador (`treinador.trilha`), preenchida pelo seletor do painel,
+e não em dois itens separados no compêndio. O item `Treino Especializado
+(Nível 5)` traz os dois caminhos no texto. Assim a escolha fica junto do resto
+do estado e não depende de o jogador ter arrastado o item certo.
+
+### O que ainda falta
+
+O quadro **Mascote** não veio no material, e o poder de mesmo nome remete a
+ele. A remissão ficou explícita na descrição; nada foi inventado.
+
+Os itens 2.5 e 2.7 do levantamento pediam indicadores dos poderes de treinador
+ligados ao bicho e das habilidades de nível **na ficha do treinador**. Os marcos
+de nível entraram; a lista marcável de poderes não — os poderes já aparecem
+como itens na ficha, e duplicá-los num painel criaria duas fontes de verdade.
+Os que a camada precisa conhecer (Treinador Eclético, Ensinar Truque, Coração
+Grande) são lidos direto dos itens.
+
+## Classe Artífice do Sumiê
+
+Terceira classe homebrew. O item de classe vive em `homebrew/packs/classes/` e
+suas 72 **Fórmulas de Sumiê** em `homebrew/packs/poderes/`, divididas em quatro
+pastas — uma por caminho:
+
+| Caminho | Fórmulas | Pasta | O que faz |
+| --- | --- | --- | --- |
+| Bestiário | 19 | `hbFolderSumieBes` | invocações de criaturas de tinta |
+| Caligrafia | 17 | `hbFolderSumieCal` | selos e kanji sobre um alvo |
+| Paisagismo | 18 | `hbFolderSumiePai` | terreno pintado, em área |
+| Herborizo | 18 | `hbFolderSumieHer` | cura e sustento |
+
+Todas são `tipo: classe` com `subtipo: Artífice do Sumiê`, e o Tier entra no
+nome (`Tigre de Tinta (Tier III)`).
+
+**PM sai de graça, PV não.** Com `pmPorNivel: 5` e nenhum atributo somado, o
+sistema já produz os 5 PM por nível que a classe pede. O PV precisa de ajuste:
+com `pvPorNivel: 4`, o alvo `14 + CON` no 1º nível não é múltiplo de 4, então
+sobram **2 PV** com a caixa "Classe Inicial" marcada e faltam **10** com ela
+desmarcada. `AJUSTE_PV` em `homebrew.mjs` ganhou a linha, e `sincronizarPV`
+cuida dos dois casos — mesma mecânica do Vidente.
+
+**Perícias são `numero: 6`, não "6 + Int".** O `+Inteligência` é regra geral de
+T20, aplicada pelo sistema a qualquer personagem, e não parte da classe. As
+classes oficiais fazem igual: o Bardo, que também tem "6 + Int", grava 6.
+
+### O que foi proposto, e por quê
+
+O material de origem **não traz tabela de progressão por nível**, nem custo em
+PM, execução, duração ou alcance de nenhuma das 72 fórmulas — ele lista apenas
+nome, caminho, Tier e um resumo de função. Por decisão de mesa, esses campos
+foram preenchidos com uma proposta em vez de ficarem vazios, para que os itens
+sejam usáveis em jogo. **Nada disso é regra da fonte.**
+
+A escada de Tier:
+
+| Tier | Custo | Nível |
+| --- | --- | --- |
+| I | 1 PM | 1º |
+| II | 2 PM | 5º |
+| III | 3 PM | 9º |
+| IV | 4 PM | 13º |
+| V | 5 PM | 17º |
+
+Execução, duração e alcance saem da natureza de cada caminho: Bestiário e
+Caligrafia são ação padrão, cena, alcance curto; Paisagismo é alcance médio com
+área preenchida, e vira ação completa nos Tiers IV–V, que descrevem paisagens
+inteiras; Herborizo é duração instantânea nas curas e cena nas regenerações e
+auras. As fórmulas que impõem algo a um inimigo receberam resistência
+(Fortitude ou Vontade, conforme a natureza) contra a CD da classe — 10 + metade
+do nível + Inteligência.
+
+Cada YAML abre com um comentário `# PROPOSTO`, e a própria descrição do item
+traz a ressalva depois de um `<hr>`, para que ninguém confunda a proposta com o
+material original na hora de ler a ficha.
+
+**Nenhuma fórmula virou ActiveEffect.** O único valor numérico do material
+inteiro é o +5 em Percepção do `Corvo de Tinta`, e ele se aplica a testes feitos
+*através do corvo*, não à ficha do Artífice — não há onde aterrissar. Todo o
+resto é qualitativo ("grande dano", "regeneração leve", "cura em massa"), sem
+valor que caiba num efeito.
+
+**Proficiências, atributo-chave, CD e Kit de Sumiê ficam no texto.** O
+`ClassData` (`tormenta20.mjs:18053`) só define `niveis`, `pvPorNivel`,
+`pmPorNivel`, `pericias` e `inicial` — campos novos seriam descartados em
+silêncio ao salvar, como diz [Duas armadilhas do sistema](#duas-armadilhas-do-sistema).
+
+### O que ainda falta
+
+O **Kit de Sumiê** é citado como equipamento da classe, mas o material não traz
+descrição nem regra — não virou item. As criaturas do Bestiário não têm ficha:
+o material não informa PV, Defesa, deslocamento, ataques nem atributos delas,
+então elas existem como texto, e não como atores. Também não há limite de
+invocações simultâneas nem regra de controle à distância.
 
 ## Bug do sistema: perícias viram Força ao editar a ficha
 

@@ -1,0 +1,10 @@
+# Pasta do compendio "Poderes (Homebrew)" para o caminho do Herborizo,
+# da classe Artifice do Sumie. Ver _pasta_Treinador_hbFolderTreinad1.yml.
+folder: null
+name: 'Sumiê — Herborizo'
+sorting: a
+type: Item
+_id: hbFolderSumieHer
+sort: 400000
+flags: {}
+_key: '!folders!hbFolderSumieHer'

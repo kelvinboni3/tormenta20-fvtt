@@ -1,0 +1,56 @@
+_id: Q0r1qIrHxWpgwldi
+name: 'Visão no Escuro (Nível 1)'
+type: poder
+img: systems/tormenta20/icons/magias/visao-mistica.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 1000
+flags: {}
+system:
+  description:
+    value: '<p>Você enxerga no escuro em alcance curto (18m).</p><p><strong>Nível:</strong> 1º.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!Q0r1qIrHxWpgwldi'

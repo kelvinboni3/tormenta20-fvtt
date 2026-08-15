@@ -1,0 +1,56 @@
+_id: AJ0yPsZKcmhA0xs7
+name: 'Veterinário de Campo (Poder de Treinador)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/cura-pelas-maos.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 120000
+flags: {}
+system:
+  description:
+    value: '<p>Você pode gastar uma ação completa para fazer um teste de Adestramento em um melhor amigo adjacente. Ele recupera uma quantidade de PV igual ao resultado do teste. Você só pode usar este poder uma vez por dia num mesmo alvo.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: full
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: inst
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: touch
+  alvo: 'Um melhor amigo adjacente'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!AJ0yPsZKcmhA0xs7'

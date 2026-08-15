@@ -1,0 +1,56 @@
+_id: 0ksCnh7MrBBlmM7h
+name: 'Direcionamento Marcial (Poder de Treinador)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/ataque-especial.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 108000
+flags: {}
+system:
+  description:
+    value: '<p>Quando usa Direcionar em um teste de ataque, você também soma seu Carisma na rolagem de dano desse ataque.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: none
+  alvo: 'Direcionar'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!0ksCnh7MrBBlmM7h'

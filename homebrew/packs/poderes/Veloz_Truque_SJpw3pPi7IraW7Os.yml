@@ -1,0 +1,90 @@
+_id: SJpw3pPi7IraW7Os
+name: 'Veloz (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/conjuradores/forma-selvagem-veloz.webp
+effects:
+  # A chave termina em '.bonus': cada deslocamento e um SchemaField
+  # {base: Number, bonus: [String]} (MovementData, tormenta20.mjs:18230).
+  # Apontar para 'movement.walk' direto nao aplica nada - testado em jogo.
+  # 
+  # So Defesa e deslocamento terrestre. Os demais deslocamentos (voo,
+  # natacao, escalada) so existem se outro truque os tiver concedido, e
+  # somar +3 num campo zerado criaria um deslocamento do nada.
+  # 
+  # O treinamento em Atletismo tambem fica de fora: 'treinado, ou +2 se ja
+  # for treinado' depende do estado atual da pericia.
+  - _id: kTbBxBBH2g36Yk7w
+    name: 'Veloz'
+    img: systems/tormenta20/icons/poderes/classes/conjuradores/forma-selvagem-veloz.webp
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.attributes.defesa.bonus
+        mode: 2
+        value: '2'
+        priority: 20
+      - key: system.attributes.movement.walk.bonus
+        mode: 2
+        value: '3'
+        priority: 20
+    _key: '!items.effects!SJpw3pPi7IraW7Os.kTbBxBBH2g36Yk7w'
+folder: hbFolderTruques1
+sort: 221000
+flags: {}
+system:
+  description:
+    value: '<p>Seu melhor amigo recebe +2 na Defesa e +3m em seus deslocamentos e se torna treinado em Atletismo (se já for, recebe +2 nessa perícia).</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!SJpw3pPi7IraW7Os'

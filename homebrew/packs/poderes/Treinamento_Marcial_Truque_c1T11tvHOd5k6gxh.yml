@@ -1,0 +1,59 @@
+# Sem efeito estatico: o bonus cresce com o patamar do treinador
+# (+2 iniciante, +3 veterano, +4 campeao, +5 lenda). A camada homebrew
+# recalcula quando o nivel do treinador muda.
+_id: c1T11tvHOd5k6gxh
+name: 'Treinamento Marcial (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/golpe-violento.webp
+effects: []
+folder: hbFolderTruques1
+sort: 220000
+flags: {}
+system:
+  description:
+    value: '<p>Seu melhor amigo recebe +2 em testes de ataque e rolagens de dano. Para cada patamar acima de iniciante, esse bônus aumenta em +1. Se ele possuir o truque Anatomia Humanoide, também recebe proficiência com armas marciais, armaduras pesadas e escudos.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!c1T11tvHOd5k6gxh'

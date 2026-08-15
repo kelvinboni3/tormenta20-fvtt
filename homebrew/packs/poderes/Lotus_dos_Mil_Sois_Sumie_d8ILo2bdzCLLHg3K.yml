@@ -1,0 +1,60 @@
+# PROPOSTO: o material da classe nao informa custo em PM, execucao,
+# duracao nem alcance desta formula. Os valores abaixo saem da escada de
+# Tier definida no README (Tier V -> 5 PM, 17º nivel) e da
+# natureza do caminho do Herborizo. Ajuste na mesa se preciso.
+_id: d8ILo2bdzCLLHg3K
+name: 'Lótus dos Mil Sóis (Tier V)'
+type: poder
+img: systems/tormenta20/icons/magias/colera-do-deus-sol.webp
+effects: []
+folder: hbFolderSumieHer
+sort: 416000
+flags: {}
+system:
+  description:
+    value: '<p><em>Caminho do Herborizo — Tier V.</em></p><p><strong>Benefícios:</strong></p><ul><li>Grande cura em área.</li></ul><p><strong>Pré-requisito:</strong> 17º nível de Artífice do Sumiê.</p><hr><p><em>Custo (5 PM), execução, duração, alcance e nível de aquisição não constam no material de origem — são propostos pela escada de Tier. Veja "Artífice do Sumiê" no README.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Artífice do Sumiê (material da mesa)'
+  ativacao:
+    execucao: action
+    custo: 5
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: inst
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: ''
+  area: 'Grande área de cura'
+  resistencia:
+    pericia: ''
+    atributo: int
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Artífice do Sumiê'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!d8ILo2bdzCLLHg3K'

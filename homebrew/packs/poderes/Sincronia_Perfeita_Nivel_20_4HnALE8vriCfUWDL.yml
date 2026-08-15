@@ -1,0 +1,56 @@
+_id: 4HnALE8vriCfUWDL
+name: 'Sincronia Perfeita (Nível 20)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/conjuradores/forca-natureza.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 6000
+flags: {}
+system:
+  description:
+    value: '<p>No 20º nível, você pode gastar uma ação de movimento e 6 PM para entrar em um estado de sincronia perfeita com um dos seus melhores amigos. Até o fim da cena, o tamanho dele aumenta em uma categoria. Além disso, uma vez por rodada, quando usa uma ação padrão consigo mesmo, você recebe uma ação padrão extra para usar com ele.</p><p><em>Nota da mesa: o texto não informa o alcance necessário para iniciar a sincronia.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: move
+    custo: 6
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: spec
+  alvo: 'Um melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!4HnALE8vriCfUWDL'

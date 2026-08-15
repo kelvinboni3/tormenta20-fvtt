@@ -1,0 +1,59 @@
+# Sem ActiveEffect de proposito: qual atributo sobe e escolha do jogador,
+# e um efeito fixo teria de chutar um deles. Aplique na ficha, no campo
+# do atributo escolhido.
+_id: 6BDsuX1jvjPKhnJ5
+name: 'Aumento de Atributo (Poder de Treinador)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/autoconfianca.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 102000
+flags: {}
+system:
+  description:
+    value: '<p>Você recebe +1 em um atributo. Você pode escolher este poder várias vezes, mas apenas uma vez por patamar para um mesmo atributo.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Um atributo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!6BDsuX1jvjPKhnJ5'

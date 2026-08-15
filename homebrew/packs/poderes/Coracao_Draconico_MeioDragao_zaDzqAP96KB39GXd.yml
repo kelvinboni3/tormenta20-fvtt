@@ -1,0 +1,56 @@
+_id: zaDzqAP96KB39GXd
+name: 'Coração Dracônico (Nível 13)'
+type: poder
+img: systems/tormenta20/icons/magias/fisico-divino.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 20000
+flags: {}
+system:
+  description:
+    value: '<p>O primeiro ponto de Fadiga Dracônica da cena é ignorado.</p><p>Seu Limite Seguro aumenta para:</p><ul><li>7 Pontos de Fadiga Dracônica.</li></ul><p><strong>Nível:</strong> 13º.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Fadiga Dracônica'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!zaDzqAP96KB39GXd'

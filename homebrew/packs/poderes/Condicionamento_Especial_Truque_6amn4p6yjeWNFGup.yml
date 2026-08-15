@@ -1,0 +1,58 @@
+# Sem efeito: quais atributos sobem e escolha do jogador. Aplique nos
+# campos de atributo da ficha do bicho.
+_id: 6amn4p6yjeWNFGup
+name: 'Condicionamento Especial (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/conjuradores/forma-selvagem-resistente.webp
+effects: []
+folder: hbFolderTruques1
+sort: 210000
+flags: {}
+system:
+  description:
+    value: '<p>O melhor amigo recebe +2 em um atributo e +1 em outro atributo, exceto Inteligência. Você pode escolher este truque uma vez por patamar.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!6amn4p6yjeWNFGup'

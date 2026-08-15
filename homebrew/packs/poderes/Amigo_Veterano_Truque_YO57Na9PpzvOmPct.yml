@@ -1,0 +1,56 @@
+_id: YO57Na9PpzvOmPct
+name: 'Amigo Veterano (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/durao.webp
+effects: []
+folder: hbFolderTruques1
+sort: 205000
+flags: {}
+system:
+  description:
+    value: '<p>Seu amigo vira um parceiro <strong>veterano</strong> de seu tipo.</p><p><strong>Pré-requisito:</strong> 5º nível de treinador.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!YO57Na9PpzvOmPct'

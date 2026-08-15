@@ -1,0 +1,60 @@
+# PROPOSTO: o material da classe nao informa custo em PM, execucao,
+# duracao nem alcance desta formula. Os valores abaixo saem da escada de
+# Tier definida no README (Tier III -> 3 PM, 9º nivel) e da
+# natureza do caminho do Herborizo. Ajuste na mesa se preciso.
+_id: HHipUE2sOxfPQhgW
+name: 'Flores da Purificação (Tier III)'
+type: poder
+img: systems/tormenta20/icons/magias/dissipar-magia.webp
+effects: []
+folder: hbFolderSumieHer
+sort: 412000
+flags: {}
+system:
+  description:
+    value: '<p><em>Caminho do Herborizo — Tier III.</em></p><p><strong>Benefícios:</strong></p><ul><li>Remove efeitos negativos mais fortes.</li></ul><p><strong>Pré-requisito:</strong> 9º nível de Artífice do Sumiê.</p><hr><p><em>Custo (3 PM), execução, duração, alcance e nível de aquisição não constam no material de origem — são propostos pela escada de Tier. Veja "Artífice do Sumiê" no README.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Artífice do Sumiê (material da mesa)'
+  ativacao:
+    execucao: action
+    custo: 3
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: inst
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: 'Um aliado'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: int
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Artífice do Sumiê'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!HHipUE2sOxfPQhgW'

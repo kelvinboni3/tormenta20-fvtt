@@ -201,6 +201,13 @@
       "system": "tormenta20",
       "path": "./packs/homebrew-poderes",
       "type": "Item"
+    },
+    {
+      "name": "homebrew-racas",
+      "label": "Raças (Homebrew)",
+      "system": "tormenta20",
+      "path": "./packs/homebrew-racas",
+      "type": "Item"
     }
   ],
   "packFolders": [
@@ -249,7 +256,7 @@
       "name": "Homebrew",
       "sorting": "m",
       "color": "#4a7c59",
-      "packs": ["homebrew-classes", "homebrew-poderes"]
+      "packs": ["homebrew-classes", "homebrew-poderes", "homebrew-racas"]
     }
   ],
   "languages": [

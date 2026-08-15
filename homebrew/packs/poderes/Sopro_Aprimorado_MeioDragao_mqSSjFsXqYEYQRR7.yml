@@ -1,0 +1,56 @@
+_id: mqSSjFsXqYEYQRR7
+name: 'Sopro Aprimorado (Nível 5)'
+type: poder
+img: systems/tormenta20/icons/magias/explosao-de-chamas.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 10000
+flags: {}
+system:
+  description:
+    value: '<p>Seu sopro torna-se mais poderoso.</p><ul><li>+1d6 de dano.</li></ul><p><strong>Nível:</strong> 5º.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Sopro Dracônico'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!mqSSjFsXqYEYQRR7'

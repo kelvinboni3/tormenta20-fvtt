@@ -1,0 +1,77 @@
+# Efeito de +1, nao de +2: somado ao +1 de Escamas Draconicas da o +2 pedido.
+_id: WpEbeWzlYl1T8CnB
+name: 'Escamas Reforçadas (Nível 5)'
+type: poder
+img: systems/tormenta20/icons/magias/armadura-arcana.webp
+effects:
+  - _id: aakwyQmsX6zu7u96
+    name: 'Escamas Reforçadas'
+    img: systems/tormenta20/icons/magias/armadura-arcana.webp
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.attributes.defesa.bonus
+        mode: 2
+        value: '1'
+        priority: 20
+    _key: '!items.effects!WpEbeWzlYl1T8CnB.aakwyQmsX6zu7u96'
+folder: hbFolderMeioDrag
+sort: 9000
+flags: {}
+system:
+  description:
+    value: '<p>Seu bônus de Escamas Dracônicas aumenta para:</p><ul><li>+2 Defesa.</li></ul><p><strong>Nível:</strong> 5º.</p><hr><p><em>Efeito de +1, nao de +2: somado ao +1 de Escamas Draconicas da o +2 pedido.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!WpEbeWzlYl1T8CnB'

@@ -1,0 +1,56 @@
+_id: msflxkWwGIi3fOO8
+name: 'Convocar Enxame (Poder de Treinador)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/conjuradores/magias-c.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 106000
+flags: {}
+system:
+  description:
+    value: '<p>Você aprende e pode lançar <strong>Enxame de Pestes</strong> (atributo-chave Carisma) e pode usar seus aprimoramentos como se tivesse acesso aos mesmos círculos de magia que um clérigo de seu nível. Esta não é uma habilidade mágica e provém de sua capacidade de atrair criaturas.</p><p><strong>Pré-requisito:</strong> 5º nível de treinador.</p><p><em>Nota da mesa: custo, execução, duração e área seguem a magia Enxame de Pestes — o texto do poder não os repete.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: special
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: spec
+  alvo: 'Conforme a magia Enxame de Pestes'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: car
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!msflxkWwGIi3fOO8'

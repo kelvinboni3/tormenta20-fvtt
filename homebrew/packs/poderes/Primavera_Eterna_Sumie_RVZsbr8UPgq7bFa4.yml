@@ -1,0 +1,60 @@
+# PROPOSTO: o material da classe nao informa custo em PM, execucao,
+# duracao nem alcance desta formula. Os valores abaixo saem da escada de
+# Tier definida no README (Tier V -> 5 PM, 17º nivel) e da
+# natureza do caminho do Herborizo. Ajuste na mesa se preciso.
+_id: RVZsbr8UPgq7bFa4
+name: 'Primavera Eterna (Tier V)'
+type: poder
+img: systems/tormenta20/icons/magias/conceder-milagre.webp
+effects: []
+folder: hbFolderSumieHer
+sort: 418000
+flags: {}
+system:
+  description:
+    value: '<p><em>Caminho do Herborizo — Tier V.</em></p><p><strong>Benefícios:</strong></p><ul><li>Campo de restauração contínua.</li></ul><p><strong>Pré-requisito:</strong> 17º nível de Artífice do Sumiê.</p><hr><p><em>Custo (5 PM), execução, duração, alcance e nível de aquisição não constam no material de origem — são propostos pela escada de Tier. Veja "Artífice do Sumiê" no README.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Artífice do Sumiê (material da mesa)'
+  ativacao:
+    execucao: action
+    custo: 5
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: ''
+  area: 'Campo de restauração'
+  resistencia:
+    pericia: ''
+    atributo: int
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Artífice do Sumiê'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!RVZsbr8UPgq7bFa4'

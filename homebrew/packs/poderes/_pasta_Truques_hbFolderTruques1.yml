@@ -1,0 +1,14 @@
+# Pasta dos truques do Melhor Amigo.
+#
+# Separada da pasta "Treinador" de proposito: estes itens vao para a ficha do
+# BICHO, nao para a do treinador. Por isso tambem usam tipo "geral" com subtipo
+# proprio, e nao tipo "classe" - seguindo o que o sistema ja faz no compendio
+# oficial de Parceiros.
+folder: null
+name: Truques do Melhor Amigo
+sorting: a
+type: Item
+_id: hbFolderTruques1
+sort: 200
+flags: {}
+_key: '!folders!hbFolderTruques1'

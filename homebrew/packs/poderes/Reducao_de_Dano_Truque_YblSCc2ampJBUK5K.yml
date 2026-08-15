@@ -1,0 +1,82 @@
+_id: YblSCc2ampJBUK5K
+name: 'Redução de Dano (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/resistencia-dano.webp
+effects:
+  # 'dano' e a chave generica de T20.damageTypes - RD contra todo tipo de
+  # dano. O campo bonus e ArrayField de String, entao ADD empurra a
+  # formula no array, do mesmo jeito que as condicoes nativas fazem.
+  # 
+  # Cuidado: a RD 5/10/15 do poder Treino Intensivo e outra fonte. Se o
+  # melhor amigo tiver as duas, no T20 vale a maior, nao a soma.
+  - _id: MpWe6fHu3S0TzoR8
+    name: 'Redução de Dano'
+    img: systems/tormenta20/icons/poderes/classes/combatentes/resistencia-dano.webp
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.tracos.resistencias.dano.bonus
+        mode: 2
+        value: '5'
+        priority: 20
+    _key: '!items.effects!YblSCc2ampJBUK5K.MpWe6fHu3S0TzoR8'
+folder: hbFolderTruques1
+sort: 215000
+flags: {}
+system:
+  description:
+    value: '<p>Seu melhor amigo recebe redução de dano 5.</p><p><strong>Pré-requisito:</strong> 5º nível de treinador.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!YblSCc2ampJBUK5K'

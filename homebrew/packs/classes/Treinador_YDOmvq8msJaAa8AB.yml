@@ -1,0 +1,46 @@
+# PV e PM do Treinador.
+#
+# Alvo da classe: 12 + CON no nivel 1, depois 3 + CON por nivel; 4 PM por nivel.
+#
+# PV. O sistema soma pvPorNivel por nivel e acrescenta CON sozinho; com a caixa
+# "Classe Inicial" marcada o nivel 1 vale 4 x pvPorNivel. Com pvPorNivel = 3:
+#
+#   inicial marcada    -> 4*3 + 3*(N-1) + N*CON = 3N + 9 + N*CON
+#   alvo               -> 12 + CON + (N-1)*(3+CON) = 3N + 9 + N*CON
+#
+# Os dois sao identicos: o Treinador NAO precisa de ajuste de PV com a caixa
+# marcada - diferente do Vidente, cujo PV inicial (16) nao e multiplo de
+# pvPorNivel. Com a caixa desmarcada faltam +9, e disso cuida sincronizarPV
+# em homebrew.mjs.
+#
+# PM. O sistema soma so pmPorNivel, sem atributo nenhum, e a classe pede
+# exatamente 4 PM por nivel. Nada a corrigir - por isso nao ha ActiveEffect
+# aqui, ao contrario do item de classe do Vidente.
+_id: YDOmvq8msJaAa8AB
+name: 'Treinador'
+type: classe
+img: systems/tormenta20/icons/poderes/classes/conjuradores/animal-companion.png
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>Figura especializada em criaturas ferais, capaz de convocar, controlar, treinar e coordenar animais, monstros e outras feras. O treinador atua por meio de parceiros e criaturas, podendo utiliza-los em combate, montaria, reconhecimento, transporte ou outras funcoes. Sua relacao com as criaturas pode ter origem em treinamento, magia, bencaos divinas, heranca sobrenatural ou convivencia com feras.</p><p>O centro da classe e o <strong>Melhor Amigo</strong>: um parceiro com ficha propria, que usa o nivel do treinador e evolui junto com ele.</p>'
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  niveis: 1
+  pvPorNivel: 3
+  pmPorNivel: 4
+  inicial: false
+  rolls: []
+  origin: ''
+  tags: []
+  chatFlavor: ''
+  chatGif: ''
+  pericias:
+    numero: 4
+    inatas: 'Pericias obrigatorias: Adestramento e Vontade. Pericias a escolha (4): Atletismo, Cavalgar, Diplomacia, Guerra, Iniciativa, Intimidacao, Intuicao, Luta, Oficio, Percepcao, Pontaria, Reflexos, Religiao, Sobrevivencia.'
+ownership:
+  default: 0
+_key: '!items!YDOmvq8msJaAa8AB'

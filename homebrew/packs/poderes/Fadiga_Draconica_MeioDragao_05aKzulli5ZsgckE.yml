@@ -1,0 +1,56 @@
+_id: 05aKzulli5ZsgckE
+name: 'Fadiga Dracônica (Nível 3)'
+type: poder
+img: systems/tormenta20/icons/conditions/fatigado.svg
+effects: []
+folder: hbFolderMeioDrag
+sort: 8000
+flags: {}
+system:
+  description:
+    value: '<p>Toda vez que utiliza o Sopro Dracônico recebe:</p><ul><li>1 Ponto de Fadiga Dracônica.</li></ul><p>Você pode acumular até <strong>3 Pontos</strong> sem sofrer penalidades (seu <em>Limite Seguro</em>).</p><ul><li><strong>Limite + 1:</strong> Fatigado.</li><li><strong>Limite + 2:</strong> Exausto.</li><li><strong>Limite + 3:</strong> seu corpo ultrapassa seus limites — você desmaia imediatamente e permanece inconsciente por 1d4 rodadas.</li></ul><p><strong>Recuperação.</strong> Descanso curto remove 1 ponto; descanso longo remove todos.</p><hr><p><em>A camada homebrew controla este contador: ele aparece na ficha, ao lado de PV e PM, com o Limite Seguro já calculado pelas habilidades que você tem.</em></p><p><strong>Nível:</strong> 3º.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: special
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!05aKzulli5ZsgckE'

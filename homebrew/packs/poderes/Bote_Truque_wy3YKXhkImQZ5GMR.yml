@@ -1,0 +1,56 @@
+_id: wy3YKXhkImQZ5GMR
+name: 'Bote (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/golpe-relampago.webp
+effects: []
+folder: hbFolderTruques1
+sort: 209000
+flags: {}
+system:
+  description:
+    value: '<p>Quando faz uma investida, seu melhor amigo pode atacar com todas as suas armas naturais. Todos os ataques recebem o bônus de +2 da investida, mas devem ser feitos contra o mesmo alvo.</p><p><strong>Pré-requisito:</strong> duas armas naturais.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: inst
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Um mesmo alvo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!wy3YKXhkImQZ5GMR'

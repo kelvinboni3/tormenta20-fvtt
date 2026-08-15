@@ -1,0 +1,56 @@
+_id: QBn2lwpFZtxAqCOy
+name: 'Reanimação Sombria (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/bravura-final.webp
+effects: []
+folder: hbFolderTruques1
+sort: 214000
+flags: {}
+system:
+  description:
+    value: '<p>Uma vez por cena, se seu melhor amigo estiver com 0 PV ou menos, você pode gastar 3 PM por patamar para reanimá-lo. Se você fizer isso, ele é reerguido com pontos de vida iguais à metade do seu máximo.</p><p><strong>Pré-requisito:</strong> morto-vivo.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 3
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: inst
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: touch
+  alvo: 'Melhor amigo caído'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!QBn2lwpFZtxAqCOy'

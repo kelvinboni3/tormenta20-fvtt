@@ -1,0 +1,77 @@
+# Efeito de +1: somado aos degraus anteriores da o +3 pedido.
+_id: cnMB0N2efib0PJEv
+name: 'Escamas Reforçadas II (Nível 9)'
+type: poder
+img: systems/tormenta20/icons/magias/protecao-divina.webp
+effects:
+  - _id: tt1EcCLZ2UvDZHYE
+    name: 'Escamas Reforçadas II'
+    img: systems/tormenta20/icons/magias/protecao-divina.webp
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.attributes.defesa.bonus
+        mode: 2
+        value: '1'
+        priority: 20
+    _key: '!items.effects!cnMB0N2efib0PJEv.tt1EcCLZ2UvDZHYE'
+folder: hbFolderMeioDrag
+sort: 14000
+flags: {}
+system:
+  description:
+    value: '<p>Seu bônus de Escamas Dracônicas aumenta para:</p><ul><li>+3 Defesa.</li></ul><p><strong>Nível:</strong> 9º.</p><hr><p><em>Efeito de +1: somado aos degraus anteriores da o +3 pedido.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!cnMB0N2efib0PJEv'

@@ -1,0 +1,81 @@
+_id: s59y1lee1AYs6q34
+name: 'Anatomia Humanoide (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/especialistas/engenhoca.webp
+effects:
+  # Int -4 vira -2, entao o efeito e +2 sobre o valor base do bicho.
+  # 
+  # As proficiencias nao entram: schemaTraits (tormenta20.mjs:16716) apaga
+  # profArmas e profArmaduras em tudo que nao e 'character', e o melhor
+  # amigo e um ator 'simple'. Fica como leitura de mesa.
+  - _id: ymLJfBDJyWrH8YSW
+    name: 'Anatomia Humanoide'
+    img: systems/tormenta20/icons/poderes/classes/especialistas/engenhoca.webp
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.atributos.int.bonus
+        mode: 2
+        value: '2'
+        priority: 20
+    _key: '!items.effects!s59y1lee1AYs6q34.ymLJfBDJyWrH8YSW'
+folder: hbFolderTruques1
+sort: 206000
+flags: {}
+system:
+  description:
+    value: '<p>Seu melhor amigo tem uma forma humanoide e <strong>Int −2</strong> (em vez de −4). Ele não recebe uma arma natural inicial, mas tem proficiência com armas simples e armaduras leves, pode empunhar dois itens e vestir um item adicional, e tem um limite de carga de 10 espaços.</p><p>Este truque só pode ser escolhido na criação do melhor amigo.</p><p><strong>Pré-requisito:</strong> construto ou morto-vivo.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!s59y1lee1AYs6q34'

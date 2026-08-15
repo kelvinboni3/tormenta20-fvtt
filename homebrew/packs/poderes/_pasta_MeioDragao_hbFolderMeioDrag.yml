@@ -1,0 +1,10 @@
+# Pasta do compendio "Poderes (Homebrew)" para as habilidades raciais do
+# Meio-Dragao. Ver _pasta_Treinador_hbFolderTreinad1.yml.
+folder: null
+name: 'Meio-Dragão'
+sorting: a
+type: Item
+_id: hbFolderMeioDrag
+sort: 500000
+flags: {}
+_key: '!folders!hbFolderMeioDrag'

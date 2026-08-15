@@ -1,0 +1,83 @@
+_id: aUa3f8SqjGh0CwMq
+name: 'Amigo Feroz (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/golpe-cruel.webp
+effects:
+  # So o +2 de ataque. Margem de ameaca e aumento de passo do dano nao tem
+  # chave de efeito - ficam na mao.
+  # 
+  # Ressalva: o bonus e 'com armas naturais', mas o bicho so tem armas
+  # naturais. A excecao e o truque Anatomia Humanoide, que lhe da
+  # proficiencia com armas comuns; nessa combinacao o +2 vai se aplicar
+  # tambem a elas, indevidamente.
+  - _id: W0TIAlUk8B1Txyk4
+    name: 'Amigo Feroz'
+    img: systems/tormenta20/icons/poderes/classes/combatentes/golpe-cruel.webp
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.modificadores.pericias.ataque
+        mode: 2
+        value: '2'
+        priority: 20
+    _key: '!items.effects!aUa3f8SqjGh0CwMq.W0TIAlUk8B1Txyk4'
+folder: hbFolderTruques1
+sort: 202000
+flags: {}
+system:
+  description:
+    value: '<p>Seu melhor amigo recebe +2 em testes de ataque e na margem de ameaça com suas armas naturais, e o dano delas aumenta em um passo.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!aUa3f8SqjGh0CwMq'

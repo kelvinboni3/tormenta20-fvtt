@@ -1,0 +1,57 @@
+# O material nao repete duracao e uso aqui; a leitura provavel e que herde 1 cena, 1 vez por dia.
+_id: 3IOMELUkeGEjCzkx
+name: 'Forma Original Completa (Nível 18)'
+type: poder
+img: systems/tormenta20/icons/ameacas/dragao-adulto.png
+effects: []
+folder: hbFolderMeioDrag
+sort: 22000
+flags: {}
+system:
+  description:
+    value: '<p>Você finalmente alcança a maturidade dracônica. Recebe todos os benefícios da Forma Original Incompleta.</p><p>Além disso:</p><ul><li>+2 Força adicionais.</li><li>+2 Constituição adicionais.</li></ul><p><strong>Total durante a transformação:</strong> +4 Força e +4 Constituição.</p><p><strong>Nível:</strong> 18º.</p><hr><p><em>O material nao repete duracao e uso aqui; a leitura provavel e que herde 1 cena, 1 vez por dia.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!3IOMELUkeGEjCzkx'

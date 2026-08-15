@@ -1,0 +1,60 @@
+# PROPOSTO: o material da classe nao informa custo em PM, execucao,
+# duracao nem alcance desta formula. Os valores abaixo saem da escada de
+# Tier definida no README (Tier I -> 1 PM, 1º nivel) e da
+# natureza do caminho do Bestiario. Ajuste na mesa se preciso.
+_id: xTGaYHXZ4FBx6PmN
+name: 'Raposa de Tinta (Tier I)'
+type: poder
+img: systems/tormenta20/icons/magias/aliado-animal.webp
+effects: []
+folder: hbFolderSumieBes
+sort: 102000
+flags: {}
+system:
+  description:
+    value: '<p><em>Caminho do Bestiário — Tier I.</em></p><p><strong>Função:</strong> Combate leve.</p><p><strong>Benefícios:</strong></p><ul><li>Pode atacar inimigos.</li><li>Pode perseguir alvos.</li><li>Excelente para reconhecimento terrestre.</li></ul><p><strong>Pré-requisito:</strong> 1º nível de Artífice do Sumiê.</p><hr><p><em>Custo (1 PM), execução, duração, alcance e nível de aquisição não constam no material de origem — são propostos pela escada de Tier. Veja "Artífice do Sumiê" no README.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Artífice do Sumiê (material da mesa)'
+  ativacao:
+    execucao: action
+    custo: 1
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: 'Uma criatura de tinta invocada'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: int
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Artífice do Sumiê'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!xTGaYHXZ4FBx6PmN'

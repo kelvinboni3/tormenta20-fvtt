@@ -1,0 +1,10 @@
+# Pasta do compendio "Poderes (Homebrew)" para a classe Treinador.
+# Ver _pasta_Vidente_hbFolderVidente1.yml para o formato.
+folder: null
+name: Treinador
+sorting: a
+type: Item
+_id: hbFolderTreinad1
+sort: 100
+flags: {}
+_key: '!folders!hbFolderTreinad1'

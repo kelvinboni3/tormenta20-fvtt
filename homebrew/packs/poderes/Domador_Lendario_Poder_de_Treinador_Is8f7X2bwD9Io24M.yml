@@ -1,0 +1,56 @@
+_id: Is8f7X2bwD9Io24M
+name: 'Domador Lendário (Poder de Treinador)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/especialistas/mestre-cacador.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 110000
+flags: {}
+system:
+  description:
+    value: '<p>Quando usa Domar Criatura, você pode gastar +2 PM para mudar os dados de dano para d12 e atingir todos os alvos dentro do alcance.</p><p><strong>Pré-requisitos:</strong> Domador Cativante, 17º nível de treinador.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 2
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: special
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: spec
+  alvo: 'Todos os alvos dentro do alcance de Domar Criatura'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: car
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!Is8f7X2bwD9Io24M'

@@ -1,0 +1,56 @@
+_id: Qohe8aKOgW2R95WE
+name: 'Língua das Criaturas (Poder de Treinador)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/conjuradores/animal-affinity.png
+effects: []
+folder: hbFolderTreinad1
+sort: 114000
+flags: {}
+system:
+  description:
+    value: '<p>Você pode se comunicar com criaturas não inteligentes (Int −4 ou −5) por meio de linguagem corporal e vocalizações. Você pode usar Adestramento com essas criaturas para mudar atitude e persuasão.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: spec
+  alvo: 'Criaturas não inteligentes'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!Qohe8aKOgW2R95WE'

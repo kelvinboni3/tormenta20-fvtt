@@ -1,0 +1,56 @@
+_id: myyeDRC7NYh8xCCL
+name: 'Sincronia de Combate (Nível 6)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/ataque-extra.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 5000
+flags: {}
+system:
+  description:
+    value: '<p>A partir do 6º nível, uma vez por rodada, quando seu melhor amigo acerta um ataque usando a ação agredir, você pode gastar 2 PM para fazer um ataque contra o mesmo alvo.</p><p><em>Nota da mesa: o texto não define o alcance do seu ataque; presume-se que valem as regras normais da sua arma.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: reaction
+    custo: 2
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: inst
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: spec
+  alvo: 'Mesmo alvo atingido pelo melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!myyeDRC7NYh8xCCL'

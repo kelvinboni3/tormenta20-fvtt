@@ -1,0 +1,57 @@
+# Sem efeito: e uma transformacao temporaria e opcional, e o material nao da o valor do deslocamento de voo.
+_id: MnzBkYBxogBinidv
+name: 'Forma Original Incompleta (Nível 15)'
+type: poder
+img: systems/tormenta20/icons/magias/transformacao-de-guerra.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 21000
+flags: {}
+system:
+  description:
+    value: '<p>Você manifesta temporariamente sua verdadeira forma dracônica.</p><p>Durante a transformação recebe:</p><ul><li>Tamanho Grande.</li><li>Deslocamento de voo.</li><li>+2 Força.</li><li>+2 Constituição.</li><li>+1 categoria de dano nas Garras.</li><li>+1 categoria de dano nas Presas.</li><li>+2d6 no Sopro Dracônico.</li></ul><p><strong>Duração:</strong> 1 cena. <strong>Uso:</strong> 1 vez por dia.</p><p><strong>Após o término:</strong> Fatigado.</p><p><strong>Nível:</strong> 15º.</p><hr><p><em>Sem efeito: e uma transformacao temporaria e opcional, e o material nao da o valor do deslocamento de voo.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!MnzBkYBxogBinidv'

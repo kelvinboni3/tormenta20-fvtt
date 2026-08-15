@@ -1,0 +1,57 @@
+# O +2 para Agarrar nao virou efeito: agarrar e uma manobra de Luta, e um bonus fixo em Luta valeria para todo ataque corpo a corpo, nao so para a manobra.
+_id: KrfgvBzkXB1oSewf
+name: 'Bote Predatório (Nível 7)'
+type: poder
+img: systems/tormenta20/icons/magias/mao-poderosa.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 12000
+flags: {}
+system:
+  description:
+    value: '<p>Quando acerta um ataque de mordida, pode imediatamente tentar agarrar o alvo. Se agarrar o alvo com sucesso, pode realizar um ataque adicional de garras.</p><p>Além disso recebe:</p><ul><li>+2 em testes para Agarrar.</li></ul><p><strong>Nível:</strong> 7º.</p><hr><p><em>O +2 para Agarrar nao virou efeito: agarrar e uma manobra de Luta, e um bonus fixo em Luta valeria para todo ataque corpo a corpo, nao so para a manobra.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: special
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Alvo acertado por ataque de mordida'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!KrfgvBzkXB1oSewf'

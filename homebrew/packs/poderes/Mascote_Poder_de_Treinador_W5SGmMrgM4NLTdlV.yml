@@ -1,0 +1,57 @@
+# O quadro 'Mascote' do PDF nao foi fornecido. Nao foi inventado nada.
+_id: W5SGmMrgM4NLTdlV
+name: 'Mascote (Poder de Treinador)'
+type: poder
+img: systems/tormenta20/icons/itens/gerais/animal-urbano.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 115000
+flags: {}
+system:
+  description:
+    value: '<p>Você tem um mascote. Você pode escolher este poder várias vezes para mascotes diferentes.</p><p><em>Nota da mesa: o quadro com as regras de mascote não foi transcrito para cá — consulte o material original.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: medium
+  alvo: 'Um mascote'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!W5SGmMrgM4NLTdlV'

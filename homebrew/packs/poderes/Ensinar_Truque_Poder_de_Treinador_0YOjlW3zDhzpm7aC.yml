@@ -1,0 +1,58 @@
+# A camada homebrew conta quantas vezes este poder aparece na ficha do
+# treinador para liberar slots extras de truque no bicho.
+_id: 0YOjlW3zDhzpm7aC
+name: 'Ensinar Truque (Poder de Treinador)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/especialistas/especialista.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 111000
+flags: {}
+system:
+  description:
+    value: '<p>Um de seus melhores amigos aprende um truque adicional. Você pode escolher este poder uma vez por patamar por amigo.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: spec
+  alvo: 'Um melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!0YOjlW3zDhzpm7aC'

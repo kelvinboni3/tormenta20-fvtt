@@ -1,0 +1,60 @@
+# PROPOSTO: o material da classe nao informa custo em PM, execucao,
+# duracao nem alcance desta formula. Os valores abaixo saem da escada de
+# Tier definida no README (Tier IV -> 4 PM, 13º nivel) e da
+# natureza do caminho do Herborizo. Ajuste na mesa se preciso.
+_id: FisMFz2CqWl5GST5
+name: 'Árvore Ancestral (Tier IV)'
+type: poder
+img: systems/tormenta20/icons/magias/globo-de-invulnerabilidade.webp
+effects: []
+folder: hbFolderSumieHer
+sort: 413000
+flags: {}
+system:
+  description:
+    value: '<p><em>Caminho do Herborizo — Tier IV.</em></p><p><strong>Benefícios:</strong></p><ul><li>Grande área de proteção.</li></ul><p><strong>Pré-requisito:</strong> 13º nível de Artífice do Sumiê.</p><hr><p><em>Custo (4 PM), execução, duração, alcance e nível de aquisição não constam no material de origem — são propostos pela escada de Tier. Veja "Artífice do Sumiê" no README.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Artífice do Sumiê (material da mesa)'
+  ativacao:
+    execucao: action
+    custo: 4
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: ''
+  area: 'Grande área de proteção'
+  resistencia:
+    pericia: ''
+    atributo: int
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Artífice do Sumiê'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!FisMFz2CqWl5GST5'

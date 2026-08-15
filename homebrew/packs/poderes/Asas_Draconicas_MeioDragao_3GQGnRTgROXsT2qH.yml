@@ -1,0 +1,57 @@
+# Sem efeito: o material nao da valor para a reducao de dano de queda nem para os saltos, e planar nao e um deslocamento no schema.
+_id: 3GQGnRTgROXsT2qH
+name: 'Asas Dracônicas (Nível 9)'
+type: poder
+img: systems/tormenta20/icons/magias/queda-suave.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 13000
+flags: {}
+system:
+  description:
+    value: '<p>Suas asas finalmente se desenvolvem. Ainda não são fortes o suficiente para sustentar voo contínuo.</p><p>Você recebe:</p><ul><li>Redução de dano de queda.</li><li>Capacidade de planar.</li><li>Grandes saltos.</li></ul><p><strong>Nível:</strong> 9º.</p><hr><p><em>Sem efeito: o material nao da valor para a reducao de dano de queda nem para os saltos, e planar nao e um deslocamento no schema.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!3GQGnRTgROXsT2qH'

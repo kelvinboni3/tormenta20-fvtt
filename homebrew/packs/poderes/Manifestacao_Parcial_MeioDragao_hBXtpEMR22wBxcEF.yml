@@ -1,0 +1,57 @@
+# O material nao diz se e ativada ou automatica, nem por quanto tempo dura.
+_id: hBXtpEMR22wBxcEF
+name: 'Manifestação Parcial (Nível 13)'
+type: poder
+img: systems/tormenta20/icons/magias/metamorfose.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 18000
+flags: {}
+system:
+  description:
+    value: '<p>Durante esta manifestação:</p><ul><li>Escamas tornam-se maiores.</li><li>Asas completam seu crescimento.</li><li>Chifres aumentam.</li><li>Cauda fortalece-se.</li><li>Sua aparência torna-se claramente dracônica.</li></ul><p><strong>Nível:</strong> 13º.</p><hr><p><em>O material nao diz se e ativada ou automatica, nem por quanto tempo dura.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: special
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!hBXtpEMR22wBxcEF'

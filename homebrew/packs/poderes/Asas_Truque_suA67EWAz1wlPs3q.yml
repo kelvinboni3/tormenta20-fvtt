@@ -1,0 +1,58 @@
+# Sem efeito: o voo de verdade custa 1 PM por rodada. Gravar fly 12
+# fixo daria voo gratuito e permanente.
+_id: suA67EWAz1wlPs3q
+name: 'Asas (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/bencao-justica-montaria.webp
+effects: []
+folder: hbFolderTruques1
+sort: 208000
+flags: {}
+system:
+  description:
+    value: '<p>Seu melhor amigo possui asas que podem ser usadas para pairar a 1,5m do chão com deslocamento 12m. Isso permite que ele ignore terreno difícil e o torna imune a dano por queda (a menos que esteja inconsciente). Você pode gastar 1 PM por rodada para que ele voe com deslocamento 12m.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!suA67EWAz1wlPs3q'

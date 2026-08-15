@@ -1,0 +1,56 @@
+_id: iIZAGDvGERBZcGBY
+name: 'Líder da Matilha (Poder de Treinador)'
+type: poder
+img: systems/tormenta20/icons/itens/gerais/lobo-das-cavernas.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 113000
+flags: {}
+system:
+  description:
+    value: '<p>Quando usa Direcionar, você pode aplicar o bônus ao próximo teste de perícia de outros melhores amigos com a mesma ação ao custo de +1 PM por amigo adicional. O bônus só afeta o teste se ele for feito até o fim do seu turno.</p><p><strong>Pré-requisito:</strong> Conquistar pelos Números.</p><p><em>Nota da mesa: o texto não diz se o bônus repassado é o total de Direcionar ou apenas o Carisma.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 1
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: turn
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: spec
+  alvo: 'Outros melhores amigos'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!iIZAGDvGERBZcGBY'

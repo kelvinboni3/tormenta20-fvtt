@@ -1,0 +1,56 @@
+_id: 1xoLcKPS2rimwna2
+name: 'Presas Dracônicas (Nível 2)'
+type: poder
+img: systems/tormenta20/icons/ameacas/dragao-filhote.png
+effects: []
+folder: hbFolderMeioDrag
+sort: 5000
+flags: {}
+system:
+  description:
+    value: '<p>Você desenvolve presas capazes de rasgar carne e armaduras.</p><p>Recebe um ataque natural de mordida.</p><ul><li>Dano: 1d6 perfuração.</li></ul><p>A mordida conta como arma natural.</p><p><strong>Nível:</strong> 2º.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!1xoLcKPS2rimwna2'

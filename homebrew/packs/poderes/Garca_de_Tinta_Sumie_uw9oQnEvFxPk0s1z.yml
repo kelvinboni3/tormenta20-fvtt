@@ -1,0 +1,60 @@
+# PROPOSTO: o material da classe nao informa custo em PM, execucao,
+# duracao nem alcance desta formula. Os valores abaixo saem da escada de
+# Tier definida no README (Tier II -> 2 PM, 5º nivel) e da
+# natureza do caminho do Bestiario. Ajuste na mesa se preciso.
+_id: uw9oQnEvFxPk0s1z
+name: 'Garça de Tinta (Tier II)'
+type: poder
+img: systems/tormenta20/icons/magias/voo.webp
+effects: []
+folder: hbFolderSumieBes
+sort: 106000
+flags: {}
+system:
+  description:
+    value: '<p><em>Caminho do Bestiário — Tier II.</em></p><p><strong>Função:</strong> Suporte aéreo.</p><p><strong>Benefícios:</strong></p><ul><li>Voa.</li><li>Pode carregar criaturas pequenas.</li><li>Observação aérea.</li></ul><p><strong>Pré-requisito:</strong> 5º nível de Artífice do Sumiê.</p><hr><p><em>Custo (2 PM), execução, duração, alcance e nível de aquisição não constam no material de origem — são propostos pela escada de Tier. Veja "Artífice do Sumiê" no README.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Artífice do Sumiê (material da mesa)'
+  ativacao:
+    execucao: action
+    custo: 2
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: 'Uma criatura de tinta invocada'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: int
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Artífice do Sumiê'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!uw9oQnEvFxPk0s1z'

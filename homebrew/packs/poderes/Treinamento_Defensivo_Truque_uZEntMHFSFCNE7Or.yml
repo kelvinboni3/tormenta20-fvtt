@@ -1,0 +1,58 @@
+# Sem efeito estatico: o valor depende do nivel do treinador. A camada
+# homebrew procura este truque na ficha do bicho ao calcular a Defesa.
+_id: uZEntMHFSFCNE7Or
+name: 'Treinamento Defensivo (Truque)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/casca-grossa.webp
+effects: []
+folder: hbFolderTruques1
+sort: 219000
+flags: {}
+system:
+  description:
+    value: '<p>Seu melhor amigo passa a receber um bônus na Defesa igual ao seu nível (em vez de metade do nível).</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: geral
+  subtipo: 'Truques do Melhor Amigo'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!uZEntMHFSFCNE7Or'

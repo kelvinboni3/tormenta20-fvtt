@@ -1,0 +1,57 @@
+# A execucao (padrao, movimento, livre?) nao consta no material.
+_id: imkPNddoTPgJ2oQc
+name: 'Rugido Dracônico (Nível 1)'
+type: poder
+img: systems/tormenta20/icons/magias/amedrontar.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 4000
+flags: {}
+system:
+  description:
+    value: '<p>Mesmo jovem, sua voz carrega parte da autoridade dos dragões.</p><p>Uma vez por cena, você pode emitir um rugido aterrador. Criaturas escolhidas em alcance curto realizam um teste de Vontade.</p><p><strong>CD:</strong> 10 + metade do nível + Constituição.</p><p><strong>Falha:</strong></p><ul><li>Abalado por 1 rodada.</li></ul><p><strong>Sucesso:</strong></p><ul><li>Imune ao seu Rugido por 24 horas.</li></ul><p><strong>Nível:</strong> 1º.</p><hr><p><em>A execucao (padrao, movimento, livre?) nao consta no material.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: special
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: 'Criaturas escolhidas em alcance curto'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: 'Vontade (CD 10 + metade do nível + Constituição)'
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!imkPNddoTPgJ2oQc'

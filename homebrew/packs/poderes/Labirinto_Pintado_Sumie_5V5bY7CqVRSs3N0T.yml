@@ -1,0 +1,60 @@
+# PROPOSTO: o material da classe nao informa custo em PM, execucao,
+# duracao nem alcance desta formula. Os valores abaixo saem da escada de
+# Tier definida no README (Tier III -> 3 PM, 9º nivel) e da
+# natureza do caminho do Paisagismo. Ajuste na mesa se preciso.
+_id: 5V5bY7CqVRSs3N0T
+name: 'Labirinto Pintado (Tier III)'
+type: poder
+img: systems/tormenta20/icons/magias/miragem.webp
+effects: []
+folder: hbFolderSumiePai
+sort: 312000
+flags: {}
+system:
+  description:
+    value: '<p><em>Caminho do Paisagismo — Tier III.</em></p><p><strong>Função:</strong> Desorientação.</p><p><strong>Pré-requisito:</strong> 9º nível de Artífice do Sumiê.</p><hr><p><em>Custo (3 PM), execução, duração, alcance e nível de aquisição não constam no material de origem — são propostos pela escada de Tier. Veja "Artífice do Sumiê" no README.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Artífice do Sumiê (material da mesa)'
+  ativacao:
+    execucao: action
+    custo: 3
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: scene
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: medium
+  alvo: ''
+  area: 'Labirinto pintado'
+  resistencia:
+    pericia: ''
+    atributo: int
+    bonus: 0
+    txt: 'Vontade'
+  rolls: []
+  tipo: classe
+  subtipo: 'Artífice do Sumiê'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!5V5bY7CqVRSs3N0T'

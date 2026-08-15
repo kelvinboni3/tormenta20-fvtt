@@ -1,0 +1,56 @@
+_id: HHqEIBYYF4D9GSsX
+name: 'O Verdadeiro Dragão (Nível 18)'
+type: poder
+img: systems/tormenta20/icons/ameacas/dragao-rei.png
+effects: []
+folder: hbFolderMeioDrag
+sort: 25000
+flags: {}
+system:
+  description:
+    value: '<p>Ao alcançar este estágio, você é reconhecido como um verdadeiro Dragão Adulto. A forma humanoide deixa de ser uma limitação e passa a ser apenas uma escolha.</p><p>Você recuperou a grandeza que sempre existiu em seu sangue.</p><p><strong>Nível:</strong> 18º.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!HHqEIBYYF4D9GSsX'

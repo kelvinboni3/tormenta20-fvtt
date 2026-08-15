@@ -1,0 +1,57 @@
+# Execucao, alcance e teste repetidos do Rugido Draconico.
+_id: 9aqSxkcbssW8I5zb
+name: 'Rugido Ancestral (Nível 13)'
+type: poder
+img: systems/tormenta20/icons/magias/furia-do-panteao.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 19000
+flags: {}
+system:
+  description:
+    value: '<p>Seu rugido ecoa como o de um dragão adolescente.</p><p><strong>Falha:</strong></p><ul><li>Apavorado por 1 rodada.</li></ul><p><strong>Falha por 5 ou mais:</strong></p><ul><li>Apavorado por 1d4 rodadas.</li></ul><p>Substitui os efeitos do Rugido Predatório.</p><p><strong>Nível:</strong> 13º.</p><hr><p><em>Execucao, alcance e teste repetidos do Rugido Draconico.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: special
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: 'Criaturas escolhidas em alcance curto'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: 'Vontade (CD 10 + metade do nível + Constituição)'
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!9aqSxkcbssW8I5zb'

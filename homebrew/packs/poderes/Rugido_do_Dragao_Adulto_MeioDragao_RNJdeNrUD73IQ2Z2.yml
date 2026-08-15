@@ -1,0 +1,57 @@
+# Execucao, alcance e teste repetidos do Rugido Draconico.
+_id: RNJdeNrUD73IQ2Z2
+name: 'Rugido do Dragão Adulto (Nível 18)'
+type: poder
+img: systems/tormenta20/icons/magias/voz-divina.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 23000
+flags: {}
+system:
+  description:
+    value: '<p>Seu rugido carrega a autoridade de um verdadeiro dragão.</p><p><strong>Falha:</strong></p><ul><li>Apavorado pela cena.</li></ul><p><strong>Falha por 5 ou mais:</strong></p><ul><li>Não pode se aproximar voluntariamente de você durante a cena.</li></ul><p>Substitui os efeitos do Rugido Ancestral.</p><p><strong>Nível:</strong> 18º.</p><hr><p><em>Execucao, alcance e teste repetidos do Rugido Draconico.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: special
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: 'Criaturas escolhidas em alcance curto'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: 'Vontade (CD 10 + metade do nível + Constituição)'
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!RNJdeNrUD73IQ2Z2'

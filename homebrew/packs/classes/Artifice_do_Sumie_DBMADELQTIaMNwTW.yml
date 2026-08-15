@@ -1,0 +1,54 @@
+# PV e PM do Artifice do Sumie.
+#
+# Alvo da classe: 14 + CON no nivel 1, depois 4 + CON por nivel; 5 PM por nivel.
+#
+# PV. O sistema soma pvPorNivel por nivel e acrescenta CON sozinho; com a caixa
+# "Classe Inicial" marcada o nivel 1 vale 4 x pvPorNivel. Com pvPorNivel = 4:
+#
+#   inicial marcada    -> 4*4 + 4*(N-1) + N*CON = 4N + 12 + N*CON
+#   alvo               -> 14 + CON + (N-1)*(4+CON) = 4N + 10 + N*CON
+#
+# Sobram 2 PV com a caixa marcada, e faltam 10 com ela desmarcada - os dois
+# casos da formula geral (P1 - 4p e P1 - p) anotada em AJUSTE_PV no
+# homebrew.mjs. Como o ajuste muda conforme a caixa, ele nao pode ser um
+# ActiveEffect estatico aqui: quem cuida disso e sincronizarPV.
+#
+# PM. O sistema soma so pmPorNivel, sem atributo nenhum, e a classe pede
+# exatamente 5 PM por nivel. Nada a corrigir - Inteligencia e atributo-chave
+# da classe (CD e pericias), mas o material nao soma Int aos PM.
+#
+# Pericias: "6 + Inteligencia". O +Int e regra geral de T20, aplicada pelo
+# sistema a qualquer personagem, e nao parte da classe - por isso numero: 6,
+# igual ao que as classes oficiais fazem (ver Bardo, tambem 6).
+#
+# Proficiencias, atributo-chave, CD e Kit de Sumie ficam no texto: ClassData
+# (tormenta20.mjs:18053) so define niveis, pvPorNivel, pmPorNivel, pericias e
+# inicial. Qualquer chave nova seria descartada em silencio ao salvar.
+_id: DBMADELQTIaMNwTW
+name: 'Artífice do Sumiê'
+type: classe
+img: systems/tormenta20/icons/itens/gerais/tinta.webp
+effects: []
+folder: null
+sort: 0
+flags: {}
+system:
+  description:
+    value: '<p>O Artífice do Sumiê transforma arte em realidade. Utilizando tinta ritualística, pergaminhos e pincéis espirituais, ele cria criaturas, selos, paisagens e manifestações vivas capazes de alterar completamente o campo de batalha. Sua função é Controle, Invocação, Suporte e Utilidade.</p><p><strong>Atributo-chave:</strong> Inteligência. <strong>CD das habilidades:</strong> 10 + metade do nível + Inteligência.</p><p><strong>Proficiências:</strong> armas simples e armaduras leves. Usa um <strong>Kit de Sumiê</strong> para traçar suas fórmulas.</p><p>O poder da classe vem das <strong>Fórmulas de Sumiê</strong>, divididas em quatro caminhos — <em>Bestiário</em> (invocações de tinta), <em>Caligrafia</em> (selos e kanji), <em>Paisagismo</em> (terreno pintado) e <em>Herborizo</em> (cura e sustento) — e em cinco Tiers.</p><hr><p><em>O material de origem não traz tabela de progressão por nível, nem custo, execução, duração ou alcance das fórmulas. A escada de Tier usada nos itens deste compêndio (Tier I no 1º nível a 1 PM, II no 5º a 2 PM, III no 9º a 3 PM, IV no 13º a 4 PM, V no 17º a 5 PM) é uma proposta desta camada, não regra da fonte. Veja "Artífice do Sumiê" no README.</em></p>'
+    unidentified: ''
+  source: 'Artífice do Sumiê (material da mesa)'
+  niveis: 1
+  pvPorNivel: 4
+  pmPorNivel: 5
+  inicial: false
+  rolls: []
+  origin: ''
+  tags: []
+  chatFlavor: ''
+  chatGif: ''
+  pericias:
+    numero: 6
+    inatas: 'Nenhuma perícia obrigatória. Perícias a escolha (6 + Inteligência): Acrobacia, Enganação, Furtividade, Iniciativa, Intuição, Investigação, Misticismo, Nobreza, Ofício (Calígrafo Ritualista), Percepção, Reflexos.'
+ownership:
+  default: 0
+_key: '!items!DBMADELQTIaMNwTW'

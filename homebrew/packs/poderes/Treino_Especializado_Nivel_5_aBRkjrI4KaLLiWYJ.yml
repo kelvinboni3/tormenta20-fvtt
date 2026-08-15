@@ -1,0 +1,63 @@
+# A escolha entre os dois caminhos muda os numeros da ficha do BICHO,
+# nao a do treinador - por isso nao ha ActiveEffect aqui. A camada
+# homebrew le qual caminho foi escolhido e recalcula PV, RD e truques
+# do melhor amigo.
+#
+# O PDF nao diz se os beneficios de nivel 11 e 17 substituem ou somam;
+# 'a RD aumenta para' foi lido como substituicao.
+_id: aBRkjrI4KaLLiWYJ
+name: 'Treino Especializado (Nível 5)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/instinto-selvagem.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 4000
+flags: {}
+system:
+  description:
+    value: '<p>No 5º nível, escolha entre <strong>Conquistar pelos Números</strong> e <strong>Treino Intensivo</strong>.</p><p><strong>Conquistar pelos Números:</strong> você recebe um segundo melhor amigo. Uma vez por rodada, quando faz uma ação padrão com um de seus melhores amigos, você pode gastar 3 PM para fazer uma ação padrão com o outro.</p><p><strong>Treino Intensivo:</strong> seu melhor amigo recebe +4 PV por nível, redução de dano 5 e um truque. No 11º nível, a RD aumenta para 10 e ele recebe outro truque. No 17º nível, a RD aumenta para 15.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: none
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!aBRkjrI4KaLLiWYJ'

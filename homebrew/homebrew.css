@@ -75,3 +75,129 @@
 	border-color: #c9a227;
 	box-shadow: 0 0 4px rgba(201, 162, 39, 0.6);
 }
+
+
+/* -------------------------------------------- */
+/*  Melhor Amigo do Treinador                    */
+/* -------------------------------------------- */
+
+/* Os dois paineis sao faixas de largura total, inseridas logo abaixo da linha
+   de PV/PM. Nao entram DENTRO dessa linha porque ela e uma flexrow de caixas de
+   altura fixa (~70px): um painel com <select> vazaria por cima do resto. */
+.hb-painel {
+	flex: 0 0 auto;
+	margin: 0.25rem 0;
+	padding: 0.3rem 0.4rem;
+	border: 1px solid var(--color-border-light-tertiary, rgba(0, 0, 0, 0.25));
+	border-radius: 4px;
+	background: rgba(0, 0, 0, 0.04);
+	font-size: 0.75rem;
+}
+
+.hb-painel-topo {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+}
+
+.hb-painel-titulo {
+	font-weight: bold;
+	text-transform: uppercase;
+	font-size: 0.68rem;
+	letter-spacing: 0.04em;
+	white-space: nowrap;
+	opacity: 0.8;
+}
+
+.hb-painel select {
+	flex: 1 1 auto;
+	min-width: 0;
+	height: 1.5rem;
+	font-size: 0.72rem;
+	padding: 0 0.2rem;
+}
+
+/* Numeros como fichas que quebram linha sozinhas: cabem em ficha estreita sem
+   estourar a largura. */
+.hb-chips {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.2rem;
+	margin-top: 0.3rem;
+}
+
+.hb-chip {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.25rem;
+	padding: 0.05rem 0.35rem;
+	border-radius: 3px;
+	background: rgba(0, 0, 0, 0.08);
+	font-variant-numeric: tabular-nums;
+	font-weight: bold;
+	line-height: 1.5;
+}
+
+.hb-chip b {
+	font-weight: normal;
+	opacity: 0.65;
+	font-size: 0.68rem;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+}
+
+.hb-chip--nome {
+	font-weight: normal;
+}
+
+/* Mais truques do que slots, ou mais parceiros do que o limite: erro de
+   preenchimento, nao do calculo. */
+.hb-chip--excedido {
+	background: rgba(139, 26, 26, 0.18);
+	color: #8b1a1a;
+}
+
+.hb-chip--nota {
+	background: rgba(201, 162, 39, 0.22);
+}
+
+.hb-amigo-aviso {
+	font-size: 0.7rem;
+	font-style: italic;
+	opacity: 0.75;
+	margin: 0.25rem 0 0;
+	line-height: 1.25;
+}
+
+/* Marcos de nivel em duas colunas: o que ja esta liberado fica legivel, o que
+   falta some no fundo. Serve de tabela de progressao sem ocupar espaco. */
+.hb-treinador-marcos {
+	list-style: none;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+	gap: 0 0.6rem;
+	margin: 0.3rem 0 0;
+	padding: 0.3rem 0 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	font-size: 0.68rem;
+	line-height: 1.4;
+}
+
+.hb-treinador-marcos li {
+	display: flex;
+	justify-content: space-between;
+	gap: 0.4rem;
+}
+
+.hb-treinador-marcos span {
+	opacity: 0.6;
+	font-variant-numeric: tabular-nums;
+}
+
+.hb-marco--ok {
+	font-weight: bold;
+}
+
+.hb-marco--falta {
+	opacity: 0.4;
+}

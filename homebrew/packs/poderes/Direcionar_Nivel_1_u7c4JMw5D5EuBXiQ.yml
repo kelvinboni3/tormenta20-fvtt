@@ -1,0 +1,59 @@
+# O texto do PDF nao diz se Direcionar e acao, reacao ou livre, nem
+# quanto tempo o bonus dura. Ficou como execucao 'special' de proposito:
+# inventar 'free' aqui mudaria o equilibrio da habilidade.
+_id: u7c4JMw5D5EuBXiQ
+name: 'Direcionar (Nível 1)'
+type: poder
+img: systems/tormenta20/icons/poderes/classes/combatentes/gritar-ordens.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 1000
+flags: {}
+system:
+  description:
+    value: '<p>Se o seu melhor amigo estiver em alcance curto e fizer um teste de perícia, você pode gastar 2 PM para somar seu Carisma no teste dele.</p><p><em>Nota da mesa: o texto original não define a execução nem a duração do bônus. Registrado como especial até a mesa decidir.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 2
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: special
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: short
+  alvo: 'Melhor amigo'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!u7c4JMw5D5EuBXiQ'

@@ -1,0 +1,56 @@
+_id: hrNU3BthPloOJigQ
+name: 'Saco Vocal Dracônico Desenvolvido (Nível 9)'
+type: poder
+img: systems/tormenta20/icons/magias/palavra-primordial.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 16000
+flags: {}
+system:
+  description:
+    value: '<p>Seu Limite Seguro aumenta para:</p><ul><li>5 Pontos de Fadiga Dracônica.</li></ul><p><strong>Nível:</strong> 9º.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'Fadiga Dracônica'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!hrNU3BthPloOJigQ'

@@ -1,0 +1,61 @@
+# O bloco de caracteristicas fica na descricao porque o melhor amigo e
+# um ator proprio, nao um campo do item. A ficha dele e montada pela
+# camada homebrew - ver homebrew.mjs.
+#
+# Nao vira ActiveEffect: nada aqui altera a ficha do TREINADOR.
+_id: kLQuTnqyd6ycYGap
+name: 'Melhor Amigo (Nível 1)'
+type: poder
+img: systems/tormenta20/icons/itens/gerais/animal-de-estimacao.webp
+effects: []
+folder: hbFolderTreinad1
+sort: 2000
+flags: {}
+system:
+  description:
+    value: '<p>Você recebe um melhor amigo, um parceiro especial que o acompanha em suas aventuras. Ele começa com <strong>dois truques</strong> à sua escolha e recebe um novo truque a cada três níveis seguintes. Caso seu melhor amigo morra, você fica atordoado por 1d4 rodadas. Você pode treinar um novo melhor amigo com um mês de trabalho.</p><p>Seu melhor amigo é uma criatura com a qual você possui uma afinidade única. Em termos de regras, é um parceiro iniciante de um tipo à sua escolha condizente com suas características e aprovado pelo mestre. Se você receber um parceiro não inteligente por outra habilidade, como o poder Companheiro Animal ou a origem Irmão sem Esporas, pode fazer esse parceiro ser seu melhor amigo, usando todos os bônus de parceiros (bônus iguais não se acumulam; use os melhores). Seu melhor amigo só fornece seus benefícios de parceiro se estiver em alcance curto de você.</p><p>Ao contrário de outros parceiros, seu melhor amigo possui uma <strong>ficha completa</strong>, com as características a seguir — mesmo que sejam diferentes da ficha de sua espécie.</p><p><strong>Características do Melhor Amigo</strong></p><ul><li><strong>Tamanho:</strong> Pequeno, Médio ou Grande</li><li><strong>Atributos:</strong> For 1, Des 1, Con 1, Int −4, Sab 1, Car 0</li><li><strong>PV:</strong> 16 + Constituição; +4 PV + Con por nível</li><li><strong>PM:</strong> não possui</li><li><strong>Perícias:</strong> 3 à escolha entre Acrobacia, Atletismo, Fortitude, Furtividade, Luta, Percepção, Pontaria, Reflexos, Sobrevivência e Vontade</li><li><strong>Defesa:</strong> 10 + Destreza + Carisma do treinador + metade do nível do treinador</li><li><strong>Deslocamento:</strong> 12m (8q), ou os deslocamentos fornecidos se for montaria</li><li><strong>Ataques:</strong> uma arma natural, dano 1d8, crítico x2, corte, impacto ou perfuração</li><li><strong>Tipo:</strong> animal, construto, espírito, monstro ou morto-vivo</li><li><strong>Ações:</strong> as ações do treinador podem ser utilizadas pelo treinador ou pelo melhor amigo</li><li><strong>Nível:</strong> usa o nível do treinador</li><li><strong>Equipamento:</strong> não pode empunhar nem carregar itens; pode vestir até dois itens adequados</li></ul><p>Progressão de truques: 2 no 1º nível, 3 no 4º, 4 no 7º, 5 no 10º, 6 no 13º, 7 no 16º e 8 no 19º.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Treinador T20 (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: spec
+  alvo: 'Um parceiro especial'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: sab
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: classe
+  subtipo: 'Treinador'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!kLQuTnqyd6ycYGap'

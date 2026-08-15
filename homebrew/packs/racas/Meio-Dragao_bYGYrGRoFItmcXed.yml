@@ -1,0 +1,95 @@
+# Raca Meio-Dragao.
+#
+# Atributos. O material nao da modificador fixo nenhum: da "+2 em um atributo
+# a sua escolha". Isso vive em atributosDinamicos.description, que e texto
+# livre lido na criacao do personagem - os seis campos de `atributos` ficam
+# em 0 porque RaceData (tormenta20.mjs:18112) os exige todos.
+#
+# Grants. Apenas as 4 habilidades de 1o nivel entram aqui: um grant de raca e
+# aplicado inteiro na criacao do personagem, e as outras 21 habilidades so
+# aparecem em niveis mais altos. Quem cuida delas e sincronizarMeioDragao em
+# homebrew.mjs, que acrescenta e remove itens conforme o nivel muda.
+#
+# Pericias. Percepcao e Intimidacao sao treinadas de graca. Nenhuma das 18
+# racas oficiais usa o campo `skills`, entao isso vai como ActiveEffect com
+# OVERRIDE em system.pericias.<id>.treinado, que e a chave que o proprio
+# sistema usa (tormenta20.mjs).
+#
+# Tipo de criatura. O material diz que o Meio-Dragao conta como criatura do
+# tipo Dragao. RaceData nao tem campo para isso, entao ficou na descricao.
+_id: bYGYrGRoFItmcXed
+name: 'Meio-Dragão'
+type: race
+img: systems/tormenta20/icons/ameacas/dragao-filhote.png
+system:
+  description:
+    value: '<p>Os Meio-Dragões não são humanoides que herdaram sangue dracônico. Eles são dragões verdadeiros que nasceram em uma forma humanoide. Embora não possuam o tamanho colossal de seus ancestrais, carregam em suas veias o mesmo poder, instinto e natureza dos grandes dragões. Conforme amadurecem, seu corpo desenvolve características cada vez mais próximas de sua forma original, até que finalmente sejam capazes de manifestar sua verdadeira natureza dracônica.</p><p><strong>Tipo:</strong> você é uma criatura do tipo <strong>Dragão</strong>. Efeitos que afetam dragões também afetam você.</p><p><strong>Atributos:</strong> +2 em um atributo à sua escolha.</p><p><strong>Perícias:</strong> você é treinado em Percepção e Intimidação.</p><p><strong>Visão no Escuro:</strong> alcance curto (18m).</p><hr><p><em>As 25 habilidades raciais destravam ao longo dos níveis 1, 2, 3, 5, 7, 9, 13, 15 e 18. A camada homebrew acrescenta cada uma à ficha quando você alcança o nível — veja "Raça Meio-Dragão" no README.</em></p>'
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  origin: ''
+  tags: []
+  rolltags: []
+  chatFlavor: ''
+  chatGif: ''
+  atributos:
+    for: 0
+    des: 0
+    con: 0
+    int: 0
+    sab: 0
+    car: 0
+  atributosDinamicos:
+    value: []
+    description: '+2 em um atributo à sua escolha'
+  movement:
+    burrow: 0
+    climb: 0
+    fly: 0
+    swim: 0
+    walk: 9
+    hover: false
+    unit: m
+  tamanho:
+    - med
+  grants:
+    - title: 'Herança Dracônica'
+      desc: 'Habilidades de 1º nível do Meio-Dragão.'
+      type: multi
+      choices:
+        - uuid: Compendium.tormenta20.homebrew-poderes.Item.Q0r1qIrHxWpgwldi
+        - uuid: Compendium.tormenta20.homebrew-poderes.Item.4AZI0VTct0XPkBRc
+        - uuid: Compendium.tormenta20.homebrew-poderes.Item.wwtFpzlrGnm8P45Y
+        - uuid: Compendium.tormenta20.homebrew-poderes.Item.imkPNddoTPgJ2oQc
+effects:
+  # Percepcao e Intimidacao treinadas. OVERRIDE porque `treinado` e booleano:
+  # ADD nao faz sentido e deixaria o campo intacto.
+  - _id: RTMY6s3YpiXtN0xm
+    name: 'Instintos de Dragão'
+    img: systems/tormenta20/icons/ameacas/dragao-filhote.png
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.pericias.perc.treinado
+        mode: 5
+        value: 'true'
+        priority: 20
+      - key: system.pericias.inti.treinado
+        mode: 5
+        value: 'true'
+        priority: 20
+    _key: '!items.effects!bYGYrGRoFItmcXed.RTMY6s3YpiXtN0xm'
+folder: null
+sort: 100000
+ownership:
+  default: 0
+flags: {}
+_key: '!items!bYGYrGRoFItmcXed'

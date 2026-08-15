@@ -1,0 +1,56 @@
+_id: wwtFpzlrGnm8P45Y
+name: 'Garras Dracônicas (Nível 1)'
+type: poder
+img: systems/tormenta20/icons/magias/armamento-da-natureza.webp
+effects: []
+folder: hbFolderMeioDrag
+sort: 3000
+flags: {}
+system:
+  description:
+    value: '<p>Você possui garras naturais.</p><p>Recebe um ataque natural que causa:</p><ul><li>1d6 de dano de corte.</li></ul><p>As garras contam como armas naturais.</p><p><strong>Nível:</strong> 1º.</p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: special
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!wwtFpzlrGnm8P45Y'

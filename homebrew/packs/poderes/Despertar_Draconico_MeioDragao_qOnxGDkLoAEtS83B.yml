@@ -1,0 +1,77 @@
+# So o +2 de Intimidacao virou efeito; o +1d6 do sopro nao tem chave.
+_id: qOnxGDkLoAEtS83B
+name: 'Despertar Dracônico (Nível 13)'
+type: poder
+img: systems/tormenta20/icons/ameacas/dragao-jovem.png
+effects:
+  - _id: 8dMTUqtueCXAQlGq
+    name: 'Despertar Dracônico'
+    img: systems/tormenta20/icons/ameacas/dragao-jovem.png
+    type: base
+    system: {}
+    description: ''
+    origin: null
+    disabled: false
+    transfer: true
+    statuses: []
+    sort: 0
+    tint: '#ffffff'
+    flags: {}
+    duration: {}
+    changes:
+      - key: system.pericias.inti.bonus
+        mode: 2
+        value: '2'
+        priority: 20
+    _key: '!items.effects!qOnxGDkLoAEtS83B.8dMTUqtueCXAQlGq'
+folder: hbFolderMeioDrag
+sort: 17000
+flags: {}
+system:
+  description:
+    value: '<p>O sangue ancestral desperta de forma intensa. Seu corpo sofre uma transformação parcial.</p><p>Você recebe:</p><ul><li>+2 Intimidação.</li><li>+1d6 no Sopro Dracônico.</li></ul><p><strong>Nível:</strong> 13º.</p><hr><p><em>So o +2 de Intimidacao virou efeito; o +1d6 do sopro nao tem chave.</em></p>'
+    chat: ''
+    unidentified: ''
+  source: 'Meio-Dragão (material da mesa)'
+  ativacao:
+    execucao: passive
+    custo: 0
+    qtd: ''
+    condicao: ''
+    special: ''
+  duracao:
+    value: 0
+    units: perm
+    special: ''
+  target:
+    value: null
+    width: null
+    units: ''
+    type: ''
+  range:
+    value: null
+    units: ''
+  consume:
+    type: ''
+    target: ''
+    amount: null
+    mpMultiplier: false
+  efeito: ''
+  alcance: self
+  alvo: 'O próprio personagem'
+  area: ''
+  resistencia:
+    pericia: ''
+    atributo: con
+    bonus: 0
+    txt: ''
+  rolls: []
+  tipo: racial
+  subtipo: 'Meio-Dragão'
+  chatFlavor: ''
+  origin: ''
+  tags: []
+  chatGif: ''
+ownership:
+  default: 0
+_key: '!items!qOnxGDkLoAEtS83B'
