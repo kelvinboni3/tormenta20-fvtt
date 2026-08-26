@@ -23,6 +23,11 @@ const atributos = ["for", "des", "con", "int", "sab", "car"];
 const execucoes = ["passive", "action", "move", "full", "reaction", "free", "minute", "hour", "day", "special"];
 const tamanhos = ["min", "peq", "med", "gra", "eno", "col"];
 const tiposDeGrant = ["single", "multi"];
+// T20.armorTypes e T20.itemSlotTypes. Só `equipado2.type` tem `choices` no
+// DataModel e explode ao salvar; `tipo` é StringField solto, mas um valor fora
+// da lista some do seletor da ficha sem avisar.
+const tiposDeEquipamento = ["leve", "pesada", "escudo", "bonus", "natural", "acessorio", "traje", "ferramenta", "esoterico"];
+const slotsDeEquipamento = ["hand", "body", "both"];
 
 const erros = [];
 const ids = new Map();
@@ -129,6 +134,18 @@ for (const entry of packs.filter((e) => e.isDirectory())) {
 			for (const [i, sk] of (s.skills ?? []).entries()) {
 				if (!tiposDeGrant.includes(sk?.type)) erros.push(`${f}: skills[${i}].type invalido (${sk?.type})`);
 				if (!Array.isArray(sk?.choices) || !sk.choices.length) erros.push(`${f}: skills[${i}] sem choices`);
+			}
+		} else if (doc.type === "equipamento") {
+			if (!tiposDeEquipamento.includes(s.tipo)) erros.push(`${f}: system.tipo invalido (${s.tipo})`);
+			// `choices` no DataModel: um valor fora da lista faz o item recusar a
+			// gravar, com erro de validacao no console.
+			if (!slotsDeEquipamento.includes(s.equipado2?.type)) {
+				erros.push(`${f}: equipado2.type invalido (${s.equipado2?.type})`);
+			}
+			if (typeof s.equipado2?.slot !== "number") erros.push(`${f}: equipado2.slot precisa ser numero`);
+			if (typeof s.equipado !== "boolean") erros.push(`${f}: equipado precisa ser booleano`);
+			for (const k of ["peso", "espacos", "qtd", "preco", "rd"]) {
+				if (typeof s[k] !== "number") erros.push(`${f}: ${k} precisa ser numero`);
 			}
 		} else {
 			erros.push(`${f}: type inesperado (${doc.type})`);

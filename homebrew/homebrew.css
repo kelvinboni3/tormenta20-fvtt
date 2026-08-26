@@ -78,6 +78,48 @@
 
 
 /* -------------------------------------------- */
+/*  Fadiga Draconica (Meio-Dragao)               */
+/* -------------------------------------------- */
+
+/* Mesma caixa da Fadiga da Visao. As duas podem coexistir no mesmo ator
+   (um Vidente Meio-Dragao), por isso as classes sao separadas e o modificador
+   .hb-fadiga--ativa e compartilhado. */
+.hb-fadiga-drac .hb-drac-valor {
+	font-size: 1.5rem;
+	font-weight: bold;
+	min-width: 1.5rem;
+	text-align: center;
+}
+
+/* O numero a direita e o Limite Seguro, nao um maximo: e ate onde da para ir
+   sem penalidade. */
+.hb-fadiga-drac .hb-drac-max {
+	opacity: 0.6;
+}
+
+.hb-fadiga-drac .attribute-value button {
+	width: 1.4rem;
+	height: 1.4rem;
+	line-height: 1;
+	padding: 0;
+	flex: 0 0 1.4rem;
+	border-radius: 3px;
+}
+
+.hb-fadiga-drac.hb-fadiga--ativa .hb-drac-valor {
+	color: #8b1a1a;
+}
+
+.hb-fadiga-drac .hb-drac-curto {
+	width: 100%;
+	font-size: 0.75rem;
+	padding: 0.1rem 0.2rem;
+	line-height: 1.4;
+	opacity: 0.65;
+}
+
+
+/* -------------------------------------------- */
 /*  Melhor Amigo do Treinador                    */
 /* -------------------------------------------- */
 
@@ -200,4 +242,218 @@
 
 .hb-marco--falta {
 	opacity: 0.4;
+}
+
+
+/* -------------------------------------------- */
+/*  Grimorio das Cartas                          */
+/* -------------------------------------------- */
+
+/* A aba entra na .sheet-body como qualquer outra: herda do sistema o
+   display/none conforme a classe .active, entao aqui so tratamos o conteudo.
+   O overflow proprio evita que uma mao grande estique a ficha. */
+.tab.hb-cartas {
+	flex-direction: column;
+	gap: 0.35rem;
+	padding: 0.4rem;
+	overflow-y: auto;
+}
+
+.hb-cartas-topo {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	flex: 0 0 auto;
+}
+
+.hb-cartas-atributo {
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+	font-size: 0.7rem;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	opacity: 0.8;
+	white-space: nowrap;
+}
+
+.hb-cartas-atributo select {
+	height: 1.5rem;
+	font-size: 0.75rem;
+	padding: 0 0.2rem;
+}
+
+.hb-cartas-secao {
+	margin: 0.5rem 0 0.1rem;
+	padding-bottom: 0.1rem;
+	border-bottom: 1px solid var(--color-border-light-tertiary, rgba(0, 0, 0, 0.25));
+	font-size: 0.72rem;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	opacity: 0.8;
+}
+
+.hb-cartas-botoes {
+	display: flex;
+	gap: 0.3rem;
+	flex: 0 0 auto;
+}
+
+.hb-cartas-botoes button {
+	flex: 1 1 0;
+	font-size: 0.75rem;
+	padding: 0.15rem 0.3rem;
+	line-height: 1.5;
+	white-space: nowrap;
+}
+
+/* A mao quebra linha sozinha: uma mao de Inteligencia alta nao pode empurrar
+   os efeitos para fora da ficha. */
+.hb-cartas-mao,
+.hb-cartas-descarte,
+.hb-cartas-linha {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem;
+	flex: 0 0 auto;
+}
+
+.hb-cartas-descarte {
+	opacity: 0.55;
+}
+
+/* A carta e desenhada em CSS, sem arte: 52 imagens seriam 52 arquivos para
+   distribuir, e o naipe ja e reconhecivel pelo simbolo e pela cor. */
+.hb-carta {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 2.1rem;
+	height: 2.9rem;
+	border: 1px solid rgba(0, 0, 0, 0.45);
+	border-radius: 4px;
+	background: #fdfaf3;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+	font-weight: bold;
+	line-height: 1;
+	user-select: none;
+}
+
+.hb-carta-valor {
+	font-size: 0.8rem;
+}
+
+.hb-carta-naipe {
+	font-size: 1rem;
+}
+
+.hb-carta--vermelha {
+	color: #a51d22;
+}
+
+.hb-carta--preta {
+	color: #1c1c1c;
+}
+
+.hb-carta--peq {
+	width: 1.5rem;
+	height: 2rem;
+	box-shadow: none;
+}
+
+.hb-carta--peq .hb-carta-valor {
+	font-size: 0.6rem;
+}
+
+.hb-carta--peq .hb-carta-naipe {
+	font-size: 0.75rem;
+}
+
+.hb-carta--mao {
+	cursor: pointer;
+	transition: transform 0.1s ease-out;
+}
+
+.hb-carta--mao:hover {
+	transform: translateY(-2px);
+}
+
+.hb-carta--sel {
+	border-color: #c9a227;
+	box-shadow: 0 0 5px rgba(201, 162, 39, 0.9);
+	transform: translateY(-3px);
+}
+
+/* Os dois efeitos do naipe, lado a lado: rotulo em cima, o que ele faz
+   embaixo, para a escolha nao depender de decorar a tabela. */
+.hb-cartas-efeito-botoes {
+	display: flex;
+	gap: 0.3rem;
+	flex: 0 0 auto;
+}
+
+.hb-cartas-efeito {
+	flex: 1 1 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.1rem;
+	padding: 0.25rem 0.4rem;
+	height: auto;
+	line-height: 1.3;
+	text-align: left;
+}
+
+.hb-cartas-efeito strong {
+	font-size: 0.8rem;
+}
+
+.hb-cartas-efeito span {
+	font-size: 0.68rem;
+	opacity: 0.7;
+	white-space: normal;
+}
+
+.hb-cartas-aviso {
+	font-size: 0.7rem;
+	font-style: italic;
+	opacity: 0.75;
+	margin: 0.2rem 0;
+	line-height: 1.3;
+}
+
+/* -------------------------------------------- */
+/*  Carta no chat                                */
+/* -------------------------------------------- */
+
+.hb-cartas-chat h4 {
+	margin: 0 0 0.3rem;
+	font-size: 0.85rem;
+}
+
+.hb-cartas-chat p {
+	margin: 0.15rem 0;
+	font-size: 0.8rem;
+	line-height: 1.35;
+}
+
+.hb-cartas-chat .hb-cartas-linha {
+	margin-bottom: 0.3rem;
+}
+
+.hb-cartas-nota {
+	opacity: 0.75;
+	font-size: 0.75rem;
+}
+
+.hb-cartas-critico {
+	color: #1e7a34;
+	font-weight: bold;
+}
+
+.hb-cartas-erro {
+	color: #8b1a1a;
+	font-weight: bold;
 }

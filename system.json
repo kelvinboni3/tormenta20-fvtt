@@ -208,6 +208,13 @@
       "system": "tormenta20",
       "path": "./packs/homebrew-racas",
       "type": "Item"
+    },
+    {
+      "name": "homebrew-itens",
+      "label": "Itens (Homebrew)",
+      "system": "tormenta20",
+      "path": "./packs/homebrew-itens",
+      "type": "Item"
     }
   ],
   "packFolders": [
@@ -256,7 +263,7 @@
       "name": "Homebrew",
       "sorting": "m",
       "color": "#4a7c59",
-      "packs": ["homebrew-classes", "homebrew-poderes", "homebrew-racas"]
+      "packs": ["homebrew-classes", "homebrew-poderes", "homebrew-racas", "homebrew-itens"]
     }
   ],
   "languages": [

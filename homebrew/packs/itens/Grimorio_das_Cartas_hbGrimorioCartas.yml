@@ -1,0 +1,120 @@
+# O Grimorio nao guarda o baralho: o estado (deck, mao, descarte) vive em
+# flags do ATOR, sob homebrew.cartas. O item so liga a aba - ver
+# "Grimorio das Cartas" em homebrew/homebrew.mjs e no README.
+_id: hbGrimorioCartas
+name: 'Grimório das Cartas'
+type: equipamento
+img: systems/tormenta20/icons/itens/itens-magicos/baralho-do-caos.webp
+effects: []
+sort: 100000
+flags: {}
+system:
+  description:
+    value: >-
+      <p>Um baralho de 52 cartas encadernado como um grimório. Cada naipe
+      responde a um elemento, e a carta se desfaz em magia ao ser jogada.</p>
+      <p><strong>Enquanto equipado</strong>, a ficha ganha a aba
+      <strong>Cartas</strong>, onde o baralho é gerenciado.</p>
+      <p><strong>Mão inicial.</strong> Ao iniciar o combate, você embaralha as
+      52 cartas e compra um número de cartas igual à sua Inteligência.</p>
+      <p><strong>Comprar.</strong> Como uma ação de movimento, compre 1 carta.</p>
+      <p><strong>Lançar.</strong> Como uma ação padrão, descarte uma carta da
+      mão e escolha um dos dois efeitos do naipe dela. Efeitos ofensivos exigem
+      um ataque mágico (1d20 + metade do nível + atributo-chave) contra a
+      Defesa do alvo.</p>
+      <table>
+      <tr><th>Naipe</th><th>Elemento</th><th>Efeitos</th></tr>
+      <tr><td>♥ Copas</td><td>Água</td><td>Cura 1d4 PV <em>ou</em> +5 Defesa até o seu próximo turno</td></tr>
+      <tr><td>♦ Ouros</td><td>Terra</td><td>1d6 de impacto <em>ou</em> 1d12 T$</td></tr>
+      <tr><td>♠ Espadas</td><td>Ar</td><td>1d6 de corte <em>ou</em> condição Sangrando</td></tr>
+      <tr><td>♣ Paus</td><td>Fogo</td><td>1d6 de fogo em um alvo <em>ou</em> 1d4 de fogo em explosão de 3m</td></tr>
+      </table>
+      <p><strong>Baralho vazio.</strong> Sem cartas no deck não há o que
+      comprar. Reúna mão e descarte e embaralhe as 52 novamente pelo botão
+      <em>Novo baralho</em>, que também compra uma mão nova.</p>
+      <hr>
+      <p><em>Homebrew. O atributo-chave (Inteligência, Carisma ou Destreza) é
+      escolhido na própria aba Cartas.</em></p>
+    chat: ''
+    unidentified: ''
+  source: 'Homebrew da mesa'
+  equipado: false
+  equipado2:
+    slot: 0
+    type: hand
+  carregado: true
+  peso: 1
+  espacos: 1
+  qtd: 1
+  preco: 0
+  pv:
+    value: 0
+    min: 0
+    max: 0
+  rd: 0
+  tipo: acessorio
+  armadura:
+    value: 0
+    penalidade: 0
+    maxAtr: 0
+  origin: ''
+  tags: []
+  chatFlavor: ''
+  ativacao:
+    custo: null
+    condicao: ''
+    execucao: ''
+    qtd: ''
+    special: ''
+  rolls: []
+  melhorias:
+    adjusted: null
+    undermeasure: null
+    delicate: null
+    thorny: null
+    specialmaterial: null
+    polished: null
+    reinforced: null
+    sealed: null
+    golden: null
+    gems: null
+    discreet: null
+    macabre: null
+    enhanced: null
+  encantos:
+    abascanth: null
+    blessed: null
+    acrobatic: null
+    winged: null
+    frightful: null
+    caustic: null
+    defending: null
+    slick: null
+    ghostly: null
+    ortification: null
+    frost: null
+    guardian: null
+    hypnotic: null
+    illusory: null
+    incandescent: null
+    invulnerable: null
+    opaque: null
+    protector: null
+    reflecting: null
+    lightning: null
+    blinding: null
+    shadow: null
+    zealous: null
+  chatGif: ''
+  upgrades:
+    melhoria1: ''
+    melhoria2: ''
+    melhoria3: ''
+    melhoria4: ''
+    material: ''
+    encanto1: ''
+    encanto2: ''
+    encanto3: ''
+ownership:
+  default: 0
+_key: '!items!hbGrimorioCartas'

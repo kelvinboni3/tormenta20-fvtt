@@ -256,7 +256,6 @@ Hooks.on("preUpdateActor", (actor, changed, options) => {
 		console.warn(`${NS} | ${descartadas} pericias seriam gravadas com o atributo errado pela ficha; corrigido`);
 	}
 });
-
 /* -------------------------------------------- */
 /*  PV das classes homebrew                      */
 /* -------------------------------------------- */
@@ -565,7 +564,7 @@ function enfileirar(actor, tarefa) {
 	const proxima = anterior.then(tarefa, tarefa);
 	filaPorAtor.set(
 		actor.id,
-		proxima.catch((e) => console.error(`${NS} | falha ao atualizar a fadiga`, e))
+		proxima.catch((e) => console.error(`${NS} | falha em tarefa enfileirada do ator ${actor.name}`, e))
 	);
 	return proxima;
 }
@@ -723,6 +722,9 @@ Hooks.once("setup", () => {
 	proto.descanso = async function (...args) {
 		const resultado = await original.apply(this, args);
 		if (ehVidente(this) && getFadiga(this) > 0) await definirFadiga(this, 0);
+		// Actor#descanso e o descanso longo, que remove toda a Fadiga Draconica.
+		// O curto, que tira 1 ponto, fica no botao da barra da ficha.
+		if (ehMeioDragao(this) && getFadigaDrac(this) > 0) await definirFadigaDrac(this, 0);
 		return resultado;
 	};
 });
@@ -1223,6 +1225,306 @@ Hooks.on("renderActorSheet", (app, html) => {
 });
 
 /* -------------------------------------------- */
+/*  Raca Meio-Dragao                             */
+/* -------------------------------------------- */
+
+const RACA_MEIO_DRAGAO = "Meio-Dragão";
+const PACK_PODERES = "tormenta20.homebrew-poderes";
+
+/**
+ * As 25 habilidades raciais e o nivel em que cada uma destrava.
+ *
+ * Um grant de raca e aplicado inteiro na criacao do personagem, entao so as
+ * quatro de 1o nivel estao no YAML da raca. As outras 21 entram e saem por
+ * sincronizarMeioDragao, conforme o nivel sobe ou desce.
+ *
+ * O `id` e o _id do documento em homebrew-poderes. Se algum nao existir mais,
+ * a sincronizacao avisa no console em vez de falhar em silencio.
+ */
+const HABILIDADES_MEIO_DRAGAO = [
+	{ nivel: 1, nome: "Visão no Escuro (Nível 1)", id: "Q0r1qIrHxWpgwldi" },
+	{ nivel: 1, nome: "Escamas Dracônicas (Nível 1)", id: "4AZI0VTct0XPkBRc" },
+	{ nivel: 1, nome: "Garras Dracônicas (Nível 1)", id: "wwtFpzlrGnm8P45Y" },
+	{ nivel: 1, nome: "Rugido Dracônico (Nível 1)", id: "imkPNddoTPgJ2oQc" },
+	{ nivel: 2, nome: "Presas Dracônicas (Nível 2)", id: "1xoLcKPS2rimwna2" },
+	{ nivel: 3, nome: "Sentidos Dracônicos (Nível 3)", id: "dzXkpVPzdeTH1kAM" },
+	{ nivel: 3, nome: "Sopro Dracônico (Nível 3)", id: "hSFyHIv9dXzY04Jy" },
+	{ nivel: 3, nome: "Fadiga Dracônica (Nível 3)", id: "05aKzulli5ZsgckE" },
+	{ nivel: 5, nome: "Escamas Reforçadas (Nível 5)", id: "WpEbeWzlYl1T8CnB" },
+	{ nivel: 5, nome: "Sopro Aprimorado (Nível 5)", id: "mqSSjFsXqYEYQRR7" },
+	{ nivel: 5, nome: "Pulmões Dracônicos (Nível 5)", id: "qwBgSJS2hcalmgy5" },
+	{ nivel: 7, nome: "Bote Predatório (Nível 7)", id: "KrfgvBzkXB1oSewf" },
+	{ nivel: 9, nome: "Asas Dracônicas (Nível 9)", id: "3GQGnRTgROXsT2qH" },
+	{ nivel: 9, nome: "Escamas Reforçadas II (Nível 9)", id: "cnMB0N2efib0PJEv" },
+	{ nivel: 9, nome: "Rugido Predatório (Nível 9)", id: "Sk95z3ORhsY56Qif" },
+	{ nivel: 9, nome: "Saco Vocal Dracônico Desenvolvido (Nível 9)", id: "hrNU3BthPloOJigQ" },
+	{ nivel: 13, nome: "Despertar Dracônico (Nível 13)", id: "qOnxGDkLoAEtS83B" },
+	{ nivel: 13, nome: "Manifestação Parcial (Nível 13)", id: "hBXtpEMR22wBxcEF" },
+	{ nivel: 13, nome: "Rugido Ancestral (Nível 13)", id: "9aqSxkcbssW8I5zb" },
+	{ nivel: 13, nome: "Coração Dracônico (Nível 13)", id: "zaDzqAP96KB39GXd" },
+	{ nivel: 15, nome: "Forma Original Incompleta (Nível 15)", id: "MnzBkYBxogBinidv" },
+	{ nivel: 18, nome: "Forma Original Completa (Nível 18)", id: "3IOMELUkeGEjCzkx" },
+	{ nivel: 18, nome: "Rugido do Dragão Adulto (Nível 18)", id: "RNJdeNrUD73IQ2Z2" },
+	{ nivel: 18, nome: "Domínio do Sopro (Nível 18)", id: "THqz7K2EX57Yo1Eh" },
+	{ nivel: 18, nome: "O Verdadeiro Dragão (Nível 18)", id: "HHqEIBYYF4D9GSsX" }
+];
+
+/**
+ * Limite Seguro de Fadiga Draconica: quantos pontos cabem sem penalidade.
+ *
+ * O material descreve os degraus como substituicao ("aumenta para"), nao soma,
+ * por isso vale o maior alcancado e nao a soma deles.
+ */
+const LIMITE_DRAC_BASE = 3;
+const AUMENTOS_LIMITE_DRAC = [
+	{ hab: "Pulmões Dracônicos (Nível 5)", limite: 4 },
+	{ hab: "Saco Vocal Dracônico Desenvolvido (Nível 9)", limite: 5 },
+	{ hab: "Coração Dracônico (Nível 13)", limite: 7 }
+];
+
+/**
+ * O ator tem a raca Meio-Dragao?
+ * @param {Actor} actor
+ * @returns {boolean}
+ */
+export function ehMeioDragao(actor) {
+	return actor?.itemTypes?.race?.some((i) => i.name === RACA_MEIO_DRAGAO) ?? false;
+}
+
+/**
+ * Nivel do personagem. No ator "character" o sistema mantem o total em
+ * attributes.nivel.value; nos demais tipos o campo nao existe (ver o comentario
+ * do Melhor Amigo), e ai 1 e a resposta segura.
+ * @param {Actor} actor
+ * @returns {number}
+ */
+function nivelDoPersonagem(actor) {
+	return Number(actor?.system?.attributes?.nivel?.value) || 1;
+}
+
+/**
+ * Habilidades raciais do Meio-Dragao que estao na ficha, indexadas por nome.
+ * @param {Actor} actor
+ * @returns {Map<string, Item>}
+ */
+function habilidadesDraconicas(actor) {
+	const mapa = new Map();
+	for (const i of actor.itemTypes?.poder ?? []) {
+		if (i.system?.subtipo === RACA_MEIO_DRAGAO) mapa.set(i.name, i);
+	}
+	return mapa;
+}
+
+/**
+ * Limite Seguro em vigor para este ator.
+ * @param {Actor} actor
+ * @returns {number}
+ */
+export function limiteSeguroDrac(actor) {
+	const tem = habilidadesDraconicas(actor);
+	let limite = LIMITE_DRAC_BASE;
+	for (const a of AUMENTOS_LIMITE_DRAC) {
+		if (tem.has(a.hab)) limite = Math.max(limite, a.limite);
+	}
+	return limite;
+}
+
+/**
+ * Penalidade em vigor, ou null se a fadiga ainda esta dentro do Limite Seguro.
+ *
+ * Os degraus do material (4 Fatigado, 5 Exausto, 6 desmaio) sao dados para o
+ * limite base 3, isto e, limite+1, limite+2 e limite+3. Como o limite sobe com
+ * as habilidades, o que se guarda aqui e a distancia ate ele.
+ * @param {number} fadiga
+ * @param {number} limite
+ * @returns {{rotulo: string, condicao: string}|null}
+ */
+function limiarDrac(fadiga, limite) {
+	if (fadiga >= limite + 3) return { rotulo: "Desmaiado", condicao: "inconsciente" };
+	if (fadiga >= limite + 2) return { rotulo: "Exausto", condicao: "exausto" };
+	if (fadiga >= limite + 1) return { rotulo: "Fatigado", condicao: "fatigado" };
+	return null;
+}
+
+/**
+ * Valor atual da Fadiga Draconica.
+ * @param {Actor} actor
+ * @returns {number}
+ */
+export function getFadigaDrac(actor) {
+	return Number(getHB(actor, "fadigaDraconica", 0)) || 0;
+}
+
+/**
+ * Sincroniza as condicoes nativas que a Fadiga Draconica impoe.
+ *
+ * Ao contrario da Fadiga da Visao, aqui nao ha ActiveEffect proprio: os tres
+ * degraus sao condicoes nativas inteiras (Fatigado, Exausto, Inconsciente), que
+ * o sistema ja sabe aplicar. So mexemos nas que nos mesmos pusemos, para nunca
+ * apagar um Exausto que o mestre tenha aplicado por outro motivo.
+ * @param {Actor} actor
+ */
+async function sincronizarFadigaDrac(actor) {
+	const limiar = limiarDrac(getFadigaDrac(actor), limiteSeguroDrac(actor));
+	const nossas = getHB(actor, "condicoesFadigaDrac", []) ?? [];
+	const desejada = limiar?.condicao ? [limiar.condicao] : [];
+	for (const id of nossas) {
+		if (!desejada.includes(id)) await aplicarCondicao(actor, id, false);
+	}
+	for (const id of desejada) {
+		if (!nossas.includes(id)) await aplicarCondicao(actor, id, true);
+	}
+	await setHB(actor, "condicoesFadigaDrac", desejada);
+}
+
+/**
+ * Nucleo da gravacao, SEM fila (ver aplicarFadiga).
+ * @param {Actor} actor
+ * @param {number} valor
+ */
+async function aplicarFadigaDrac(actor, valor) {
+	// O teto e o degrau do desmaio: passar disso nao muda mais nada em regra.
+	const teto = limiteSeguroDrac(actor) + 3;
+	const novo = Math.clamp(Math.round(Number(valor) || 0), 0, teto);
+	if (novo === getFadigaDrac(actor)) return;
+	await setHB(actor, "fadigaDraconica", novo);
+	await sincronizarFadigaDrac(actor);
+}
+
+/**
+ * Define a Fadiga Draconica.
+ * @param {Actor} actor
+ * @param {number} valor
+ */
+export function definirFadigaDrac(actor, valor) {
+	return enfileirar(actor, () => aplicarFadigaDrac(actor, valor));
+}
+
+/**
+ * Soma (ou subtrai) pontos de Fadiga Draconica. A leitura acontece dentro da
+ * fila para que dois ajustes seguidos somem em vez de se sobrescrever.
+ * @param {Actor} actor
+ * @param {number} delta
+ */
+export function ajustarFadigaDrac(actor, delta) {
+	return enfileirar(actor, () => aplicarFadigaDrac(actor, getFadigaDrac(actor) + delta));
+}
+
+/**
+ * Mantem as habilidades raciais coerentes com o nivel do personagem.
+ *
+ * Acrescenta as que ja destravaram e remove as que ficaram acima do nivel -
+ * estas ultimas apenas se tiverem a nossa flag, para que uma habilidade que o
+ * mestre tenha arrastado de proposito nunca seja apagada.
+ * @param {Actor} actor
+ */
+export function sincronizarMeioDragao(actor) {
+	if (!actor?.isOwner || actor.pack) return Promise.resolve();
+	if (actor.type !== "character" || !ehMeioDragao(actor)) return Promise.resolve();
+
+	// Mesma fila do resto: o hook de item e o de render podem disparar juntos, e
+	// sem serializar os dois veem "falta habilidade" e criam duas copias.
+	return enfileirar(actor, async () => {
+		const nivel = nivelDoPersonagem(actor);
+		const presentes = habilidadesDraconicas(actor);
+
+		const faltando = HABILIDADES_MEIO_DRAGAO.filter(
+			(h) => h.nivel <= nivel && !presentes.has(h.nome)
+		);
+		const sobrando = HABILIDADES_MEIO_DRAGAO.filter((h) => h.nivel > nivel)
+			.map((h) => presentes.get(h.nome))
+			.filter((i) => i?.getFlag(SCOPE, `${PREFIXO}.meioDragao`));
+
+		// Sem isto o hook de render viraria um laco de escrita.
+		if (!faltando.length && !sobrando.length) return;
+
+		if (sobrando.length) {
+			await actor.deleteEmbeddedDocuments("Item", sobrando.map((i) => i.id));
+		}
+
+		if (faltando.length) {
+			const pack = game.packs.get(PACK_PODERES);
+			if (!pack) {
+				console.warn(`${NS} | pack ${PACK_PODERES} nao encontrado`);
+				return;
+			}
+			const novos = [];
+			for (const h of faltando) {
+				const doc = await pack.getDocument(h.id);
+				if (!doc) {
+					console.warn(`${NS} | habilidade racial ausente no pack: ${h.nome} (${h.id})`);
+					continue;
+				}
+				const obj = doc.toObject();
+				// A flag marca quem foi posto por nos, e so quem tem a flag pode ser
+				// removido depois. As quatro de 1o nivel chegam pelo grant da raca,
+				// sem flag, e por isso nunca somem.
+				obj.flags = foundry.utils.mergeObject(obj.flags ?? {}, {
+					[SCOPE]: { [PREFIXO]: { meioDragao: true } }
+				});
+				novos.push(obj);
+			}
+			if (novos.length) await actor.createEmbeddedDocuments("Item", novos);
+		}
+
+		// O Limite Seguro pode ter mudado junto com as habilidades; se a fadiga
+		// atual passou a estourar (ou deixou de estourar), as condicoes precisam
+		// acompanhar.
+		await sincronizarFadigaDrac(actor);
+	});
+}
+
+/* -------------------------------------------- */
+/*  Barra de Fadiga Draconica                    */
+/* -------------------------------------------- */
+
+Hooks.on("renderActorSheet", (app, html) => {
+	const actor = app.actor;
+	if (!ehMeioDragao(actor)) return;
+	// A barra so faz sentido depois que a habilidade que cria o recurso destrava.
+	if (!habilidadesDraconicas(actor).has("Fadiga Dracônica (Nível 3)")) return;
+
+	const raiz = html instanceof HTMLElement ? html : html?.[0];
+	const mana = raiz?.querySelector("li.attribute.mana");
+	if (!mana || mana.parentElement.querySelector(".hb-fadiga-drac")) return;
+
+	const fadiga = getFadigaDrac(actor);
+	const limite = limiteSeguroDrac(actor);
+	const limiar = limiarDrac(fadiga, limite);
+
+	const li = document.createElement("li");
+	li.className = `attribute hb-fadiga-drac flexcol${limiar ? " hb-fadiga--ativa" : ""}`;
+	li.innerHTML = `
+		<h4 class="attribute-name box-title">Fadiga Dracônica</h4>
+		<div class="attribute-value multiple flexrow">
+			<button type="button" class="hb-drac-menos" data-tooltip="-1 de Fadiga Dracônica">−</button>
+			<span class="hb-drac-valor">${fadiga}</span>
+			<span class="sep">/</span>
+			<span class="hb-drac-max" data-tooltip="Limite Seguro">${limite}</span>
+			<button type="button" class="hb-drac-mais" data-tooltip="+1 de Fadiga Dracônica">+</button>
+		</div>
+		<footer class="attribute-footer">
+			<button type="button" class="hb-drac-curto" data-tooltip="Descanso curto: remove 1 ponto">
+				Descanso curto
+			</button>
+		</footer>
+		${limiar ? `<div class="hb-fadiga-limiar">${limiar.rotulo}</div>` : ""}
+	`;
+	// Depois da barra do Vidente, quando as duas existem no mesmo ator.
+	(mana.parentElement.querySelector(".hb-fadiga") ?? mana).after(li);
+
+	if (!app.isEditable) {
+		li.querySelectorAll("button").forEach((b) => (b.disabled = true));
+		return;
+	}
+	li.querySelector(".hb-drac-menos").addEventListener("click", () => ajustarFadigaDrac(actor, -1));
+	li.querySelector(".hb-drac-mais").addEventListener("click", () => ajustarFadigaDrac(actor, 1));
+	// O sistema nao tem "descanso curto" proprio - Actor#descanso e o longo -,
+	// entao o passo de 1 ponto fica neste botao.
+	li.querySelector(".hb-drac-curto").addEventListener("click", () => ajustarFadigaDrac(actor, -1));
+});
+
+/* -------------------------------------------- */
 /*  Gatilhos de recalculo                        */
 /* -------------------------------------------- */
 
@@ -1233,7 +1535,12 @@ for (const hook of ["createItem", "updateItem", "deleteItem"]) {
 		const dono = item?.parent;
 		if (dono?.documentName !== "Actor") return;
 		if (dono.type === "simple") sincronizarMelhorAmigo(dono);
-		else if (dono.type === "character") sincronizarBichosDe(dono);
+		else if (dono.type === "character") {
+			sincronizarBichosDe(dono);
+			// A raca entrando/saindo, ou o nivel de uma classe mudando, muda quais
+			// habilidades raciais o Meio-Dragao deve ter.
+			if (item.type === "race" || item.type === "classe") sincronizarMeioDragao(dono);
+		}
 	});
 }
 
@@ -1248,6 +1555,742 @@ Hooks.on("updateActor", (actor, changed) => {
 // perdido tenha deixado desatualizado.
 Hooks.on("renderActorSheet", (app) => {
 	if (ehMelhorAmigo(app.actor)) sincronizarMelhorAmigo(app.actor);
+	sincronizarMeioDragao(app.actor);
+});
+
+/* -------------------------------------------- */
+/*  Grimorio das Cartas                          */
+/* -------------------------------------------- */
+
+/**
+ * Baralho de 52 cartas que troca cartas por magia.
+ *
+ * O item nao guarda nada: quem carrega o estado (deck, mao, descarte, atributo
+ * escolhido) e o ATOR, em flags sob `homebrew.cartas`. Assim dois personagens
+ * com o mesmo Grimorio nao compartilham baralho, e o item continua sendo um
+ * documento de compendio sem dados de sessao grudados nele.
+ *
+ * O item so responde uma pergunta: a aba aparece ou nao. Ela aparece enquanto o
+ * Grimorio estiver EQUIPADO - desequipar devolve o personagem ao normal e
+ * preserva o baralho onde estava, para quando ele reequipar.
+ */
+
+const ITEM_GRIMORIO = "Grimório das Cartas";
+const ABA_CARTAS = "hb-cartas";
+
+/** Os treze valores, na ordem em que aparecem na mao. */
+const VALORES_CARTA = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+
+/**
+ * Os quatro naipes. A chave de uma carta e `<naipe><valor>`, ex.: "CQ" = Dama
+ * de Copas. Codigo curto porque a lista inteira vai e volta numa flag.
+ */
+const NAIPES = {
+	C: { nome: "Copas", elemento: "Água", simbolo: "♥", vermelho: true, efeitos: ["cura", "defesa"] },
+	O: { nome: "Ouros", elemento: "Terra", simbolo: "♦", vermelho: true, efeitos: ["impacto", "tibares"] },
+	E: { nome: "Espadas", elemento: "Ar", simbolo: "♠", vermelho: false, efeitos: ["corte", "sangramento"] },
+	P: { nome: "Paus", elemento: "Fogo", simbolo: "♣", vermelho: false, efeitos: ["fogo", "explosao"] }
+};
+
+/**
+ * Os oito efeitos, dois por naipe.
+ *
+ * `mira` decide quem sofre o efeito e se ha rolagem de ataque:
+ *  - "proprio": resolve no lancador, sem ataque.
+ *  - "alvo":    exige 1 alvo mirado; rola ataque contra a Defesa dele.
+ *  - "area":    explosao; rola um ataque contra a Defesa de CADA alvo mirado.
+ *
+ * `formula` usa os sabores de dano do sistema (CONFIG.T20.damageTypes e
+ * healingTypes), que sao o que `Actor#applyDamageV2` le para separar cura de
+ * dano e aplicar a RD do tipo certo.
+ */
+const EFEITOS_CARTA = {
+	cura: { rotulo: "Cura", resumo: "Cura 1d4 PV em você", mira: "proprio", formula: "1d4[curapv]" },
+	defesa: { rotulo: "Defesa", resumo: "+5 Defesa até o começo do seu próximo turno", mira: "proprio" },
+	impacto: { rotulo: "Impacto", resumo: "1d6 de dano de impacto", mira: "alvo", formula: "1d6[impacto]" },
+	tibares: { rotulo: "Tibares", resumo: "Gera 1d12 T$, permanentes", mira: "proprio", formula: "1d12" },
+	corte: { rotulo: "Corte", resumo: "1d6 de dano de corte", mira: "alvo", formula: "1d6[corte]" },
+	sangramento: {
+		rotulo: "Sangramento",
+		resumo: "Aplica Sangrando: 1d6 de perda por turno até estancar",
+		mira: "alvo",
+		condicao: "sangrando"
+	},
+	fogo: { rotulo: "Fogo", resumo: "1d6 de dano de fogo em um alvo", mira: "alvo", formula: "1d6[fogo]" },
+	explosao: { rotulo: "Explosão", resumo: "1d4 de fogo em explosão de 3m", mira: "area", formula: "1d4[fogo]" }
+};
+
+/** Atributos que podem ser o atributo-chave das cartas. */
+const ATRIBUTOS_CARTA = { int: "Inteligência", car: "Carisma", des: "Destreza" };
+
+/** Quanto o naipe de Copas concede de Defesa. */
+const BONUS_DEFESA_CARTA = 5;
+
+/** Marca o efeito de Defesa, para saber qual apagar no proximo turno. */
+const FLAG_DEFESA_CARTA = "cartasDefesa";
+
+/* -------------------------------------------- */
+/*  Estado do baralho                            */
+/* -------------------------------------------- */
+
+/**
+ * Devolve o Grimorio equipado do ator, ou null.
+ *
+ * "Equipado" tem duas leituras e qual vale e uma configuracao do mundo: com
+ * espacos de equipamento ligados quem manda e `equipado2.slot`, senao o
+ * booleano `equipado`. E a mesma regra que o sistema usa para decidir se uma
+ * armadura conta na Defesa (tormenta20.mjs:16800) - seguir outra faria a aba
+ * aparecer em situacao onde a ficha considera o item guardado.
+ * @param {Actor} actor
+ * @returns {Item|null}
+ */
+export function grimorioDe(actor) {
+	if (!["character", "npc"].includes(actor?.type)) return null;
+	const porSlot = game.settings.get("tormenta20", "equipmentSlots");
+	return (
+		actor.itemTypes.equipamento?.find(
+			(i) => i.name === ITEM_GRIMORIO && (porSlot ? i.system.equipado2?.slot : i.system.equipado)
+		) ?? null
+	);
+}
+
+/** As 52 cartas, em ordem. @returns {string[]} */
+function baralhoCompleto() {
+	const cartas = [];
+	for (const naipe of Object.keys(NAIPES)) {
+		for (const valor of VALORES_CARTA) cartas.push(naipe + valor);
+	}
+	return cartas;
+}
+
+/**
+ * Fisher-Yates sobre uma copia. Embaralhar no lugar corromperia o array que
+ * ainda esta na flag caso a gravacao falhe no meio.
+ * @param {string[]} cartas
+ * @returns {string[]}
+ */
+function embaralhar(cartas) {
+	const copia = [...cartas];
+	for (let i = copia.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[copia[i], copia[j]] = [copia[j], copia[i]];
+	}
+	return copia;
+}
+
+/**
+ * Le o estado do baralho, ja normalizado.
+ *
+ * Tudo tem fallback porque a flag pode vir de uma versao anterior, de um ator
+ * importado, ou simplesmente nao existir na primeira vez.
+ * @param {Actor} actor
+ * @returns {{deck: string[], mao: string[], descarte: string[], atributo: string, iniciado: boolean}}
+ */
+export function estadoCartas(actor) {
+	const bruto = getHB(actor, "cartas", {}) ?? {};
+	const lista = (v) => (Array.isArray(v) ? v.filter((c) => typeof c === "string" && NAIPES[c[0]]) : []);
+	return {
+		deck: lista(bruto.deck),
+		mao: lista(bruto.mao),
+		descarte: lista(bruto.descarte),
+		atributo: ATRIBUTOS_CARTA[bruto.atributo] ? bruto.atributo : "int",
+		iniciado: bruto.iniciado === true
+	};
+}
+
+/**
+ * Grava o estado inteiro de uma vez.
+ *
+ * Sempre o objeto completo, nunca uma chave solta: o update do Foundry faz
+ * merge, e arrays sao substituidos inteiros - gravar so `mao` deixaria `deck`
+ * com o valor antigo se a leitura tivesse sido feita fora da fila.
+ * @param {Actor} actor
+ * @param {object} estado
+ */
+function gravarCartas(actor, estado) {
+	return setHB(actor, "cartas", estado);
+}
+
+/** Tamanho da mao inicial: a Inteligencia do personagem. @param {Actor} actor */
+function maoInicialCartas(actor) {
+	return Math.max(0, Number(actor.system?.atributos?.int?.value) || 0);
+}
+
+/** Bonus do ataque magico das cartas: metade do nivel + atributo-chave. */
+function ataqueCartas(actor, atributo) {
+	const dados = actor.getRollData() ?? {};
+	return (Number(dados.meionivel) || 0) + (Number(dados[atributo]) || 0);
+}
+
+/* -------------------------------------------- */
+/*  Acoes do baralho                             */
+/* -------------------------------------------- */
+
+/**
+ * Embaralha as 52 e compra uma mao igual a Inteligencia. Descarte volta a zero.
+ *
+ * Serve tanto para "Iniciar combate" quanto para "Novo baralho": a diferenca
+ * entre os dois e so a mensagem, porque a operacao e a mesma - recolher tudo,
+ * embaralhar, comprar de novo.
+ * @param {Actor} actor
+ * @param {boolean} [reset]  Muda o texto da mensagem no chat.
+ */
+export function iniciarCombateCartas(actor, reset = false) {
+	return enfileirar(actor, async () => {
+		const estado = estadoCartas(actor);
+		const deck = embaralhar(baralhoCompleto());
+		const quantidade = Math.min(maoInicialCartas(actor), deck.length);
+		const mao = deck.splice(0, quantidade);
+		await gravarCartas(actor, { ...estado, deck, mao, descarte: [], iniciado: true });
+
+		if (!quantidade) {
+			ui.notifications.warn(
+				`${actor.name} tem Inteligência ${actor.system?.atributos?.int?.value ?? 0}: nenhuma carta comprada.`
+			);
+		}
+		await mensagemCartas(actor, {
+			titulo: reset ? "Novo baralho" : "Início de combate",
+			linha: `Baralho embaralhado. Mão de ${quantidade} carta${quantidade === 1 ? "" : "s"} (Inteligência).`,
+			cartas: mao
+		});
+	});
+}
+
+/**
+ * Compra uma carta do topo. Custa a acao de movimento do turno - o Foundry nao
+ * controla acoes, entao isso fica com a mesa; o botao so lembra.
+ * @param {Actor} actor
+ */
+export function comprarCarta(actor) {
+	return enfileirar(actor, async () => {
+		const estado = estadoCartas(actor);
+		if (!estado.deck.length) {
+			ui.notifications.warn("O baralho acabou. Use “Novo baralho” para recolher e embaralhar as 52.");
+			return;
+		}
+		const deck = [...estado.deck];
+		const carta = deck.shift();
+		await gravarCartas(actor, { ...estado, deck, mao: [...estado.mao, carta], iniciado: true });
+		await mensagemCartas(actor, {
+			titulo: "Compra (ação de movimento)",
+			linha: `Restam ${deck.length} cartas no baralho.`,
+			cartas: [carta]
+		});
+	});
+}
+
+/**
+ * Executa um efeito e manda a carta para o descarte.
+ *
+ * A carta sai da mao ANTES de resolver o efeito. Se a resolucao falhar no meio
+ * - alvo sem permissao, mestre desconectado - a carta ja foi gasta, que e o
+ * comportamento honesto: na mesa ela foi jogada na pilha.
+ * @param {Actor} actor
+ * @param {string} carta    Codigo, ex.: "CQ".
+ * @param {string} efeito   Chave em EFEITOS_CARTA.
+ */
+export function usarCarta(actor, carta, efeito) {
+	const naipe = NAIPES[carta?.[0]];
+	const dados = EFEITOS_CARTA[efeito];
+	if (!naipe || !dados || !naipe.efeitos.includes(efeito)) {
+		ui.notifications.error(`Carta ou efeito desconhecido: ${carta} / ${efeito}`);
+		return Promise.resolve();
+	}
+	return enfileirar(actor, async () => {
+		const estado = estadoCartas(actor);
+		const indice = estado.mao.indexOf(carta);
+		if (indice < 0) {
+			ui.notifications.warn("Essa carta não está mais na mão.");
+			return;
+		}
+		const mao = [...estado.mao];
+		mao.splice(indice, 1);
+		await gravarCartas(actor, { ...estado, mao, descarte: [...estado.descarte, carta] });
+		await resolverEfeito(actor, carta, efeito, estado.atributo);
+	});
+}
+
+/** Troca o atributo-chave usado no ataque das cartas. */
+export function definirAtributoCartas(actor, atributo) {
+	if (!ATRIBUTOS_CARTA[atributo]) return Promise.resolve();
+	return enfileirar(actor, async () => {
+		await gravarCartas(actor, { ...estadoCartas(actor), atributo });
+	});
+}
+
+/* -------------------------------------------- */
+/*  Resolucao dos efeitos                        */
+/* -------------------------------------------- */
+
+/**
+ * Rola o ataque magico contra a Defesa de um alvo.
+ *
+ * Critico e falha vao pelo dado natural, nao pelo total: 20 natural dobra o
+ * dano (o multiplicador que `applyDamageV2` aplica antes da RD) e 1 natural
+ * erra sempre, como manda o T20.
+ * @param {Actor} actor
+ * @param {string} atributo
+ * @param {Token} alvo
+ */
+async function rolarAtaqueCarta(actor, atributo, alvo) {
+	const roll = await new Roll(`1d20 + @meionivel + @${atributo}`, actor.getRollData()).evaluate();
+	const natural = Number(roll.dice[0]?.results?.[0]?.result) || 0;
+	const defesa = Number(alvo?.actor?.system?.attributes?.defesa?.value) || 0;
+	const critico = natural === 20;
+	const falha = natural === 1;
+	return { roll, defesa, natural, critico, falha, acertou: critico || (!falha && roll.total >= defesa) };
+}
+
+/** Os tokens mirados pelo usuario atual. @returns {Token[]} */
+function alvosMirados() {
+	return Array.from(game.user.targets ?? []).filter((t) => t?.actor);
+}
+
+/**
+ * Resolve o efeito escolhido e publica a carta no chat.
+ * @param {Actor} actor
+ * @param {string} carta
+ * @param {string} efeito
+ * @param {string} atributo
+ */
+async function resolverEfeito(actor, carta, efeito, atributo) {
+	const naipe = NAIPES[carta[0]];
+	const dados = EFEITOS_CARTA[efeito];
+	const rolls = [];
+	const linhas = [];
+
+	if (dados.mira === "proprio") {
+		await resolverNoProprio(actor, efeito, dados, rolls, linhas);
+	} else {
+		const alvos = alvosMirados();
+		if (!alvos.length) {
+			linhas.push(
+				`<p class="hb-cartas-aviso">Nenhum alvo mirado. A carta foi gasta; mire um token e resolva o efeito na mão.</p>`
+			);
+		} else {
+			// Uma explosao atinge todo mundo na area; os demais efeitos sao de alvo
+			// unico, e miras extras sao ignoradas em vez de multiplicar o efeito.
+			const atingidos = dados.mira === "area" ? alvos : alvos.slice(0, 1);
+			if (dados.mira !== "area" && alvos.length > 1) {
+				linhas.push(`<p class="hb-cartas-aviso">Mais de um alvo mirado; só o primeiro foi afetado.</p>`);
+			}
+			for (const alvo of atingidos) {
+				await resolverNoAlvo(actor, alvo, atributo, dados, rolls, linhas);
+			}
+		}
+	}
+
+	await mensagemCartas(actor, {
+		titulo: `${dados.rotulo} — ${naipe.nome}`,
+		cartas: [carta],
+		corpo: linhas.join(""),
+		rolls
+	});
+}
+
+/** Cura e Tibares: resolvem no proprio lancador, sem rolagem de ataque. */
+async function resolverNoProprio(actor, efeito, dados, rolls, linhas) {
+	if (efeito === "defesa") {
+		await aplicarDefesaCarta(actor);
+		linhas.push(
+			`<p><strong>+${BONUS_DEFESA_CARTA} de Defesa</strong> até o começo do seu próximo turno.</p>`
+		);
+		return;
+	}
+
+	const roll = await new Roll(dados.formula, actor.getRollData()).evaluate();
+	rolls.push(roll);
+
+	if (efeito === "cura") {
+		// multiplicador -1: e assim que applyDamageV2 vira cura (o sabor curapv
+		// entra negado, ver tormenta20.mjs:8283).
+		await actor.applyDamageV2(roll, -1);
+		linhas.push(`<p>Recupera <strong>${roll.total} PV</strong>.</p>`);
+		return;
+	}
+
+	if (efeito === "tibares") {
+		// T$ e o Tibar de ouro: system.dinheiro.to. tc/tp/tl sao cobre, prata e
+		// platina, que nao sao a moeda corrente da mesa.
+		const atual = Number(actor.system?.dinheiro?.to) || 0;
+		await actor.update({ "system.dinheiro.to": atual + roll.total });
+		linhas.push(`<p>Gera <strong>T$ ${roll.total}</strong> em moedas de terra (permanentes).</p>`);
+	}
+}
+
+/** Impacto, Corte, Sangramento, Fogo e Explosao: ataque contra a Defesa do alvo. */
+async function resolverNoAlvo(actor, alvo, atributo, dados, rolls, linhas) {
+	const ataque = await rolarAtaqueCarta(actor, atributo, alvo);
+	rolls.push(ataque.roll);
+
+	const nome = foundry.utils.escapeHTML(alvo.name ?? alvo.actor.name);
+	const veredito = ataque.critico
+		? `<span class="hb-cartas-critico">acerto crítico</span>`
+		: ataque.acertou
+			? "acerto"
+			: `<span class="hb-cartas-erro">erro</span>`;
+	linhas.push(
+		`<p><strong>${nome}</strong> — ataque <strong>${ataque.roll.total}</strong> vs Defesa ${ataque.defesa}: ${veredito}.</p>`
+	);
+	if (!ataque.acertou) return;
+
+	if (dados.condicao) {
+		await aplicarNoAlvo(alvo, { condicao: dados.condicao });
+		linhas.push(`<p>${nome} fica <strong>Sangrando</strong> (1d6 de perda por turno).</p>`);
+		return;
+	}
+
+	const roll = await new Roll(dados.formula, actor.getRollData()).evaluate();
+	rolls.push(roll);
+	// O critico dobra o dano antes da RD - e o que o multiplicador de
+	// applyDamageV2 faz (`dmg.value * multiplier - rd`).
+	const multiplicador = ataque.critico ? 2 : 1;
+	await aplicarNoAlvo(alvo, { roll: roll.toJSON(), multiplicador });
+	linhas.push(
+		`<p>Sofre <strong>${roll.total * multiplicador}</strong> de dano${ataque.critico ? " (dobrado)" : ""}, antes da RD.</p>`
+	);
+}
+
+/**
+ * Cria (ou renova) o efeito de +5 de Defesa no lancador.
+ *
+ * Recriar em vez de empilhar: duas cartas de Copas seguidas renovam a duracao,
+ * nao dobram o bonus - o texto concede "+5 de Defesa", nao "+5 cumulativos".
+ * @param {Actor} actor
+ */
+async function aplicarDefesaCarta(actor) {
+	const existente = actor.effects.filter((e) => e.getFlag(SCOPE, `${PREFIXO}.${FLAG_DEFESA_CARTA}`));
+	for (const e of existente) await e.delete();
+
+	await actor.createEmbeddedDocuments("ActiveEffect", [
+		{
+			name: `Defesa das Cartas (+${BONUS_DEFESA_CARTA})`,
+			img: "systems/tormenta20/icons/itens/itens-magicos/baralho-do-caos.webp",
+			origin: actor.uuid,
+			disabled: false,
+			// A contagem de rodadas e so o que o jogador ve na ficha: quem apaga o
+			// efeito e o hook de updateCombat, no comeco do proximo turno do ator.
+			//
+			// Schema do v14: {value, units, expiry}. O formato antigo {rounds: 1}
+			// e descartado em SILENCIO - o efeito entra sem duracao nenhuma, sem
+			// erro no console (visto em jogo: ef.duration.rounds === undefined).
+			duration: { value: 1, units: "rounds", expiry: "turnStart" },
+			changes: [
+				{
+					key: "system.attributes.defesa.bonus",
+					mode: CONST.ACTIVE_EFFECT_MODES.ADD,
+					value: String(BONUS_DEFESA_CARTA),
+					priority: 20
+				}
+			],
+			flags: { [SCOPE]: { [PREFIXO]: { [FLAG_DEFESA_CARTA]: true } } }
+		}
+	]);
+}
+
+/**
+ * A Defesa das Cartas dura ate o COMECO do proximo turno do lancador. Como o
+ * efeito nasce durante o turno dele, a proxima vez que o combate parar nesse
+ * ator ja e o turno seguinte - o momento exato de apagar.
+ */
+Hooks.on("updateCombat", async (combat, changed) => {
+	if (!("turn" in changed) && !("round" in changed)) return;
+	// Mesma guarda do contador de rodadas dos Olhos: sem ela, cada cliente
+	// conectado tentaria apagar o mesmo efeito e todos menos um dariam erro.
+	if (!game.users.activeGM?.isSelf) return;
+
+	const actor = combat.combatant?.actor;
+	if (!actor) return;
+	const efeitos = actor.effects.filter((e) => e.getFlag(SCOPE, `${PREFIXO}.${FLAG_DEFESA_CARTA}`));
+	for (const e of efeitos) await e.delete();
+});
+
+/* -------------------------------------------- */
+/*  Aplicar em alvo de outro jogador             */
+/* -------------------------------------------- */
+
+/**
+ * Um jogador nao pode escrever na ficha do inimigo: `applyDamageV2` faria um
+ * update sem permissao e o servidor recusaria. Quando o alvo nao e nosso, o
+ * pedido vai por socket para o mestre ativo, que executa por nos.
+ *
+ * O sistema nao usa socket algum (nenhum `game.socket` em tormenta20.mjs), mas
+ * o canal e compartilhado com qualquer outro codigo que escute nele, entao todo
+ * pacote leva um `tipo` proprio e quem nao reconhece ignora.
+ */
+const CANAL_CARTAS = "system.tormenta20";
+const PEDIDO_CARTAS = `${NS}.cartas.aplicar`;
+
+/**
+ * Executa o pedido: dano com multiplicador, ou condicao.
+ * @param {Actor} alvo
+ * @param {{roll?: object, multiplicador?: number, condicao?: string}} pedido
+ */
+async function executarPedidoCartas(alvo, pedido) {
+	if (pedido.condicao) return aplicarCondicao(alvo, pedido.condicao, true);
+	if (pedido.roll) return alvo.applyDamageV2(Roll.fromData(pedido.roll), pedido.multiplicador ?? 1);
+}
+
+/**
+ * Aplica no alvo diretamente quando temos permissao, ou delega ao mestre.
+ * @param {Token} token
+ * @param {{roll?: object, multiplicador?: number, condicao?: string}} pedido
+ */
+async function aplicarNoAlvo(token, pedido) {
+	const alvo = token.actor;
+	if (alvo.isOwner) return executarPedidoCartas(alvo, pedido);
+	if (!game.users.activeGM) {
+		ui.notifications.warn(
+			`Sem mestre conectado: o efeito em ${alvo.name} precisa ser aplicado à mão pela ficha dele.`
+		);
+		return;
+	}
+	game.socket.emit(CANAL_CARTAS, { tipo: PEDIDO_CARTAS, alvoUuid: alvo.uuid, ...pedido });
+}
+
+/* -------------------------------------------- */
+/*  Mensagem no chat                             */
+/* -------------------------------------------- */
+
+/** Uma carta desenhada, do tamanho usado tanto na mao quanto no chat. */
+function htmlCarta(codigo, { classe = "" } = {}) {
+	const naipe = NAIPES[codigo[0]];
+	const valor = codigo.slice(1);
+	const cor = naipe.vermelho ? "hb-carta--vermelha" : "hb-carta--preta";
+	return `<span class="hb-carta ${cor} ${classe}" data-carta="${codigo}" data-tooltip="${naipe.nome} — ${naipe.elemento}">
+		<span class="hb-carta-valor">${valor}</span>
+		<span class="hb-carta-naipe">${naipe.simbolo}</span>
+	</span>`;
+}
+
+/**
+ * Publica a carta no chat.
+ *
+ * As rolagens vao no array `rolls` da mensagem, e nao embutidas no HTML: e o
+ * que faz o Dice So Nice animar os dados e o que permite reaproveitar o total
+ * depois, pelo proprio documento da mensagem.
+ * @param {Actor} actor
+ * @param {{titulo: string, cartas?: string[], linha?: string, corpo?: string, rolls?: Roll[]}} dados
+ */
+async function mensagemCartas(actor, { titulo, cartas = [], linha = "", corpo = "", rolls = [] }) {
+	const conteudo = `
+		<div class="hb-cartas-chat">
+			<h4>${foundry.utils.escapeHTML(titulo)}</h4>
+			${cartas.length ? `<div class="hb-cartas-linha">${cartas.map((c) => htmlCarta(c)).join("")}</div>` : ""}
+			${linha ? `<p class="hb-cartas-nota">${linha}</p>` : ""}
+			${corpo}
+		</div>
+	`;
+	await ChatMessage.create({
+		speaker: ChatMessage.getSpeaker({ actor }),
+		content: conteudo,
+		rolls,
+		sound: rolls.length ? CONFIG.sounds.dice : null,
+		flags: { [SCOPE]: { [PREFIXO]: { cartas: true } } }
+	});
+}
+
+/* -------------------------------------------- */
+/*  Aba na ficha                                 */
+/* -------------------------------------------- */
+
+/**
+ * Fichas com a aba Cartas aberta, por appId.
+ *
+ * Cada compra grava uma flag, o que re-renderiza a ficha inteira. O Tabs do
+ * core reativa a aba lembrada no `bind`, mas o nosso painel so entra no DOM
+ * DEPOIS disso - sem esta lembranca, toda compra jogaria o jogador de volta
+ * para a aba de atributos.
+ * @type {Set<number>}
+ */
+const abasCartasAbertas = new Set();
+
+/**
+ * Marca a aba ativa na mao.
+ *
+ * `Tabs#activate` costuma sair cedo quando ja acha que a aba pedida esta ativa,
+ * e e exatamente o caso apos um re-render. Refazer as classes garante o estado
+ * visivel, independentemente do que o core ache.
+ * @param {Application} app
+ * @param {HTMLElement} raiz
+ * @param {string} nome
+ */
+function ativarAbaCartas(app, raiz, nome) {
+	try {
+		app._tabs?.[0]?.activate?.(nome);
+	} catch (e) {
+		console.debug(`${NS} | Tabs#activate recusou "${nome}"`, e);
+	}
+	raiz.querySelectorAll('nav.sheet-tabs[data-group="primary"] a[data-tab]').forEach((a) =>
+		a.classList.toggle("active", a.dataset.tab === nome)
+	);
+	raiz.querySelectorAll('.sheet-body > .tab[data-group="primary"]').forEach((t) =>
+		t.classList.toggle("active", t.dataset.tab === nome)
+	);
+}
+
+/** O conteudo da aba. @param {Actor} actor */
+function conteudoAbaCartas(actor) {
+	const estado = estadoCartas(actor);
+	const bonus = ataqueCartas(actor, estado.atributo);
+	const intel = maoInicialCartas(actor);
+
+	const opcoes = Object.entries(ATRIBUTOS_CARTA)
+		.map(([k, r]) => `<option value="${k}"${k === estado.atributo ? " selected" : ""}>${r}</option>`)
+		.join("");
+
+	const mao = estado.mao.length
+		? estado.mao.map((c) => htmlCarta(c, { classe: "hb-carta--mao" })).join("")
+		: `<p class="hb-cartas-aviso">${
+				estado.iniciado ? "Mão vazia." : "Baralho ainda não embaralhado. Use “Iniciar combate”."
+			}</p>`;
+
+	const descarte = estado.descarte.length
+		? estado.descarte.map((c) => htmlCarta(c, { classe: "hb-carta--peq" })).join("")
+		: `<p class="hb-cartas-aviso">Nada descartado ainda.</p>`;
+
+	return `
+		<div class="hb-cartas-topo">
+			<span class="hb-painel-titulo">Grimório das Cartas</span>
+			<label class="hb-cartas-atributo">
+				Atributo-chave
+				<select class="hb-cartas-select">${opcoes}</select>
+			</label>
+		</div>
+
+		<div class="hb-chips">
+			<span class="hb-chip"><b>Mão</b>${estado.mao.length}</span>
+			<span class="hb-chip ${estado.deck.length ? "" : "hb-chip--excedido"}"><b>Baralho</b>${estado.deck.length}/52</span>
+			<span class="hb-chip"><b>Descarte</b>${estado.descarte.length}</span>
+			<span class="hb-chip" data-tooltip="1d20 + metade do nível + ${ATRIBUTOS_CARTA[estado.atributo]}"><b>Ataque</b>${bonus >= 0 ? "+" : ""}${bonus}</span>
+			<span class="hb-chip" data-tooltip="Tamanho da mão comprada ao iniciar o combate"><b>Inteligência</b>${intel}</span>
+		</div>
+
+		<div class="hb-cartas-botoes">
+			<button type="button" class="hb-cartas-iniciar" data-tooltip="Embaralha as 52 e compra ${intel} carta(s)">
+				<i class="fas fa-shuffle"></i> Iniciar combate
+			</button>
+			<button type="button" class="hb-cartas-comprar" ${estado.deck.length ? "" : "disabled"} data-tooltip="Gasta a sua ação de movimento">
+				<i class="fas fa-hand-back-fist"></i> Comprar carta
+			</button>
+			<button type="button" class="hb-cartas-resetar" data-tooltip="Recolhe mão e descarte, embaralha e compra uma mão nova">
+				<i class="fas fa-rotate-left"></i> Novo baralho
+			</button>
+		</div>
+
+		<h4 class="hb-cartas-secao">Mão</h4>
+		<div class="hb-cartas-mao">${mao}</div>
+
+		<div class="hb-cartas-efeitos">
+			<p class="hb-cartas-aviso">Escolha uma carta da mão para ver os efeitos do naipe.</p>
+		</div>
+
+		<h4 class="hb-cartas-secao">Descarte (${estado.descarte.length})</h4>
+		<div class="hb-cartas-descarte">${descarte}</div>
+	`;
+}
+
+/** Os dois botoes de efeito da carta escolhida. */
+function htmlEfeitosDaCarta(carta) {
+	const naipe = NAIPES[carta[0]];
+	const botoes = naipe.efeitos
+		.map((chave) => {
+			const e = EFEITOS_CARTA[chave];
+			const mira =
+				e.mira === "alvo" ? "Exige 1 alvo mirado. " : e.mira === "area" ? "Atinge todos os alvos mirados. " : "";
+			return `<button type="button" class="hb-cartas-efeito" data-efeito="${chave}" data-tooltip="${mira}${e.resumo}">
+				<strong>${e.rotulo}</strong><span>${e.resumo}</span>
+			</button>`;
+		})
+		.join("");
+	return `
+		<h4 class="hb-cartas-secao">${naipe.simbolo} ${naipe.nome} — ${naipe.elemento}</h4>
+		<div class="hb-cartas-efeito-botoes">${botoes}</div>
+	`;
+}
+
+Hooks.on("renderActorSheet", (app, html) => {
+	const actor = app.actor;
+	// A ficha limitada existe justamente para nao mostrar o interior do ator a
+	// quem so pode ve-lo de fora; a mao do baralho e informacao de dentro.
+	if (actor?.limited) return;
+	if (!grimorioDe(actor)) return;
+
+	const raiz = html instanceof HTMLElement ? html : html?.[0];
+	if (!raiz || raiz.querySelector(`.tab[data-tab="${ABA_CARTAS}"]`)) return;
+
+	// Os dois ganchos da ficha: a nav (templates/partials/nav-bar.hbs) e a
+	// .sheet-body, que e o contentSelector das abas primarias. Um layout que nao
+	// tenha os dois nao e ficha de personagem, e desistir e melhor que injetar
+	// num lugar errado.
+	const nav = raiz.querySelector('nav.sheet-tabs[data-group="primary"]');
+	const corpo = raiz.querySelector(".sheet-body");
+	if (!nav || !corpo) return;
+
+	const link = document.createElement("a");
+	link.className = "item";
+	link.dataset.tab = ABA_CARTAS;
+	link.innerHTML = '<i class="fas fa-clone"></i> Cartas';
+	// Antes de Efeitos, que e sempre a ultima: as abas de conteudo ficam juntas.
+	const efeitos = nav.querySelector('a[data-tab="effects"]');
+	if (efeitos) efeitos.before(link);
+	else nav.append(link);
+
+	const painel = document.createElement("div");
+	painel.className = "tab hb-cartas";
+	painel.dataset.group = "primary";
+	painel.dataset.tab = ABA_CARTAS;
+	painel.innerHTML = conteudoAbaCartas(actor);
+	corpo.append(painel);
+
+	link.addEventListener("click", (ev) => {
+		ev.preventDefault();
+		abasCartasAbertas.add(app.appId);
+		ativarAbaCartas(app, raiz, ABA_CARTAS);
+	});
+	// Sair da aba precisa apagar a lembranca, senao o proximo render voltaria
+	// para Cartas por conta propria.
+	nav.querySelectorAll("a[data-tab]").forEach((a) => {
+		if (a !== link) a.addEventListener("click", () => abasCartasAbertas.delete(app.appId));
+	});
+	if (abasCartasAbertas.has(app.appId)) ativarAbaCartas(app, raiz, ABA_CARTAS);
+
+	if (!app.isEditable) {
+		painel.querySelectorAll("button, select").forEach((el) => (el.disabled = true));
+		return;
+	}
+
+	painel.querySelector(".hb-cartas-iniciar").addEventListener("click", () => iniciarCombateCartas(actor));
+	painel.querySelector(".hb-cartas-resetar").addEventListener("click", () => iniciarCombateCartas(actor, true));
+	painel.querySelector(".hb-cartas-comprar").addEventListener("click", () => comprarCarta(actor));
+	painel
+		.querySelector(".hb-cartas-select")
+		.addEventListener("change", (ev) => definirAtributoCartas(actor, ev.target.value));
+
+	// A carta escolhida vive so no DOM. Guardar em flag re-renderizaria a ficha
+	// a cada clique - e a escolha nao precisa sobreviver a nada: usar a carta ja
+	// desfaz a selecao.
+	const areaEfeitos = painel.querySelector(".hb-cartas-efeitos");
+	let escolhida = null;
+
+	painel.querySelectorAll(".hb-carta--mao").forEach((el) => {
+		el.addEventListener("click", () => {
+			const carta = el.dataset.carta;
+			if (escolhida === carta) {
+				escolhida = null;
+				el.classList.remove("hb-carta--sel");
+				areaEfeitos.innerHTML = '<p class="hb-cartas-aviso">Escolha uma carta da mão para ver os efeitos do naipe.</p>';
+				return;
+			}
+			escolhida = carta;
+			painel.querySelectorAll(".hb-carta--sel").forEach((c) => c.classList.remove("hb-carta--sel"));
+			el.classList.add("hb-carta--sel");
+			areaEfeitos.innerHTML = htmlEfeitosDaCarta(carta);
+			areaEfeitos.querySelectorAll(".hb-cartas-efeito").forEach((b) =>
+				b.addEventListener("click", () => usarCarta(actor, carta, b.dataset.efeito))
+			);
+		});
+	});
 });
 
 /* -------------------------------------------- */
@@ -1278,7 +2321,31 @@ Hooks.once("ready", () => {
 		sincronizarOlhos,
 		ehMelhorAmigo,
 		estadoMelhorAmigo,
-		sincronizarMelhorAmigo
+		sincronizarMelhorAmigo,
+		ehMeioDragao,
+		getFadigaDrac,
+		definirFadigaDrac,
+		ajustarFadigaDrac,
+		limiteSeguroDrac,
+		sincronizarMeioDragao,
+		grimorioDe,
+		estadoCartas,
+		iniciarCombateCartas,
+		comprarCarta,
+		usarCarta,
+		definirAtributoCartas
 	};
+
+	// Ponta do mestre para os efeitos das cartas em alvos de outros jogadores.
+	// So um cliente executa: sem esta guarda, tres mestres conectados aplicariam
+	// o mesmo dano tres vezes.
+	game.socket.on(CANAL_CARTAS, async (dados) => {
+		if (dados?.tipo !== PEDIDO_CARTAS) return;
+		if (!game.users.activeGM?.isSelf) return;
+		const alvo = await fromUuid(dados.alvoUuid);
+		if (!alvo) return console.warn(`${NS} | alvo do pedido de cartas nao encontrado: ${dados.alvoUuid}`);
+		await executarPedidoCartas(alvo, dados);
+	});
+
 	console.log(`${NS} | pronto`);
 });

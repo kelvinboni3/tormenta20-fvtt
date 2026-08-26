@@ -355,6 +355,331 @@ o material não informa PV, Defesa, deslocamento, ataques nem atributos delas,
 então elas existem como texto, e não como atores. Também não há limite de
 invocações simultâneas nem regra de controle à distância.
 
+## Raça Meio-Dragão
+
+Primeira raça homebrew, e a que estreia `homebrew/packs/racas/`. São 27
+documentos: o item de raça, 25 habilidades raciais em
+`homebrew/packs/poderes/` (pasta `hbFolderMeioDrag`) e a pasta.
+
+As habilidades são `tipo: racial` com `subtipo: Meio-Dragão`, e o nível de
+destrave entra no nome (`Sopro Dracônico (Nível 3)`).
+
+| Nível | Quantas | Habilidades |
+| --- | --- | --- |
+| 1 | 4 | Visão no Escuro, Escamas Dracônicas, Garras Dracônicas, Rugido Dracônico |
+| 2 | 1 | Presas Dracônicas |
+| 3 | 3 | Sentidos Dracônicos, Sopro Dracônico, Fadiga Dracônica |
+| 5 | 3 | Escamas Reforçadas, Sopro Aprimorado, Pulmões Dracônicos |
+| 7 | 1 | Bote Predatório |
+| 9 | 4 | Asas Dracônicas, Escamas Reforçadas II, Rugido Predatório, Saco Vocal Desenvolvido |
+| 13 | 4 | Despertar Dracônico, Manifestação Parcial, Rugido Ancestral, Coração Dracônico |
+| 15 | 1 | Forma Original Incompleta |
+| 18 | 4 | Forma Original Completa, Rugido do Dragão Adulto, Domínio do Sopro, O Verdadeiro Dragão |
+
+### Por que o `grants` só tem quatro
+
+Um `grants` de raça é aplicado **inteiro** na criação do personagem — é assim
+que as 18 raças oficiais funcionam, e todas elas dão tudo no 1º nível. O
+Meio-Dragão destrava habilidade em nove níveis diferentes, então só as quatro
+de 1º nível estão no YAML da raça.
+
+Das outras 21 cuida `sincronizarMeioDragao` em `homebrew.mjs`: ele compara o
+nível do personagem com a tabela `HABILIDADES_MEIO_DRAGAO` e acrescenta ou
+remove itens conforme o nível sobe ou desce.
+
+Só remove o que **ele mesmo** pôs, identificado por uma flag
+(`meioDragao: true`). As quatro que chegam pelo grant não têm a flag e nunca
+somem; uma habilidade que o mestre arraste de propósito também não.
+
+### Escamas: três efeitos de +1, não de +1/+2/+3
+
+O material diz que o bônus "aumenta para" +2 no 5º nível e +3 no 9º — ou seja,
+substitui. Mas são três itens separados, e três `ActiveEffect` com o valor
+cheio somariam **+6**; três OVERRIDE brigariam pela prioridade, e qual venceria
+depende da ordem em que o Foundry os aplica.
+
+A saída foi cada degrau somar **+1**: `1` no 1º nível, `+1` no 5º, `+1` no 9º.
+O total é exatamente 1 / 2 / 3 nos níveis certos, e não depende de ordem
+nenhuma. O motivo está anotado no YAML de cada um.
+
+O mesmo cuidado vale para o **Limite Seguro** da Fadiga (3 → 4 → 5 → 7), mas
+ali não há efeito: `limiteSeguroDrac` lê as habilidades presentes e devolve o
+**maior** limite alcançado, nunca a soma.
+
+### Fadiga Dracônica
+
+Recurso próprio, com a mesma maquinaria da [Fadiga da Visão](#fadiga-da-visão)
+— fila de escrita por ator inclusive, pelo mesmo motivo. Vive em
+`flags.tormenta20.homebrew.fadigaDraconica`.
+
+A barra aparece na ficha ao lado de PV e PM, mas **só depois do 3º nível**,
+quando a habilidade que cria o recurso destrava. O número à direita é o Limite
+Seguro, não um máximo.
+
+Os degraus do material (4 Fatigado, 5 Exausto, 6 desmaio) são dados para o
+limite base 3 — isto é, **limite+1, limite+2 e limite+3**. Como o limite sobe
+com as habilidades, o que a camada guarda é a distância até ele:
+
+| Fadiga | Efeito |
+| --- | --- |
+| até o Limite Seguro | nada |
+| Limite + 1 | Fatigado |
+| Limite + 2 | Exausto |
+| Limite + 3 | Inconsciente (1d4 rodadas) |
+
+Ao contrário da Fadiga da Visão, aqui **não há ActiveEffect próprio**: os três
+degraus são condições nativas inteiras, que o sistema já sabe aplicar. Como
+lá, só mexemos nas condições que nós mesmos pusemos, para nunca apagar um
+Exausto que o mestre tenha aplicado por outro motivo.
+
+`Actor#descanso` é o descanso **longo** e zera tudo. O sistema não tem um
+descanso curto próprio, então o passo de 1 ponto ficou num botão na barra.
+
+### O que mais virou efeito
+
+| Habilidade | Chave | Modo |
+| --- | --- | --- |
+| Escamas Dracônicas / Reforçadas / II | `system.attributes.defesa.bonus` | ADD 1 cada |
+| Sentidos Dracônicos | `system.pericias.perc.bonus` | ADD 2 |
+| Despertar Dracônico | `system.pericias.inti.bonus` | ADD 2 |
+| *(no item de raça)* Percepção e Intimidação treinadas | `system.pericias.<id>.treinado` | OVERRIDE `true` |
+
+As perícias treinadas ficam num efeito do próprio item de raça porque nenhuma
+das 18 raças oficiais usa o campo `skills` — elas passam isso pelo texto das
+habilidades. OVERRIDE, e não ADD, porque `treinado` é booleano.
+
+As outras 20 habilidades são texto, e o motivo está no topo de cada YAML. Em
+resumo: valor que o material não dá (redução de dano de queda, saltos, voo da
+Forma Original), bônus condicional (+2 para Agarrar só na manobra), dano de
+sopro (que não tem chave), ou transformação temporária e opcional.
+
+### O que ainda falta
+
+O material **não traz tabela de progressão de nível para o Sopro** — diz "1d6
+por patamar" sem definir quantos dados em cada um. Também não dá o tipo de
+dano da energia dracônica, o valor do voo da Forma Original, nem a execução dos
+quatro Rugidos. Nada disso foi inventado; ficou anotado no item.
+
+O **tipo de criatura Dragão** não tem campo: `RaceData`
+(`tormenta20.mjs:18112`) define só atributos, movimento, tamanho, grants e
+skills. Ficou na descrição da raça.
+
+O **+2 em um atributo à sua escolha** vive em
+`atributosDinamicos.description`, que é texto livre lido na criação do
+personagem — os seis campos de `atributos` ficam em 0 porque o `RaceData` os
+exige todos.
+
+## Grimório das Cartas
+
+Um item `equipamento` que liga uma **aba nova** na ficha, onde um baralho de 52
+cartas é gerenciado. Fonte: `homebrew/packs/itens/`, compêndio
+**Itens (Homebrew)** (`homebrew-itens`) — o primeiro pack homebrew que não é de
+poder, classe ou raça, e por isso `tools/validar.mjs` ganhou um ramo para
+`type: equipamento`.
+
+### Onde o baralho mora
+
+No **ator**, em `flags.tormenta20.homebrew.cartas`:
+
+```js
+{ deck: ["CQ", "P7", …], mao: [], descarte: [], atributo: "int", iniciado: true }
+```
+
+Uma carta é `<naipe><valor>`: `C`opas, `O`uros, `E`spadas, `P`aus, seguido de
+`A`, `2`…`10`, `J`, `Q`, `K`. Código curto porque as 52 vão e voltam numa flag a
+cada compra.
+
+O item **não guarda nada**. Dois personagens com o mesmo Grimório têm baralhos
+independentes, e o documento do compêndio continua sem dados de sessão grudados.
+Desequipar esconde a aba e preserva o baralho para quando o item voltar.
+
+### Quando a aba aparece
+
+Enquanto o Grimório estiver **equipado**. "Equipado" tem duas leituras e qual
+vale é a configuração de mundo `equipmentSlots`: ligada, quem manda é
+`equipado2.slot`; desligada, o booleano `equipado`. `grimorioDe()` segue a mesma
+regra que o sistema usa para decidir se uma armadura conta na Defesa
+(`tormenta20.mjs:16800`) — seguir outra faria a aba aparecer com o item que a
+ficha considera guardado.
+
+Só `character` e `npc`. Um ator `simple` não tem nível, então `@meionivel` valeria
+0 em todo ataque (a mesma armadilha descrita em [Ficha do Melhor
+Amigo](#ficha-do-melhor-amigo)).
+
+### Decisões de regra
+
+O material original deixou quatro pontos em aberto. Foram fechados assim:
+
+| Ponto | Decisão |
+| --- | --- |
+| Resolução | Ataque mágico `1d20 + metade do nível + atributo` contra a **Defesa** do alvo |
+| Atributo-chave | **Escolhido na aba** entre Inteligência, Carisma e Destreza |
+| Dano base `1d4+5` | **Descartado.** Todo efeito já traz a própria rolagem, então o padrão nunca se aplicava |
+| Defesa (Copas) | +5 até o **começo do próximo turno** do lançador |
+| Sangramento (Espadas) | A condição nativa **Sangrando** (`1d6[perda]` por turno, até estancar) |
+| Fogo / Explosão (Paus) | `1d6` em um alvo / `1d4` em explosão de **3m** |
+| Tibares (Ouros) | `1d12` T$ **permanentes**, sem teto |
+
+Crítico é 20 natural e dobra o dano antes da RD — que é exatamente o que o
+`multiplier` de `applyDamageV2` faz (`dmg.value * multiplier - rd`). 1 natural
+erra sempre.
+
+> **Tibares sem teto é uma torneira aberta.** Fora de combate, resetar o baralho
+> e queimar as cartas de Ouros gera dinheiro indefinidamente: 13 cartas de Ouros
+> por baralho, média de 6,5 T$ cada, ~84 T$ por embaralhada, quantas vezes o
+> jogador quiser. Foi a escolha da mesa e está implementada como pedida; se um
+> dia incomodar, o teto entra em `resolverNoProprio`, no ramo `tibares`.
+
+### Armadilha do v14: duração de ActiveEffect
+
+O efeito de Defesa nasceu sem duração nenhuma na primeira tentativa. O formato
+antigo `duration: { rounds: 1 }` foi **descartado em silêncio** — nenhum erro no
+console, e `ef.duration.rounds` volta `undefined`. O v14 usa
+`{ value, units, expiry }`, e normaliza 1 rodada para 6 segundos:
+
+```js
+duration: { value: 1, units: "rounds", expiry: "turnStart" }
+```
+
+Repare que as `T20Conditions` em `tormenta20.mjs` ainda declaram
+`duration: { rounds: 999 }` — o Foundry migra isso na leitura, o que faz o
+formato antigo *parecer* válido quando você copia de lá.
+
+Quem de fato apaga o efeito continua sendo o hook de `updateCombat`; a duração
+é o que o jogador vê contando na ficha.
+
+### Aplicar efeito em alvo alheio
+
+Um jogador não pode escrever na ficha do inimigo — `applyDamageV2` faria um
+update sem permissão e o servidor recusaria. Quando o alvo não é nosso, o pedido
+vai por **socket** para o mestre ativo, que executa.
+
+O canal é `system.tormenta20`. O sistema não usa socket algum (nenhum
+`game.socket` em `tormenta20.mjs`), mas o canal é compartilhado, então todo
+pacote leva um `tipo` próprio e quem não reconhece ignora. Só
+`game.users.activeGM.isSelf` executa, senão três mestres conectados aplicariam o
+mesmo dano três vezes — a mesma guarda que o contador dos Olhos usa.
+
+Sem mestre conectado, o efeito é avisado no chat e fica para a mão.
+
+### A aba, e por que ela precisa de remendo
+
+A aba é injetada no `renderActorSheet`: um `<a data-tab>` no `nav.sheet-tabs` e
+um `<div class="tab">` na `.sheet-body`. O `Tabs` do core delega o clique pela
+nav, então o link novo funciona sem re-bind.
+
+O que **não** funciona sozinho é a volta: cada compra grava uma flag, o que
+re-renderiza a ficha inteira. O `Tabs` reativa a aba lembrada durante o `bind`,
+mas o nosso painel só entra no DOM **depois** disso — e, quando ele finalmente
+entra, `Tabs#activate` sai cedo porque já se acha na aba certa. Por isso
+`abasCartasAbertas` lembra quais fichas estavam na aba Cartas, e
+`ativarAbaCartas()` refaz as classes `.active` na mão depois de chamar o core.
+Sem isso, toda compra jogaria o jogador de volta para a aba de atributos.
+
+A carta escolhida vive **só no DOM**, não em flag: guardá-la re-renderizaria a
+ficha a cada clique, e a escolha não precisa sobreviver a nada — usar a carta já
+desfaz a seleção.
+
+A ficha limitada é ignorada. Ela existe para não mostrar o interior do ator a
+quem só pode vê-lo de fora, e a mão do baralho é informação de dentro.
+
+### Cartas sem arte
+
+As 52 são desenhadas em CSS (`.hb-carta`), não em imagem: 52 arquivos seriam 52
+coisas para distribuir, e o naipe já se reconhece pelo símbolo e pela cor.
+
+### Baralho vazio
+
+Comprar com o deck vazio avisa e não faz nada — o botão inclusive fica
+desabilitado. **Novo baralho** recolhe mão e descarte, embaralha as 52 e compra
+uma mão nova. Inteligência 0 ou negativa compra 0 cartas, com aviso: o texto diz
+"cartas igual à sua Inteligência" e não foi inventado um mínimo.
+
+## Perícias: diagnóstico (NÃO corrigido)
+
+> **Estado:** investigado a fundo, **sem correção aplicada**. Tudo o que foi
+> tentado está registrado abaixo, junto com o motivo de cada reversão. O que
+> existe hoje é o paliativo de sempre: o guarda de escrita em massa e o
+> `repararTudo()`.
+
+### O sintoma
+
+Treinar ou editar uma perícia faz ela virar Força. Entrar no modo de edição da
+ficha (o ícone de engrenagens) corrompe várias de uma vez — medido: **18 de 34**
+num personagem recém-criado, num clique só.
+
+### A causa, isolada camada por camada
+
+`system.pericias` é um `MappingField` de `EmbeddedDataField(SkillData)`, e o
+`_cleanType` roda `this.model.clean(v)` em cada valor. `EmbeddedDataField#clean`
+de um objeto **parcial** não mescla com o que existe: devolve o registro inteiro
+preenchendo o ausente com o `initial` do schema — e `SkillData.atributo` tem
+`initial: "for"`.
+
+Com Acrobacia, que é de Destreza:
+
+| Chamada | Resultado |
+| --- | --- |
+| `campoAtributo.clean("des")` | `"des"` — ok |
+| `embutido.clean({atributo:"des", …11 campos})` | `"des"` — ok, registro completo |
+| `embutido.clean({treinado:true})` | **`"for"`** — aqui |
+
+O que fecha o quadro é que o **diff do Foundry roda antes**: um campo cujo valor
+enviado é igual ao atual é removido do update, e passa a contar como ausente.
+
+| Pedido | Estado anterior | Gravado |
+| --- | --- | --- |
+| `acro = des` | já era `des` | **`for`** |
+| `acro = int` | era `des` | `int` |
+
+Daí o botão de engrenagens ser tão destrutivo: fora do modo de edição a ficha só
+renderiza `treinado` e `condi` por perícia, sem o `<select>` de atributo, e o
+`submit()` manda tudo isso sem alteração nenhuma. Como só as linhas **visíveis**
+são renderizadas, corrompe um subconjunto irregular — as só-treinadas e os
+ofícios escondidos escapam. É o padrão salteado que aparece na ficha.
+
+### Tentativas — todas revertidas
+
+| Abordagem | Por que caiu |
+| --- | --- |
+| Mesclar o parcial sobre `_source` em `preUpdateActor` | Tarde demais: o hook já recebe o objeto limpo, com o `"for"` dentro |
+| Completar o objeto antes de gravar, envolvendo `Actor#update` | O Foundry reduz o completo de volta a parcial no diff |
+| `diff: false` | Não basta sozinho |
+| `partial: true` no clean | O `EmbeddedDataField` preenche os onze campos do mesmo jeito |
+| Trocar o `_cleanType` para deixar o parcial passar | Corrige a corrupção mas **quebra a validação** — trava treinar e excluir |
+| Reparo pós-gravação por comparação | Funcionou para o clean/diff, mas brigou com o guarda de escrita em massa e com o próprio `repararTudo()` |
+
+A última chegou a passar a regressão inteira, mas o conjunto ficou instável na
+mesa — a ficha parou de abrir — e foi removido.
+
+**O ponto difícil:** são dois mecanismos (o guarda de escrita em massa e o
+reparo pós-gravação) que precisam concordar sobre o que conta como *intenção do
+jogador*. Enquanto discordarem, um desfaz o outro.
+
+### Achados colaterais, válidos
+
+- **Excluir perícia customizada não funciona.** `_onPericiaCustomDelete` manda
+  `{"system.pericias.-=ofi1": null}`; nesse MappingField isso não tem efeito e
+  nenhum erro é levantado. O que funciona é regravar o mapa inteiro sem a chave,
+  com `{ diff: false, recursive: false }`.
+- **Erro enganoso.** Quando a validação de perícias falha, aparece
+  `foundry.data.fields.ModelValidationError is not a constructor`: o
+  `_validateType` do `MappingField` referencia uma classe que não existe mais no
+  v14, então o relato de erro estoura e esconde a causa.
+- **Código morto** que estoura ao arrastar uma linha de ofício:
+  `tormenta20.mjs:13163` lê `system.pericias.ofi.mais` e a 13166 lê
+  `system.periciasCustom`. Nenhum dos dois existe no schema.
+- **`_initialSkillValue` troca dois fallbacks:**
+  `target.pda = config.armorPenalty ?? initial.st` e
+  `target.st = config.trainedOnly ?? initial.pda`. Sem efeito prático hoje.
+
+### Ofícios, para referência
+
+Seis fixos (Alfaiate, Alquimista, Armeiro, Artesão, Cozinheiro, Engenheiro),
+mais até nove customizados em `ofi1`…`ofi9`. O botão **+** só aparece em **modo
+de edição** — fora dele a linha nem é renderizada, o que faz parecer que não dá
+para criar.
+
 ## Bug do sistema: perícias viram Força ao editar a ficha
 
 **Causa, reproduzida.** A ficha em modo de edição renderiza um `<select>` por
