@@ -595,77 +595,100 @@ desabilitado. **Novo baralho** recolhe mão e descarte, embaralha as 52 e compra
 uma mão nova. Inteligência 0 ou negativa compra 0 cartas, com aviso: o texto diz
 "cartas igual à sua Inteligência" e não foi inventado um mínimo.
 
-## Perícias: diagnóstico (NÃO corrigido)
+## Perícias viravam Força: causa e correção
 
-> **Estado:** investigado a fundo, **sem correção aplicada**. Tudo o que foi
-> tentado está registrado abaixo, junto com o motivo de cada reversão. O que
-> existe hoje é o paliativo de sempre: o guarda de escrita em massa e o
-> `repararTudo()`.
+> **Estado: corrigido.** O patch vive em `homebrew/mapping-field.mjs` e é
+> coberto por `npm run teste-pericias`. As seções abaixo substituem o
+> diagnóstico anterior, que apontava para o lugar errado.
 
 ### O sintoma
 
-Treinar ou editar uma perícia faz ela virar Força. Entrar no modo de edição da
-ficha (o ícone de engrenagens) corrompe várias de uma vez — medido: **18 de 34**
-num personagem recém-criado, num clique só.
+Entrar no modo de edição da ficha (o ícone de engrenagens ao lado de
+*Perícias*) fazia as perícias virarem Força de uma vez — medido: **18 de 34**
+num personagem recém-criado, num clique só. Depois disso, qualquer alteração na
+ficha carregava esses `for` para o banco.
 
-### A causa, isolada camada por camada
+### A causa
 
-`system.pericias` é um `MappingField` de `EmbeddedDataField(SkillData)`, e o
-`_cleanType` roda `this.model.clean(v)` em cada valor. `EmbeddedDataField#clean`
-de um objeto **parcial** não mescla com o que existe: devolve o registro inteiro
-preenchendo o ausente com o `initial` do schema — e `SkillData.atributo` tem
-`initial: "for"`.
+`system.pericias` é um `MappingField` de `EmbeddedDataField(SkillData)`. O
+Foundry 14 acrescentou um terceiro argumento, `_state`, a `DataField#clean` e a
+`DataField#_cleanType`. É por `_state.source` — a cópia do que já está gravado —
+que o `SchemaField` sabe se a escrita é parcial:
 
-Com Acrobacia, que é de Destreza:
+```js
+const cleanField = (name in data) || !options.partial || !_state.source;
+```
 
-| Chamada | Resultado |
-| --- | --- |
-| `campoAtributo.clean("des")` | `"des"` — ok |
-| `embutido.clean({atributo:"des", …11 campos})` | `"des"` — ok, registro completo |
-| `embutido.clean({treinado:true})` | **`"for"`** — aqui |
+O `MappingField` do sistema foi escrito para a v11/v12 e chama
+`this.model.clean(v, options)` com **dois** argumentos. Sem `_state.source` a
+condição dá sempre verdadeira, todo campo ausente é preenchido com o `initial`
+do schema, e o `initial` de `SkillData.atributo` é `"for"`.
 
-O que fecha o quadro é que o **diff do Foundry roda antes**: um campo cujo valor
-enviado é igual ao atual é removido do update, e passa a contar como ausente.
+Fora do modo de edição a ficha renderiza só `treinado` e `condi` por perícia,
+sem o `<select>` de atributo. O `submit()` da engrenagem manda exatamente isso —
+uma escrita que **não menciona `atributo`** — e a limpeza reescrevia as 34 em
+Força. Como só as linhas visíveis são renderizadas, o estrago era irregular: as
+só-treinadas e os ofícios escondidos escapavam.
 
-| Pedido | Estado anterior | Gravado |
-| --- | --- | --- |
-| `acro = des` | já era `des` | **`for`** |
-| `acro = int` | era `des` | `int` |
+Detalhe que confundiu o diagnóstico anterior: o servidor grava o pedido cru, sem
+limpar. O banco continuava correto enquanto a corrupção existia só na sessão —
+por isso o `<select>` aparecia em Força mas o `.ldb` não confirmava.
 
-Daí o botão de engrenagens ser tão destrutivo: fora do modo de edição a ficha só
-renderiza `treinado` e `condi` por perícia, sem o `<select>` de atributo, e o
-`submit()` manda tudo isso sem alteração nenhuma. Como só as linhas **visíveis**
-são renderizadas, corrompe um subconjunto irregular — as só-treinadas e os
-ofícios escondidos escapam. É o padrão salteado que aparece na ficha.
+### A correção
 
-### Tentativas — todas revertidas
+`corrigirMappingField()` repõe o que o `TypedObjectField` do próprio Foundry faz:
 
-| Abordagem | Por que caiu |
-| --- | --- |
-| Mesclar o parcial sobre `_source` em `preUpdateActor` | Tarde demais: o hook já recebe o objeto limpo, com o `"for"` dentro |
-| Completar o objeto antes de gravar, envolvendo `Actor#update` | O Foundry reduz o completo de volta a parcial no diff |
-| `diff: false` | Não basta sozinho |
-| `partial: true` no clean | O `EmbeddedDataField` preenche os onze campos do mesmo jeito |
-| Trocar o `_cleanType` para deixar o parcial passar | Corrige a corrupção mas **quebra a validação** — trava treinar e excluir |
-| Reparo pós-gravação por comparação | Funcionou para o clean/diff, mas brigou com o guarda de escrita em massa e com o próprio `repararTudo()` |
+- **`_cleanType`** propaga `{..._state, source: _state.source?.[chave]}`. Também
+  zera `model` no estado interno — sem isso, `DataModel._preCleanData` faz
+  `_state.source ??= _state.model?._source` e o source do ator inteiro entra no
+  lugar, o que faz uma perícia nova nascer sem `st`, `value` e `condi` e derruba
+  a validação. O `ArrayField` do Foundry zera o model pelo mesmo motivo.
+- **`_validateType`** deixa de montar um `ModelValidationError` (classe removida
+  na v13) e passa a relatar falha por chave, como o
+  `TypedObjectField#_validateRecursive`.
 
-A última chegou a passar a regressão inteira, mas o conjunto ficou instável na
-mesa — a ficha parou de abrir — e foi removido.
+De quebra, `treinado` voltou a ser gravado como booleano — sem a limpeza certa,
+o `<input type="hidden">` da ficha gravava as strings `"true"`/`"false"`.
 
-**O ponto difícil:** são dois mecanismos (o guarda de escrita em massa e o
-reparo pós-gravação) que precisam concordar sobre o que conta como *intenção do
-jogador*. Enquanto discordarem, um desfaz o outro.
+O guarda de `preUpdateActor` continua no lugar como rede de segurança: ele cobre
+fichas que já abriram a sessão com dado ruim e qualquer outro caminho de escrita
+em massa.
+
+### Por que a tentativa anterior de mexer no `_cleanType` falhou
+
+Ela deixava o parcial passar mas quebrava a validação — travava treinar e
+excluir. Eram **dois** defeitos no mesmo campo: o `_state` perdido e o
+`ModelValidationError` inexistente. Consertar só o primeiro faz o dado parcial
+chegar à validação, que então estoura por conta do segundo. Os dois precisam
+cair juntos.
+
+### Limite conhecido
+
+O `MappingField` não reimplementa `_updateDiff`, então um valor inválido só é
+recusado na reconstrução do modelo, com o `_source` já tocado. Pelo caminho
+normal da ficha isso não acontece — o `<select>` só oferece os seis atributos.
 
 ### Achados colaterais, válidos
 
 - **Excluir perícia customizada não funciona.** `_onPericiaCustomDelete` manda
   `{"system.pericias.-=ofi1": null}`; nesse MappingField isso não tem efeito e
-  nenhum erro é levantado. O que funciona é regravar o mapa inteiro sem a chave,
-  com `{ diff: false, recursive: false }`.
-- **Erro enganoso.** Quando a validação de perícias falha, aparece
-  `foundry.data.fields.ModelValidationError is not a constructor`: o
-  `_validateType` do `MappingField` referencia uma classe que não existe mais no
-  v14, então o relato de erro estoura e esconde a causa.
+  nenhum erro é levantado. Reconfirmado no Foundry 14: o operador novo
+  (`new foundry.data.operators.ForcedDeletion()`) também é engolido em silêncio,
+  porque `MappingField._cleanType` não converte chave de remoção em operador
+  como o `TypedObjectField` faz. O que funciona:
+
+  ```js
+  const pericias = foundry.utils.deepClone(ator._source.system.pericias);
+  delete pericias.ofi1;
+  await ator.update({ "system.pericias": pericias }, { diff: false, recursive: false });
+  ```
+- **Criar perícia customizada mexe em dado derivado.**
+  `_onPericiaCustomCreate` faz `foundry.utils.deepClone(this.actor)`, que
+  devolve o **próprio ator** — `deepClone` não clona objetos avançados. O que
+  vem em seguida altera `actor.system.pericias` ao vivo. Sintoma no mundo
+  *teste*: `Demo do Grimorio` tinha um `ofi1` gravado como `{"treinado":"true"}`,
+  sem `atributo` nem `label` — na ficha, uma linha sem nome em Força. Removido em
+  27/08/2026 pela receita acima; o defeito que o criou continua no sistema.
 - **Código morto** que estoura ao arrastar uma linha de ofício:
   `tormenta20.mjs:13163` lê `system.pericias.ofi.mais` e a 13166 lê
   `system.periciasCustom`. Nenhum dos dois existe no schema.
@@ -680,31 +703,28 @@ mais até nove customizados em `ofi1`…`ofi9`. O botão **+** só aparece em **
 de edição** — fora dele a linha nem é renderizada, o que faz parecer que não dá
 para criar.
 
-## Bug do sistema: perícias viram Força ao editar a ficha
+## Guarda contra escrita em massa no atributo
 
-**Causa, reproduzida.** A ficha em modo de edição renderiza um `<select>` por
-perícia (`templates/actor/parts/lists/list-skills.hbs`). Em algum re-render
-esses selects perdem o valor e voltam ao primeiro do CONFIG — `for`. A partir
-daí, **qualquer** alteração na ficha (mudar um atributo, por exemplo) envia o
-formulário inteiro e grava Força em cerca de 20 das 34 perícias, arruinando
-todas as rolagens de perícia.
+Rede de segurança, não a correção — a correção está em *Perícias viravam Força*,
+acima.
 
-Reproduzido num ator recém-criado, sem nenhum item e sem a classe Vidente —
-portanto é defeito do sistema, não desta camada.
+Um `preUpdateActor` em `homebrew.mjs` reverte escritas que tenham a **assinatura
+do bug**: 5 ou mais perícias mudando de valor na mesma ação, *todas* para `for`.
+Os valores revertidos voltam ao que estava gravado, não ao padrão do CONFIG —
+customização deliberada sobrevive.
 
-**Contenção.** Um `preUpdateActor` em `homebrew.mjs` descarta escritas em massa
-no campo `atributo`: a partir de 5 perícias alteradas de uma vez, os valores
-são repostos ao padrão do CONFIG. Trocar o atributo de uma perícia continua
-funcionando normalmente — ninguém troca cinco na mesma ação, mas a ficha
-bugada troca vinte.
+O critério é sobre o que **muda**, não sobre o que é enviado. A ficha em modo de
+edição manda as 34 perícias em todo envio, quase todas iguais ao que já está
+gravado; contar chaves enviadas fazia o guarda barrar qualquer troca feita pela
+própria ficha. Isso foi pego testando no Foundry, não no papel.
 
-Como `tormenta20.mjs` é um bundle gerado, consertar lá seria perdido na próxima
-atualização do sistema. O guarda vive na camada homebrew e sobrevive.
+Ele segue valendo a pena depois do patch: cobre fichas que abriram a sessão com
+dado já corrompido e qualquer outro caminho de escrita em massa que apareça.
 
 ## Reparo: perícias todas com Força
 
-O guarda acima impede que aconteça de novo, mas não desfaz o que já estava
-gravado. O conserto é feito **pela interface**, sem console:
+O patch impede que aconteça de novo, mas não desfaz o que já estava gravado. O
+conserto é feito **pela interface**, sem console:
 
 **1. Aviso automático.** Ao entrar no mundo, se alguma ficha estiver corrompida,
 o mestre recebe uma janela listando quais e um botão **Corrigir agora**. Só
@@ -721,14 +741,20 @@ ficha a ficha.
 Uma ficha é considerada corrompida a partir de **10** perícias fora do padrão;
 abaixo disso presume-se customização deliberada e nada é tocado.
 
+Perícias **customizadas** (ofícios, `ofi1`…`ofi9`) ficam de fora: sem padrão no
+CONFIG não há com o que comparar, e o dado gravado também não ajuda — o Foundry
+preenche os campos que faltam com o `initial` do schema ao **construir** o ator,
+então `_source` nunca chega ao código com `atributo` vazio, mesmo quando o banco
+tem só `{"treinado":"true"}`. Um ofício quebrado aparece como linha sem nome e
+precisa de decisão humana: renomear ou remover.
+
 Pelo console, se preciso: `game.tormenta20Homebrew.repararTudo()` ou
 `repararPericias(ator)` para uma só.
 
 A referência correta é `CONFIG.T20.pericias[chave].abl` — note que no CONFIG a
 chave é `abl` e no ator é `atributo`. O próprio sistema traz uma migração para
-esse mesmo campo (`tormenta20.mjs:19077`), o que sugere ser um defeito
-conhecido dele. Não foi possível reproduzir a causa: atores criados agora saem
-corretos, e nem a camada homebrew nem a importação da classe alteram o campo.
+esse mesmo campo (`tormenta20.mjs:19077`), o que sugere ser um defeito conhecido
+dele.
 
 Cuidado: a função repõe o padrão. Se você tiver trocado o atributo de alguma
 perícia de propósito, essa troca também será desfeita.

@@ -11,6 +11,8 @@
  *    descartam chaves desconhecidas ao salvar. Use flags (ver helpers abaixo).
  */
 
+import { corrigirMappingField } from "./mapping-field.mjs";
+
 const NS = "tormenta20-homebrew";
 
 /* -------------------------------------------- */
@@ -55,8 +57,36 @@ export function setHB(doc, key, value) {
 }
 
 /* -------------------------------------------- */
+/*  Causa raiz: MappingField perdeu o _state     */
+/* -------------------------------------------- */
+
+// A explicacao completa do defeito esta em mapping-field.mjs. Em uma linha: o
+// `MappingField` do sistema nao repassa o `_state` que o Foundry 14 introduziu,
+// e sem ele toda escrita parcial em `system.pericias` era tratada como completa
+// - cada campo ausente voltava ao inicial do schema, e o inicial de `atributo`
+// e "for". Dai as 34 pericias virarem Forca so de abrir o modo de edicao.
+//
+// Precisa valer antes de qualquer ator ser construido, entao roda ja na carga
+// do modulo. O "init" fica de reserva caso a ordem dos esmodules mude.
+if (!corrigirMappingField()) Hooks.once("init", () => corrigirMappingField());
+
+/* -------------------------------------------- */
 /*  Reparo: atributo das pericias                */
 /* -------------------------------------------- */
+
+/**
+ * Atributo gravado de uma pericia, lido de `_source` e nao do dado derivado.
+ * Usado pelo guarda de escrita em massa, que precisa saber o que uma gravacao
+ * mudaria de fato - e, quando reverte, repor o valor que estava la, mesmo que
+ * seja uma customizacao fora do padrao do CONFIG.
+ * @param {Actor} actor
+ * @param {string} chave
+ * @returns {string|null}  O atributo gravado, ou null se nao for um dos seis.
+ */
+function atributoGravado(actor, chave) {
+	const gravado = actor?._source?.system?.pericias?.[chave]?.atributo;
+	return typeof gravado === "string" && gravado in CONFIG.T20.atributos ? gravado : null;
+}
 
 /**
  * Devolve ao campo `atributo` de cada pericia o valor de referencia do sistema.
@@ -80,6 +110,9 @@ export async function repararPericias(actor) {
 	const alteracoes = {};
 	const corrigidas = [];
 	for (const [chave, pericia] of Object.entries(pericias)) {
+		// Pericias customizadas ficam de fora: sem padrao no CONFIG nao ha com o
+		// que comparar, e nao da para distinguir escolha do jogador de sobra de
+		// bug (ver "Achados colaterais" no README).
 		const padrao = CONFIG.T20.pericias?.[chave]?.abl;
 		if (!padrao || pericia.atributo === padrao) continue;
 		alteracoes[`system.pericias.${chave}.atributo`] = padrao;
@@ -216,45 +249,53 @@ Hooks.on("renderActorDirectory", (app, html) => {
 });
 
 /**
- * Quantas pericias alteradas de uma vez ja indicam corrupcao, e nao edicao.
- * Trocar o atributo de uma pericia e uma decisao pontual; ninguem troca cinco
- * na mesma acao.
+ * Quantas pericias REALMENTE alteradas de uma vez ja indicam corrupcao, e nao
+ * edicao. Trocar o atributo de uma pericia e uma decisao pontual; ninguem troca
+ * cinco na mesma acao, todas para Forca.
  */
 const LIMITE_PERICIAS_EM_MASSA = 5;
 
 /**
- * Impede a ficha de gravar o atributo errado em massa.
+ * Rede de seguranca contra gravacao do atributo errado em massa.
  *
- * A ficha de personagem em modo de edicao renderiza um <select> por pericia
- * (templates/actor/parts/lists/list-skills.hbs). Em algum re-render esses
- * selects perdem o valor e voltam ao primeiro do CONFIG - "for". A partir dai
- * qualquer alteracao na ficha, mesmo mudar um atributo, envia o formulario
- * inteiro e grava Forca em cerca de 20 das 34 pericias, o que estraga TODAS as
- * rolagens de pericia.
+ * A causa original disso esta corrigida em `corrigirMappingField()`, la em
+ * cima: o `_cleanType` do sistema perdia o `_state` do Foundry 14 e enchia de
+ * valor inicial ("for") todo campo ausente de uma escrita parcial. Depois que a
+ * ficha ficava com "for" em memoria, o proximo envio do formulario em modo de
+ * edicao carregava esses "for" para o banco - e ai a corrupcao virava
+ * permanente.
  *
- * Reproduzido em ator sem nenhum item, entao e defeito do sistema e nao desta
- * camada. Como o tormenta20.mjs e um bundle gerado, consertar la seria perdido
- * na proxima atualizacao; aqui a escrita ruim e apenas descartada.
+ * O guarda continua aqui de proposito: cobre fichas que ja abriram a sessao com
+ * dado ruim e qualquer outro caminho de escrita em massa que ainda apareca.
+ * Trocar o atributo de uma pericia de proposito continua passando; ninguem troca
+ * cinco na mesma acao.
  */
 Hooks.on("preUpdateActor", (actor, changed, options) => {
 	if (options?.[PREFIXO]?.reparo) return;
 	const plano = foundry.utils.flattenObject(changed ?? {});
-	const suspeitas = Object.keys(plano).filter((k) => /^system\.pericias\.[^.]+\.atributo$/.test(k));
-	if (suspeitas.length < LIMITE_PERICIAS_EM_MASSA) return;
+	const chaves = Object.keys(plano).filter((k) => /^system\.pericias\.[^.]+\.atributo$/.test(k));
+	if (!chaves.length) return;
 
-	// Mantem apenas o que realmente muda em relacao ao padrao do sistema, que e
-	// nenhuma coisa numa gravacao vinda do bug: todas viriam como "for".
-	let descartadas = 0;
-	for (const chave of suspeitas) {
-		const pericia = chave.split(".")[2];
-		const padrao = CONFIG.T20.pericias?.[pericia]?.abl;
-		if (!padrao || plano[chave] === padrao) continue;
-		foundry.utils.setProperty(changed, chave, padrao);
-		descartadas++;
+	// So interessa o que REALMENTE muda. A ficha em modo de edicao renderiza um
+	// <select> por pericia e manda as 34 em todo envio, quase todas com o valor
+	// que ja esta gravado - contar chaves enviadas faria o guarda barrar
+	// qualquer troca feita pela propria ficha.
+	const mudancas = chaves.filter((chave) => {
+		const gravado = atributoGravado(actor, chave.split(".")[2]);
+		return gravado !== null && plano[chave] !== gravado;
+	});
+	if (mudancas.length < LIMITE_PERICIAS_EM_MASSA) return;
+
+	// Assinatura do bug: um monte de pericias caindo em "for" de uma vez. Cinco
+	// trocas deliberadas na mesma acao, cada uma para um atributo diferente, nao
+	// se parecem com isso e passam.
+	const paraForca = mudancas.filter((chave) => plano[chave] === "for");
+	if (paraForca.length < mudancas.length) return;
+
+	for (const chave of paraForca) {
+		foundry.utils.setProperty(changed, chave, atributoGravado(actor, chave.split(".")[2]));
 	}
-	if (descartadas) {
-		console.warn(`${NS} | ${descartadas} pericias seriam gravadas com o atributo errado pela ficha; corrigido`);
-	}
+	console.warn(`${NS} | ${paraForca.length} pericias seriam jogadas em Forca de uma vez; escrita revertida`);
 });
 /* -------------------------------------------- */
 /*  PV das classes homebrew                      */
